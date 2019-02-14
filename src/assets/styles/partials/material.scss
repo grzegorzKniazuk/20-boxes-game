@@ -1,0 +1,74 @@
+mat-form-field {
+  mat-icon {
+        color: $gray;
+        margin-right: 5px;
+      }
+}
+
+mat-icon {
+  user-select: none;
+}
+
+mat-error {
+  @include font('ultra-small');
+  margin-top: -8px;
+}
+
+.snackbar {
+  color: $white;
+  white-space: nowrap;
+  max-width: 100% !important;
+}
+
+.snackbar-success {
+  @extend .snackbar;
+  background: $leaf;
+}
+
+.snackbar-error {
+  @extend .snackbar;
+  background: $danger;
+}
+
+.mat-tab-label {
+  color: $white;
+}
+
+.mat-tab-label.mat-tab-label-active {
+  color: $white;
+  background: $logo-light !important;
+}
+
+.mat-ink-bar {
+  height: 0 !important;
+}
+
+.mat-tab-header {
+  border-bottom: 2px $logo-light solid !important;
+}
+
+mat-dialog-content {
+  margin-top: -30px;
+}
+
+.mat-dialog-container {
+  overflow: visible !important;
+}
+
+/*
+mat-checkbox {
+  user-select: none;
+}
+
+mat-hint {
+  @include font('ultra-small');
+  margin-top: -8px;
+  margin-bottom: 18px;
+  user-select: none;
+}
+
+::ng-deep .toast-success .mat-simple-snackbar, ::ng-deep .toast-error .mat-simple-snackbar {
+  @include flex(flex, center, center);
+  @include font('small');
+}
+*/

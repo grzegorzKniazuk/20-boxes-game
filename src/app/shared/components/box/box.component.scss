@@ -1,0 +1,24 @@
+@import "./src/assets/styles/base.scss";
+
+.box-item {
+  @include size(125px, 125px);
+  position: relative;
+
+  .caption {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  img {
+    @include size(125px, 125px);
+  }
+
+  .pawn {
+    @include size(105px, 105px);
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    left: 10px;
+  }
+}

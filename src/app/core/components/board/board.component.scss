@@ -1,0 +1,107 @@
+@import "./src/assets/styles/base.scss";
+
+.game-panel-container {
+  @include flex(flex, center, center, row);
+  @include size(100%, 100%);
+  position: relative;
+  color: $white;
+
+  .board-container {
+    @include flex(flex, center, center, column);
+    @include size(50%, 100%);
+    min-width: 750px;
+
+    .board {
+      @include size(750px, 750px);
+      position: relative;
+
+      .left-side {
+        @include flex(flex, center, center, column);
+        position: absolute;
+        top: 250px;
+        left: 0;
+
+        .finish {
+          position: absolute;
+          top: 0;
+          left: 125px;
+        }
+      }
+
+      .top-side {
+        @include flex(flex, center, center, row);
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .right-side {
+        @include flex(flex, center, center, column);
+        position: absolute;
+        top: 125px;
+        left: 625px;
+      }
+
+      .bottom-side {
+        @include flex(flex, center, center, row);
+        position: absolute;
+        left: 0;
+        top: 625px;
+      };
+    }
+  }
+
+  .panel-container {
+    @include flex(flex, flex-start, center, column);
+    @include size(50%, 100%);
+
+    .panel-top-buttons {
+      @include flex(flex, flex-end, center, row);
+      @include size(100%, 100px);
+
+      button {
+        @include size(200px, 40px);
+        margin-right: 2.5%;
+      }
+    }
+
+    .console-panel {
+      @include size(95%, calc(100% - 300px));
+      @include flex(flex, flex-end, flex-start, column);
+      @include font('medium');
+      background: darken($background-353, 25%);
+      box-sizing: border-box;
+      padding: 15px;
+      overflow: hidden;
+
+      p {
+        &:last-of-type {
+          font-weight: 700;
+        }
+      }
+
+      .success {
+        color: $success;
+      }
+
+      .warning {
+        color: $danger;
+      }
+
+      .info {
+        color: $info;
+      }
+    }
+
+    .panel-bottom-button {
+      @include flex(flex, center, center, column);
+      @include size(100%, 200px);
+
+      button {
+        @include font('medium');
+        min-width: 50%;
+        height: 100px;
+      }
+    }
+  }
+}

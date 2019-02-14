@@ -1,0 +1,8 @@
+<div class="box-item">
+  <div class="caption">
+    {{ id === 1 ? 'Start' : ''}}
+    {{ id === 20 ? 'Meta' : ''}}
+  </div>
+  <img [src]="src" alt="">
+  <img class="pawn" *ngIf="pawnInBox" src="../../../../assets/images/pawn.png" alt="">
+</div>

@@ -1,0 +1,63 @@
+@import "./src/assets/styles/base.scss";
+
+.homepage-container {
+  @include flex(flex, center, center, column, relative);
+  @include size(100%, 100%);
+
+  .background-top-left {
+    @include size(643px, 403px);
+    position: absolute;
+    @include position(0, auto, auto, 0);
+    background: url("../../../../assets/images/home-background/dark/top-left.jpg");
+    background-size: cover;
+  }
+
+  .background-top-right {
+    @include size(165px, 403px);
+    position: absolute;
+    @include position(0, 0, auto, auto);
+    background: url("../../../../assets/images/home-background/dark/top-right.jpg");
+    background-size: cover;
+  }
+
+  .background-bottom-right {
+    @include size(336px, 408px);
+    position: absolute;
+    @include position(auto, auto, 0, 0);
+    background: url("../../../../assets/images/home-background/dark/bottom-left.jpg");
+    background-size: cover;
+  }
+
+  .game-logo {
+
+  }
+
+  .buttons-container {
+    @include flex(flex, center, center, row);
+    margin-top: 15px;
+    height: 40px;
+
+    button {
+      @include size(200px, 40px);
+      margin-right: 15px;
+    }
+
+    mat-icon {
+      @include mat-icon-size(35px);
+      color: $white;
+      cursor: pointer;
+      transition: color 150ms ease-out;
+
+      &:hover {
+        transition: color 150ms ease-in;
+        color: $mat-primary;
+      }
+    }
+  }
+
+  footer {
+    position: absolute;
+    color: $white;
+    @include position(auto, 10px, 0, auto);
+  }
+}
