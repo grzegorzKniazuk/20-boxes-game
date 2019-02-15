@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ConsoleMessageType } from '../enums/console-message-type.enum';
 import { GameStateService } from './game-state.service';
+import { MatDialog } from '@angular/material';
+import { EndGameSummaryComponent } from '../../shared/components/end-game-summary/end-game-summary.component';
+import { Router } from '@angular/router';
+import { SnackbarService } from './snackbar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +13,10 @@ export class PawnService {
 
   private pawnPosition: number;
 
-  constructor(private gameStateService: GameStateService) { }
+  constructor(private gameStateService: GameStateService,
+              private matDialog: MatDialog,
+              private router: Router,
+              private snackbarService: SnackbarService) { }
 
   public loadPawnPosition(): void {
     this.gameStateService.pawnPosition$.subscribe((pawnPosition: number) => {
@@ -56,10 +63,25 @@ export class PawnService {
         type: ConsoleMessageType.SUCCESS,
         message: 'BRAWO, WYGRAŁEŚ/AŚ!',
       });
+      this.openEndGameSummaryBox(true);
     }
   }
 
-  private openEndGameSummaryBox(): void {
+  private checkIsBeaten(): void {
 
+  }
+
+  private openEndGameSummaryBox(isWinner: boolean): void {
+    this.matDialog.open(EndGameSummaryComponent, {
+      data: isWinner
+    }).afterClosed().subscribe((startNewGame: boolean) => {
+      if (startNewGame) {
+        this.gameStateService.resetGameState();
+      } else {
+        this.router.navigate(['../', '../', 'home']).then(() => {
+          this.snackbarService.success('Zakończono grę');
+        });
+      }
+    });
   }
 }

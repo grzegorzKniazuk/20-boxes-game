@@ -4,7 +4,7 @@ import { ConsoleMessage } from '../interfaces/console-message';
 import { Statistics } from '../interfaces/statistics';
 import { GameState } from '../interfaces/game-state';
 import { LocalStorage } from '@ngx-pwa/local-storage';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ConsoleMessageType } from '../enums/console-message-type.enum';
 
 @Injectable({
@@ -18,6 +18,7 @@ export class GameStateService {
   private pawnPosition: number;
   private totalThrows = 0;
   private totalAmountDrawnNumbers = 0;
+  private averangeAmountDrawnNumbers = 0;
   private consoleMessages: ConsoleMessage[] = [];
 
   constructor(private localStorage: LocalStorage) {}
@@ -28,6 +29,7 @@ export class GameStateService {
         this.pawnPosition = state.pawnPosition; // pawn position
         this.totalThrows = state.totalThrows;
         this.totalAmountDrawnNumbers = state.totalAmountDrawnNumbers;
+        this.averangeAmountDrawnNumbers = state.averangeAmountDrawnNumbers;
         this.consoleMessages = state.consoleMessages;
         this.loadGameStateMessage(true);
 
@@ -40,6 +42,12 @@ export class GameStateService {
     });
   }
 
+  public initPawnPosition(): void {
+    this.pawnPosition$.subscribe((pawnPosition: number) => {
+      this.pawnPosition = pawnPosition;
+    });
+  }
+
   private loadGameStateMessage(state: boolean = false): void {
     this.consoleMessages.push({
       type: ConsoleMessageType.SUCCESS,
@@ -49,14 +57,16 @@ export class GameStateService {
   }
 
   public updateGameStateStatistics(pawnPosition: number, drawnNumber: number): void {
-    this.totalThrows += this.totalThrows;
+    this.totalThrows = !this.totalThrows ? 1 : this.totalThrows + 1;
     this.totalAmountDrawnNumbers += drawnNumber;
+    this.averangeAmountDrawnNumbers = Math.floor(this.totalAmountDrawnNumbers / this.totalThrows);
   }
 
   public get gameStateStatistics(): Statistics {
     return {
       totalThrows: this.totalThrows,
-      totalAmountDrawnNumbers: this.totalAmountDrawnNumbers
+      totalAmountDrawnNumbers: this.totalAmountDrawnNumbers,
+      averangeAmountDrawnNumbers: this.averangeAmountDrawnNumbers
     };
   }
 
@@ -65,8 +75,9 @@ export class GameStateService {
       pawnPosition: this.pawnPosition,
       totalThrows: this.totalThrows,
       totalAmountDrawnNumbers: this.totalAmountDrawnNumbers,
+      averangeAmountDrawnNumbers: this.averangeAmountDrawnNumbers,
       consoleMessages: this.consoleMessages,
-    });
+    }).subscribe();
   }
 
   public resetGameState(): void {

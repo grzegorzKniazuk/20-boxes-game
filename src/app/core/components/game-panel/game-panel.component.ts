@@ -25,6 +25,7 @@ export class GamePanelComponent implements OnInit {
   ngOnInit() {
     this.initBoxesSettings();
     this.initPawnPosition();
+    this.gameStateService.initPawnPosition();
     this.newGame();
     this.gameStateService.loadGameState();
   }
