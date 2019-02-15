@@ -1,0 +1,40 @@
+@import "./src/assets/styles/base.scss";
+
+.board {
+  @include size(750px, 750px);
+  position: relative;
+
+  .left-side {
+    @include flex(flex, center, center, column);
+    position: absolute;
+    top: 250px;
+    left: 0;
+
+    .finish {
+      position: absolute;
+      top: 0;
+      left: 125px;
+    }
+  }
+
+  .top-side {
+    @include flex(flex, center, center, row);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .right-side {
+    @include flex(flex, center, center, column);
+    position: absolute;
+    top: 125px;
+    left: 625px;
+  }
+
+  .bottom-side {
+    @include flex(flex, center, center, row);
+    position: absolute;
+    left: 0;
+    top: 625px;
+  };
+}

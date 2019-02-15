@@ -1,0 +1,14 @@
+@import "./src/assets/styles/base.scss";
+
+.settings-container {
+  @include flex(flex, flex-start, center, row);
+  @include size(100%, 100%);
+  position: relative;
+  color: $white;
+
+  .board-container {
+    @include flex(flex, center, center, column);
+    @include size(50%, 100%);
+    min-width: 750px;
+  }
+}

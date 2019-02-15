@@ -8,11 +8,11 @@ import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Output 
 })
 export class DiceComponent {
 
-  @Output() public randomNumber$: EventEmitter<number> = new EventEmitter<number>();
+  @Output() public drawnNumber$: EventEmitter<number> = new EventEmitter<number>();
 
   @HostListener('document:keypress:enter')
-  public emitRandomNumber(): void {
-    this.randomNumber$.emit(this.randomize);
+  public emitDrawnNumber(): void {
+    this.drawnNumber$.emit(this.randomize);
   }
 
   private get randomize(): number {

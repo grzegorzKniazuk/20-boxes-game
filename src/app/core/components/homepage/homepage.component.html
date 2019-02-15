@@ -3,16 +3,16 @@
   <div class="background-top-right"></div>
   <div class="background-bottom-right"></div>
   <div class="game-logo">
-    <img src="../../../../assets/images/dice.png">
+    <img src="../../../../assets/images/dice.png" alt="">
   </div>
   <div class="buttons-container">
-    <button mat-raised-button color="primary" routerLink="../board" matTooltip="Kliknij aby rozpocząć nową grę">Nowa gra</button>
+    <button mat-raised-button color="primary" routerLink="../game-panel" matTooltip="Kliknij aby rozpocząć nową grę">Nowa gra</button>
     <button mat-raised-button
             color="primary"
-            routerLink="board"
+            routerLink="../game-panel"
             matTooltip="Kliknij aby kontynować grę"
             [disabled]="!isGameStateAvaiable">Kontynuuj grę</button>
-    <mat-icon matTooltip="Ustawienia gry">settings</mat-icon>
+    <mat-icon matTooltip="Ustawienia gry" routerLink="../settings">settings</mat-icon>
   </div>
   <footer matTooltip="Aktualna wersja gry">version 1.0</footer>
 </div>

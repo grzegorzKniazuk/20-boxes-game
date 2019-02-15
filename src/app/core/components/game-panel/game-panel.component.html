@@ -1,0 +1,17 @@
+<div class="game-panel-container">
+  <div class="board-container">
+    <app-board [pawnPosition]="pawnPosition"></app-board>
+  </div>
+  <div class="panel-container">
+    <div class="panel-top-buttons">
+      <button mat-raised-button color="warn" matTooltip="Zagraj od nowa" (click)="resetGame()">Zagraj od nowa</button>
+      <button mat-raised-button color="primary" matTooltip="Zasady gry">Zasady gry</button>
+    </div>
+    <div class="console-panel">
+      <p *ngFor="let consoleMessage of consoleMessages$ | async" [ngClass]="consoleMessage ? consoleMessage.type: ''">{{ consoleMessage ? consoleMessage.message : '' }}</p>
+    </div>
+    <div class="panel-bottom-button">
+      <app-dice (drawnNumber$)="onPawnMove($event)"></app-dice>
+    </div>
+  </div>
+</div>
