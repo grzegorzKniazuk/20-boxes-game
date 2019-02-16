@@ -1,23 +1,77 @@
 @import "./src/assets/styles/base.scss";
 
 .box-item {
+  @include flex(flex, center, center);
   @include size(125px, 125px);
   position: relative;
 
-  .caption {
+  .finish {
+    z-index: 1;
+  }
+
+  .numbers {
+    @include flex(flex);
+    @include size(33px, 16px);
     position: absolute;
-    top: 0;
+    top: 5px;
+    left: 5px;
+    z-index: 1;
+
+    .number {
+      @include size(16px, 16px);
+
+      &:last-of-type {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+      }
+
+      &:first-of-type {
+        margin-right: 3px;
+        left: 0;
+        bottom: 0;
+      }
+    }
+  }
+
+  .go-to-message {
+    @include flex(flex, center, center, column);
+    @include size(100px, 100px);
+    z-index: 2;
+    color: $black;
+    @include font('medium');
+
+    .icon {
+      @include size(100px, 100px);
+    }
+
+    strong {
+      margin-top: 10px;
+    }
+  }
+
+  .dead-icon {
+    @include size(100px, 100px);
+    z-index: 1;
+  }
+
+  .start--finish-line {
+    @include size(125px, 75px);
+    position: absolute;
+    top: -75px;
     left: 0;
+    z-index: 1;
   }
 
   img {
+    position: absolute;
     @include size(125px, 125px);
   }
 
   .pawn {
     @include size(105px, 105px);
     position: absolute;
-    z-index: 1;
+    z-index: 2;
     top: 10px;
     left: 10px;
   }

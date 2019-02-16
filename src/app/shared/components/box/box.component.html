@@ -1,8 +1,19 @@
-<div class="box-item">
-  <div class="caption">
-    {{ id === 1 ? 'Start' : ''}}
-    {{ id === 20 ? 'Meta' : ''}}
+<div class="box-item" *ngIf="boxSettings">
+  <img class="start--finish-line" *ngIf="id === 1" src="../../../../assets/images/start.png" alt="">
+  <img class="start--finish-line" *ngIf="id === 20" src="../../../../assets/images/finish.png" alt="">
+
+  <div class="numbers">
+    <img class="number" [src]="srcFirstDigit" alt="">
+    <img class="number" *ngIf="id > 9" [src]="srcLastDigit" alt="">
   </div>
-  <img [src]="src" alt="">
+
+  <div class="go-to-message" *ngIf="boxSettings.goBack || boxSettings.goForward">
+    <img *ngIf="boxSettings.goBack" class="icon" src="../../../../assets/images/back.svg" alt="" matTooltip="Cofasz się na pole 11">
+    <strong>{{ boxSettings.goTo }}</strong>
+  </div>
+
+  <img class="dead-icon" *ngIf="boxSettings.dead" src="../../../../assets/images/dead.svg" matTooltip="Gra kończy się porażką" alt="">
+
+  <img [src]="src" alt="box">
   <img class="pawn" *ngIf="pawnInBox" src="../../../../assets/images/pawn.png" alt="">
 </div>

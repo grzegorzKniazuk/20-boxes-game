@@ -3,6 +3,6 @@ export interface BoxSettings {
   win: boolean;
   dead: boolean;
   goTo: number;
-  goBack: number;
-  goForward: number;
+  goBack: boolean;
+  goForward: boolean;
 }

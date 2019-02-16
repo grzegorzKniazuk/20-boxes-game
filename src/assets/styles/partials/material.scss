@@ -55,6 +55,13 @@ mat-dialog-content {
   overflow: visible !important;
 }
 
+::ng-deep .mat-tooltip {
+  @include font('medium');
+  padding: 15px;
+  white-space: nowrap;
+  max-width: 100% !important;
+}
+
 /*
 mat-checkbox {
   user-select: none;
@@ -65,10 +72,5 @@ mat-hint {
   margin-top: -8px;
   margin-bottom: 18px;
   user-select: none;
-}
-
-::ng-deep .toast-success .mat-simple-snackbar, ::ng-deep .toast-error .mat-simple-snackbar {
-  @include flex(flex, center, center);
-  @include font('small');
 }
 */

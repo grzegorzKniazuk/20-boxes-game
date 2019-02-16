@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
-import { BoxesService } from '../../services/boxes.service';
-import { BoxSettings } from '../../interfaces/box-settings';
 import { GameStateService } from '../../services/game-state.service';
 import { PawnService } from '../../services/pawn.service';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { BoxesService } from '../../services/boxes.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -17,8 +16,8 @@ export class GamePanelComponent implements OnInit, OnDestroy {
   public pawnPosition = 1;
 
   constructor(private localStorage: LocalStorage,
-              private boxesService: BoxesService,
               public gameStateService: GameStateService,
+              private boxesService: BoxesService,
               private pawnService: PawnService) { }
 
   ngOnInit() {
@@ -27,12 +26,6 @@ export class GamePanelComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() { }
 
-  private initBoxesSettings(): void {
-    this.boxesService.initBoxesSettings().subscribe((boxes: BoxSettings[]) => {
-
-    });
-  }
-
   private initPawnPosition(): void {
     this.gameStateService.pawnPosition$.subscribe((pawnPosition: number) => {
       this.pawnPosition = pawnPosition;
@@ -40,7 +33,7 @@ export class GamePanelComponent implements OnInit, OnDestroy {
   }
 
   public newGame(): void {
-    this.initBoxesSettings();
+    this.boxesService.initBoxesSettings();
     this.initPawnPosition();
     this.gameStateService.initPawnPosition();
     this.gameStateService.loadGameState();

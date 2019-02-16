@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material';
 import { EndGameSummaryComponent } from '../../shared/components/end-game-summary/end-game-summary.component';
 import { Router } from '@angular/router';
 import { SnackbarService } from './snackbar.service';
+import { BoxesService } from './boxes.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class PawnService {
   constructor(private gameStateService: GameStateService,
               private matDialog: MatDialog,
               private router: Router,
+              private boxesService: BoxesService,
               private snackbarService: SnackbarService) { }
 
   public loadPawnPosition(): void {
@@ -35,6 +37,7 @@ export class PawnService {
     this.gameStateService.updateGameStateStatistics(this.pawnPosition, drawnNumber);
     this.checkPawnPosition();
     this.checkIsWinner();
+    this.checkIsBeaten();
 
     this.gameStateService.pawnPosition$.next(this.pawnPosition);
 

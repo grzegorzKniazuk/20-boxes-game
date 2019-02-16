@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BoxSettings } from '../../../core/interfaces/box-settings';
+import { BoxesService } from '../../../core/services/boxes.service';
 
 @Component({
   selector: 'app-board',
@@ -11,11 +12,15 @@ export class BoardComponent implements OnInit {
   @Input() public editMode: boolean;
   public boxesSettings: BoxSettings[];
 
+  constructor(private boxesService: BoxesService) {}
+
   ngOnInit() {
-    this.loadBoxSettigs();
+    this.initBoxesSettings();
   }
 
-  private loadBoxSettigs(): void {
-
+  private initBoxesSettings(): void {
+    this.boxesService.boxesSettings$.subscribe((boxes: BoxSettings[]) => {
+      this.boxesSettings = boxes;
+    });
   }
 }
