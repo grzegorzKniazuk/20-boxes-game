@@ -1,6 +1,7 @@
 import { AfterContentChecked, Component, Input, OnInit } from '@angular/core';
 import { BoxSettings } from '../../../core/interfaces/box-settings';
 import { Router } from '@angular/router';
+import { SnackbarService } from '../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-box',
@@ -9,7 +10,6 @@ import { Router } from '@angular/router';
 })
 export class BoxComponent implements OnInit, AfterContentChecked {
 
-  @Input() public id: number;
   @Input() public pawnPosition: number;
   @Input() public boxSettings: BoxSettings;
   @Input() public editMode: boolean;
@@ -19,7 +19,7 @@ export class BoxComponent implements OnInit, AfterContentChecked {
   public tooltip: string;
   public pawnInBox = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private snackbarService: SnackbarService) { }
 
   ngOnInit() {
     this.initBoxBackground();
@@ -32,18 +32,18 @@ export class BoxComponent implements OnInit, AfterContentChecked {
   }
 
   private initBoxBackground(): void {
-    this.src = `../../../../assets/images/boxes/${this.id}.jpg`;
+    this.src = `../../../../assets/images/boxes/${this.boxSettings.id}.jpg`;
   }
 
   private initBoxNumberLabel(): void {
-    if (this.id < 10) {
-      this.srcFirstDigit = `../../../../assets/images/numbers/${this.id}.png`;
-    } else if (this.id >= 20) {
+    if (this.boxSettings.id < 10) {
+      this.srcFirstDigit = `../../../../assets/images/numbers/${this.boxSettings.id}.png`;
+    } else if (this.boxSettings.id >= 20) {
       this.srcFirstDigit = `../../../../assets/images/numbers/2.png`;
-      this.srcLastDigit = `../../../../assets/images/numbers/${this.id - 20}.png`;
-    } else if (this.id >= 10) {
+      this.srcLastDigit = `../../../../assets/images/numbers/${this.boxSettings.id - 20}.png`;
+    } else if (this.boxSettings.id >= 10) {
       this.srcFirstDigit = `../../../../assets/images/numbers/1.png`;
-      this.srcLastDigit = `../../../../assets/images/numbers/${this.id - 10}.png`;
+      this.srcLastDigit = `../../../../assets/images/numbers/${this.boxSettings.id - 10}.png`;
     }
   }
 
@@ -56,11 +56,12 @@ export class BoxComponent implements OnInit, AfterContentChecked {
   }
 
   private checkPawnPosition(): void {
-    this.pawnInBox = this.id === this.pawnPosition;
+    this.pawnInBox = this.boxSettings.id === this.pawnPosition;
   }
 
   public selectBox(): void {
-    console.log(this.boxSettings);
-    this.router.navigate(['../', 'settings', { outlets: { board: 'board', edit: `edit/${this.boxSettings.id}` }}]);
+    this.router.navigate(['../', 'settings', { outlets: { board: 'board', edit: `edit/${this.boxSettings.id}` }}]).catch(() => {
+      this.snackbarService.error('Błąd pobierania danych do edycji');
+    });
   }
 }

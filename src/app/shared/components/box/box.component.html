@@ -1,10 +1,10 @@
 <div class="box-item" *ngIf="boxSettings" (click)="editMode ? selectBox(): null" >
-  <img class="start--finish-line" *ngIf="id === 1" src="../../../../assets/images/start.png" alt="">
-  <img class="start--finish-line" *ngIf="id === 20" src="../../../../assets/images/finish.png" alt="">
+  <img class="start--finish-line" *ngIf="boxSettings.id === 1" src="../../../../assets/images/start.png" alt="">
+  <img class="start--finish-line" *ngIf="boxSettings.id === 20" src="../../../../assets/images/finish.png" alt="">
 
   <div class="numbers">
     <img class="number" [src]="srcFirstDigit" alt="">
-    <img class="number" *ngIf="id > 9" [src]="srcLastDigit" alt="">
+    <img class="number" *ngIf="boxSettings.id > 9" [src]="srcLastDigit" alt="">
   </div>
 
   <div class="go-to-message" *ngIf="boxSettings.goTo">

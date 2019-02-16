@@ -12,7 +12,7 @@ import { ConsoleMessageType } from '../enums/console-message-type.enum';
 export class BoxesService {
 
   public readonly boxesSettings$: BehaviorSubject<BoxSettings[]> = new BehaviorSubject<BoxSettings[]>(null);
-  private readonly boxesSettings: BoxSettings[] = [];
+  private boxesSettings: BoxSettings[] = [];
 
   constructor(private localStorage: LocalStorage, private gameStateService: GameStateService) { }
 
@@ -20,10 +20,17 @@ export class BoxesService {
     this.localStorage.getItem('boxesSettings').subscribe((boxes: BoxSettings[]) => {
       if (boxes) {
         this.sendBoxesSettingsLoadMessage();
+        this.boxesSettings = boxes;
         this.boxesSettings$.next(boxes);
       } else {
         return this.setBoxesDefaultSettings();
       }
+    });
+  }
+
+  public getBoxSettings(id: number): BoxSettings {
+    return this.boxesSettings.find((settings: BoxSettings) => {
+      return settings.id === id;
     });
   }
 

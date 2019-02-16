@@ -7,15 +7,16 @@ import { NotFoundComponent } from './core/components/not-found/not-found.compone
 import { BoardComponent } from './shared/components/board/board.component';
 import { EditBoxComponent } from './shared/components/box/edit-box/edit-box.component';
 import { EditModeResolve } from './core/resolves/edit-mode.resolve';
+import { BoxDataResolve } from './core/resolves/box-data.resolve';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomepageComponent },
   { path: 'game-panel', component: GamePanelComponent, resolve: { data: EditModeResolve } },
   { path: 'settings', component: SettingsComponent, children: [
-      { path: 'board', component: BoardComponent, outlet: 'board', resolve: { data: EditModeResolve } },
+      { path: 'board', component: BoardComponent, outlet: 'board', resolve: { enableEditMode: EditModeResolve } },
       { path: 'edit', component: EditBoxComponent, outlet: 'edit' },
-      { path: 'edit/:id', component: EditBoxComponent, outlet: 'edit' },
+      { path: 'edit/:id', component: EditBoxComponent, outlet: 'edit', resolve: { boxData: BoxDataResolve } },
     ]
   },
   { path: '**', component: NotFoundComponent }

@@ -19,12 +19,14 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initBoxesSettings();
-    this.activatedRoute.data.subscribe((isEditMode: { data: boolean }) => {
-      this.editMode = isEditMode.data;
-    });
+    this.setEditMode();
   }
 
   ngOnDestroy() { }
+
+  private setEditMode(): void {
+    this.editMode = this.activatedRoute.snapshot.data['enableEditMode'];
+  }
 
   private initBoxesSettings(): void {
     this.boxesService.boxesSettings$.subscribe((boxes: BoxSettings[]) => {
