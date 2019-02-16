@@ -10,10 +10,11 @@ import { ConsoleMessageType } from '../enums/console-message-type.enum';
 @Injectable({
   providedIn: 'root'
 })
-export class GameStateService {
+export class GameStateService { // do poprawki wiadomosci inicjalizacyjne
 
   public readonly consoleMessages$: BehaviorSubject<ConsoleMessage[]> = new BehaviorSubject<ConsoleMessage[]>(null);
   public readonly pawnPosition$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+  public readonly gameStateAvaiable$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   private pawnPosition: number;
   private totalThrows = 0;
@@ -38,6 +39,16 @@ export class GameStateService {
         this.setGameState();
       } else {
         this.resetGameState();
+      }
+    });
+  }
+
+  public isGameStateAvaiable(): void {
+    this.gameState.subscribe((state: GameState) => {
+      if (state) {
+        this.gameStateAvaiable$.next(true);
+      } else {
+        this.gameStateAvaiable$.next(false);
       }
     });
   }
@@ -70,6 +81,21 @@ export class GameStateService {
     };
   }
 
+  public resetGameState(): void {
+    this.pawnPosition = 1;
+    this.totalThrows = 0;
+    this.totalAmountDrawnNumbers = 0;
+    this.consoleMessages = [];
+
+    this.pawnPosition$.next(this.pawnPosition);
+    this.consoleMessages$.next(this.consoleMessages);
+
+    this.sendConsoleMessage(this.resetGameMessage);
+    this.sendConsoleMessage(this.newGameMessage);
+
+    this.setGameState();
+  }
+
   public setGameState(): void {
     this.localStorage.setItem('gameState', {
       pawnPosition: this.pawnPosition,
@@ -80,16 +106,10 @@ export class GameStateService {
     }).subscribe();
   }
 
-  public resetGameState(): void {
-    this.pawnPosition = 1;
-    this.totalThrows = 0;
-    this.totalAmountDrawnNumbers = 0;
-    this.consoleMessages = [];
-
-    this.pawnPosition$.next(this.pawnPosition);
-    this.consoleMessages$.next(this.consoleMessages);
-
-    this.setGameState();
+  public removeGameState(): void {
+    this.localStorage.removeItem('gameState').subscribe(() => {
+      this.gameStateAvaiable$.next(false);
+    });
   }
 
   public get gameState(): Observable<GameState> {
@@ -100,6 +120,19 @@ export class GameStateService {
 
   public sendConsoleMessage(msg: ConsoleMessage): void {
     this.consoleMessages.push(msg);
-    this.consoleMessages$.next(this.consoleMessages);
+  }
+
+  public get resetGameMessage(): ConsoleMessage {
+    return ({
+      type: ConsoleMessageType.WARNING,
+      message: 'Zresetowano stan gry'
+    });
+  }
+
+  public get newGameMessage(): ConsoleMessage {
+    return ({
+      type: ConsoleMessageType.SUCCESS,
+      message: 'Rozpoczęto nową grę'
+    });
   }
 }

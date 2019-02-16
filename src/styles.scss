@@ -24,6 +24,7 @@ body {
   @include font('small', 400, 'Roboto');
   text-rendering: optimizeLegibility;
   background: $background-353;
+  position: relative;
 
   strong {
     font-weight: 700;

@@ -1,7 +1,7 @@
 <h1 mat-dialog-title align="center" [ngClass]="isWinner ? 'success' : 'danger'">{{ isWinner ? 'Wygrana!' : 'Przegrana!' }}</h1>
 <div mat-dialog-content align="center">
   <p>
-    <img src="../../../../assets/images/winner.png" alt="">
+    <img [src]="isWinner ? winnerURL : beatenURL" alt="">
   </p>
   <p>Liczba rzutów: <strong>{{ summaryStatistics.totalThrows }}</strong></p>
   <p>Całkowita liczba wyrzuconych oczek: <strong>{{ summaryStatistics.totalAmountDrawnNumbers }}</strong></p>

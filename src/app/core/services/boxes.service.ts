@@ -30,7 +30,6 @@ export class BoxesService {
     for (let i = 0; i < 20; i++) {
       this.boxesSettings.push({
         id: i + 1,
-        start: i + 1 === 1,
         win: i + 1 === 20,
         dead: i + 1 === 12,
         goTo: i + 1 === 19 ? 11 : null,

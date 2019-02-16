@@ -3,6 +3,7 @@
 .homepage-container {
   @include flex(flex, center, center, column, relative);
   @include size(100%, 100%);
+  min-width: 800px;
 
   .background-top-left {
     @include size(643px, 403px);
@@ -26,16 +27,18 @@
     @include position(auto, auto, 0, 0);
     background: url("../../../../assets/images/home-background/dark/bottom-left.jpg");
     background-size: cover;
+
   }
 
   .game-logo {
-
+    z-index: 1;
   }
 
   .buttons-container {
     @include flex(flex, center, center, row);
     margin-top: 15px;
     height: 40px;
+    z-index: 1;
 
     button {
       @include size(200px, 40px);

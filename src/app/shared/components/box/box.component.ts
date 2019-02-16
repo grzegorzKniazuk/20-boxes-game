@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterViewChecked, Component, Input, OnInit } from '@angular/core';
+import { AfterContentChecked, Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-box',
@@ -27,10 +27,6 @@ export class BoxComponent implements OnInit, AfterContentChecked {
   }
 
   private checkPawnPosition(): void {
-    if (this.id === this.pawnPosition) {
-      this.pawnInBox = true;
-    } else {
-      this.pawnInBox = false;
-    }
+    this.pawnInBox = this.id === this.pawnPosition;
   }
 }

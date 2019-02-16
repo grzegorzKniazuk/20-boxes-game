@@ -5,6 +5,7 @@ import { MaterialModule } from '../material.module';
 import { BoxComponent } from './components/box/box.component';
 import { BoardComponent } from './components/board/board.component';
 import { EndGameSummaryComponent } from './components/end-game-summary/end-game-summary.component';
+import { EditBoxComponent } from './components/box/edit-box/edit-box.component';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { EndGameSummaryComponent } from './components/end-game-summary/end-game-
     BoxComponent,
     BoardComponent,
     EndGameSummaryComponent,
+    EditBoxComponent
   ],
   entryComponents: [
     EndGameSummaryComponent,
@@ -20,6 +22,7 @@ import { EndGameSummaryComponent } from './components/end-game-summary/end-game-
     DiceComponent,
     BoardComponent,
     EndGameSummaryComponent,
+    EditBoxComponent
   ],
   imports: [
     CommonModule,

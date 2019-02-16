@@ -1,27 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LocalStorage } from '@ngx-pwa/local-storage';
-import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { Component, OnInit } from '@angular/core';
+import { GameStateService } from '../../services/game-state.service';
 
-@AutoUnsubscribe()
 @Component({
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.scss'],
 })
-export class HomepageComponent implements OnInit, OnDestroy {
+export class HomepageComponent implements OnInit {
 
-  public isGameStateAvaiable: boolean;
-
-  constructor(private localStorage: LocalStorage) { }
+  constructor(public gameStateService: GameStateService) { }
 
   ngOnInit() {
-    this.checkGameStateAvaiable();
+    this.gameStateService.isGameStateAvaiable();
   }
 
-  ngOnDestroy() {  }
-
-  private checkGameStateAvaiable(): void {
-    this.localStorage.getItem('gameState').subscribe((gameState) => {
-      this.isGameStateAvaiable = !!gameState;
-    });
+  public initNewGame(): void {
+    this.gameStateService.resetGameState();
   }
 }

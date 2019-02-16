@@ -11,7 +11,7 @@ import { SnackbarService } from './snackbar.service';
 })
 export class PawnService {
 
-  private pawnPosition: number;
+  private pawnPosition = 1;
 
   constructor(private gameStateService: GameStateService,
               private matDialog: MatDialog,
@@ -78,8 +78,9 @@ export class PawnService {
       if (startNewGame) {
         this.gameStateService.resetGameState();
       } else {
-        this.router.navigate(['../', '../', 'home']).then(() => {
+        this.router.navigate(['../', 'home']).then(() => {
           this.snackbarService.success('Zakończono grę');
+          this.gameStateService.removeGameState();
         });
       }
     });

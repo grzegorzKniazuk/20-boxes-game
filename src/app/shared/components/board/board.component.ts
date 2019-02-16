@@ -8,6 +8,7 @@ import { BoxSettings } from '../../../core/interfaces/box-settings';
 })
 export class BoardComponent implements OnInit {
   @Input() public pawnPosition?: number;
+  @Input() public editMode: boolean;
   public boxesSettings: BoxSettings[];
 
   ngOnInit() {
