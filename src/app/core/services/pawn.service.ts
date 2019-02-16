@@ -6,12 +6,14 @@ import { EndGameSummaryComponent } from '../../shared/components/end-game-summar
 import { Router } from '@angular/router';
 import { SnackbarService } from './snackbar.service';
 import { BoxesService } from './boxes.service';
+import { BoxSettings } from '../interfaces/box-settings';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PawnService {
 
+  private boxesSettings: BoxSettings[];
   private pawnPosition = 1;
 
   constructor(private gameStateService: GameStateService,
@@ -26,18 +28,43 @@ export class PawnService {
     });
   }
 
+  public initBoxesSettings(): void {
+    this.boxesService.boxesSettings$.subscribe((boxes: BoxSettings[]) => {
+      this.boxesSettings = boxes;
+    });
+  }
+
   public movePawnTo(drawnNumber: number): void {
     this.gameStateService.sendConsoleMessage({
       type: ConsoleMessageType.INFO,
       message: `Wylosowano ${drawnNumber}`
     });
 
-    this.pawnPosition += drawnNumber;
+    this.updatePawnPosition(drawnNumber);
+  }
 
-    this.gameStateService.updateGameStateStatistics(this.pawnPosition, drawnNumber);
+  public movePawnToSpecificField(fieldNumber: number): void {
+    this.gameStateService.sendConsoleMessage({
+      type: ConsoleMessageType.INFO,
+      message: `Przechodzisz na pole ${fieldNumber}`
+    });
+
+    this.updatePawnPosition(null, fieldNumber);
+  }
+
+  private updatePawnPosition(drawnNumber: number, fieldNumber?: number): void {
+
+    if (drawnNumber) {
+      this.pawnPosition += drawnNumber;
+    } else {
+      this.pawnPosition = fieldNumber;
+    }
+
+    this.gameStateService.updateGameStateStatistics(this.pawnPosition, drawnNumber || fieldNumber);
     this.checkPawnPosition();
     this.checkIsWinner();
     this.checkIsBeaten();
+    this.checkIsToMove();
 
     this.gameStateService.pawnPosition$.next(this.pawnPosition);
 
@@ -71,7 +98,23 @@ export class PawnService {
   }
 
   private checkIsBeaten(): void {
+    for (const box of this.boxesSettings) {
+      if (box.dead && box.id === this.pawnPosition) {
+        this.gameStateService.sendConsoleMessage({
+          type: ConsoleMessageType.WARNING,
+          message: 'PRZEGRANA! SPRÓBÓJ JESZCZE RAZ!',
+        });
+        this.openEndGameSummaryBox(false);
+      }
+    }
+  }
 
+  private checkIsToMove(): void {
+    for (const box of this.boxesSettings) {
+      if (box.goTo && box.id === this.pawnPosition) {
+        this.movePawnToSpecificField(box.goTo);
+      }
+    }
   }
 
   private openEndGameSummaryBox(isWinner: boolean): void {

@@ -34,8 +34,6 @@ export class BoxesService {
         win: i + 1 === 20,
         dead: i + 1 === 12,
         goTo: i + 1 === 19 ? 11 : null,
-        goBack: i + 1 === 19 ? true : null,
-        goForward: null
       });
     }
 

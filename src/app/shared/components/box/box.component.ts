@@ -14,14 +14,15 @@ export class BoxComponent implements OnInit, AfterContentChecked {
   public src: string;
   public srcFirstDigit: string;
   public srcLastDigit: string;
+  public tooltip: string;
   public pawnInBox = false;
 
   constructor() { }
 
   ngOnInit() {
-    console.log(this.boxSettings);
     this.initBoxBackground();
     this.initBoxNumberLabel();
+    this.initTooltip();
   }
 
   ngAfterContentChecked() {
@@ -42,6 +43,10 @@ export class BoxComponent implements OnInit, AfterContentChecked {
       this.srcFirstDigit = `../../../../assets/images/numbers/1.png`;
       this.srcLastDigit = `../../../../assets/images/numbers/${this.id - 10}.png`;
     }
+  }
+
+  private initTooltip(): void {
+    this.tooltip = `Przechodzisz na pole ${this.boxSettings.goTo}`;
   }
 
   private checkPawnPosition(): void {

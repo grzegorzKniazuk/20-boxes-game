@@ -38,6 +38,7 @@ export class GamePanelComponent implements OnInit, OnDestroy {
     this.gameStateService.initPawnPosition();
     this.gameStateService.loadGameState();
     this.pawnService.loadPawnPosition();
+    this.pawnService.initBoxesSettings();
   }
 
   public resetGame(): void {

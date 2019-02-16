@@ -7,8 +7,8 @@
     <img class="number" *ngIf="id > 9" [src]="srcLastDigit" alt="">
   </div>
 
-  <div class="go-to-message" *ngIf="boxSettings.goBack || boxSettings.goForward">
-    <img *ngIf="boxSettings.goBack" class="icon" src="../../../../assets/images/back.svg" alt="" matTooltip="Cofasz się na pole 11">
+  <div class="go-to-message" *ngIf="boxSettings.goTo">
+    <img class="icon" src="../../../../assets/images/back.svg" alt="" [matTooltip]="tooltip">
     <strong>{{ boxSettings.goTo }}</strong>
   </div>
 
