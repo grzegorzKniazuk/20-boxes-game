@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { BoxSettings } from '../interfaces/box-settings';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, shareReplay } from 'rxjs/operators';
 import { GameStateService } from './game-state.service';
 import { ConsoleMessageType } from '../enums/console-message-type.enum';
 import { SnackbarService } from './snackbar.service';
@@ -70,10 +70,13 @@ export class BoxesService {
       }))
       .pipe(map((isSaved) => {
         return isSaved;
-      }));
+      }))
+      .pipe(shareReplay());
   }
 
   public saveBoxSettings(box: BoxSettings): void {
+    this.gameStateService.removeGameState();
+
     this.boxesSettings = this.boxesSettings.map((boxSettings: BoxSettings) => {
       if (boxSettings.id === box.id) {
         boxSettings.dead = box.dead;
@@ -81,8 +84,9 @@ export class BoxesService {
       }
       return boxSettings;
     });
-    this.saveBoxesSettings(this.boxesSettings);
-    this.boxesSettings$.next(this.boxesSettings);
+    this.saveBoxesSettings(this.boxesSettings).subscribe(() => {
+      this.boxesSettings$.next(this.boxesSettings);
+    });
 
     this.router.navigate(['../', 'settings', { outlets: { board: 'board', edit: 'edit' }}]).then(() => {
       this.snackbarService.success(`Zapisano ustawienia dla pola ${box.id}`);

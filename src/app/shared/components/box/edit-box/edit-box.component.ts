@@ -17,7 +17,7 @@ export class EditBoxComponent implements OnInit, OnDestroy {
   public boxSettings: BoxSettings;
   public editBoxForm: FormGroup;
   private readonly deleteGoToMessage = 'Usuń właściwość';
-  public readonly idsArray = [this.deleteGoToMessage, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+  public readonly idsArray = [this.deleteGoToMessage, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 
   constructor(private activatedRoute: ActivatedRoute,
               private formService: FormsService,
@@ -32,6 +32,7 @@ export class EditBoxComponent implements OnInit, OnDestroy {
 
   private loadBoxSettings(): void {
     this.activatedRoute.data.subscribe((data: { boxData: BoxSettings }) => {
+      console.log(data.boxData);
       this.boxSettings = data.boxData;
       this.initFormData();
     });
@@ -43,13 +44,11 @@ export class EditBoxComponent implements OnInit, OnDestroy {
 
   private initFormData(): void {
     if (this.editBoxForm) {
-      console.log(this.boxSettings.id);
       this.editBoxForm.setValue({
         id: this.boxSettings.id,
         goTo: this.boxSettings.goTo,
         dead: this.boxSettings.dead,
       });
-      console.log(this.editBoxForm.get('id').value);
     }
   }
 
