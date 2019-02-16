@@ -16,11 +16,14 @@ export class EditBoxComponent implements OnInit, OnDestroy {
   constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-
-    this.activatedRoute.data.subscribe((data: { boxData: BoxSettings }) => {
-      console.log(data.boxData);
-    });
+    this.loadBoxSettings();
   }
 
   ngOnDestroy() { }
+
+  private loadBoxSettings(): void {
+    this.activatedRoute.data.subscribe((data: { boxData: BoxSettings }) => {
+      this.boxSettings = data.boxData;
+    });
+  }
 }
