@@ -10,8 +10,9 @@ export class FormsService {
 
   public get editBoxForm(): FormGroup {
     return this.formBuilder.group({
+      id: [null, [ Validators.required ]],
       dead: [false],
-      goTo: [null, [ Validators.min(0), Validators.max(20) ]],
+      goTo: [null],
     });
   }
 }

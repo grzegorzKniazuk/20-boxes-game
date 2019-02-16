@@ -9,31 +9,6 @@
     z-index: 1;
   }
 
-  .numbers {
-    @include flex(flex);
-    @include size(33px, 16px);
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    z-index: 1;
-
-    .number {
-      @include size(16px, 16px);
-
-      &:last-of-type {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-      }
-
-      &:first-of-type {
-        margin-right: 3px;
-        left: 0;
-        bottom: 0;
-      }
-    }
-  }
-
   .go-to-message {
     @include flex(flex, center, center, column);
     @include size(100px, 100px);

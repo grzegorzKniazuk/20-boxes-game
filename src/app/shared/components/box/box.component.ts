@@ -14,8 +14,6 @@ export class BoxComponent implements OnInit, AfterContentChecked {
   @Input() public boxSettings: BoxSettings;
   @Input() public editMode: boolean;
   public src: string;
-  public srcFirstDigit: string;
-  public srcLastDigit: string;
   public tooltip: string;
   public pawnInBox = false;
 
@@ -23,7 +21,6 @@ export class BoxComponent implements OnInit, AfterContentChecked {
 
   ngOnInit() {
     this.initBoxBackground();
-    this.initBoxNumberLabel();
     this.initTooltip();
   }
 
@@ -33,18 +30,6 @@ export class BoxComponent implements OnInit, AfterContentChecked {
 
   private initBoxBackground(): void {
     this.src = `../../../../assets/images/boxes/${this.boxSettings.id}.jpg`;
-  }
-
-  private initBoxNumberLabel(): void {
-    if (this.boxSettings.id < 10) {
-      this.srcFirstDigit = `../../../../assets/images/numbers/${this.boxSettings.id}.png`;
-    } else if (this.boxSettings.id >= 20) {
-      this.srcFirstDigit = `../../../../assets/images/numbers/2.png`;
-      this.srcLastDigit = `../../../../assets/images/numbers/${this.boxSettings.id - 20}.png`;
-    } else if (this.boxSettings.id >= 10) {
-      this.srcFirstDigit = `../../../../assets/images/numbers/1.png`;
-      this.srcLastDigit = `../../../../assets/images/numbers/${this.boxSettings.id - 10}.png`;
-    }
   }
 
   private initTooltip(): void {

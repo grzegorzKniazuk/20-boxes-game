@@ -1,3 +1,21 @@
-<p>
-  edit-box works!
-</p>
+<div class="form-container">
+  <div class="no-box-selected" *ngIf="!boxSettings">Kliknij na wybrane pole, aby edytować jego właściwości</div>
+  <ng-container *ngIf="boxSettings">
+    <div class="box-title">Edytujesz pole nr:</div>
+    <div class="box-id">{{ boxSettings.id }}</div>
+    <form [formGroup]="editBoxForm">
+      <div>Po wejściu przejdź do:</div>
+      <mat-form-field>
+        <mat-select placeholder="Wybierz pole" formControlName="goTo">
+          <mat-option *ngFor="let id of idsArray" [value]="id">
+            {{ id }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-slide-toggle class="toggle" color="primary" formControlName="dead">Ustaw jako pole kończące grę</mat-slide-toggle>
+      <div class="buttons-container">
+        <button mat-raised-button color="primary" (click)="saveBoxOptions()">Zapisz</button>
+      </div>
+    </form>
+  </ng-container>
+</div>

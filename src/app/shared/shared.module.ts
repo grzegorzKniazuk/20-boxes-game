@@ -6,6 +6,7 @@ import { BoxComponent } from './components/box/box.component';
 import { BoardComponent } from './components/board/board.component';
 import { EndGameSummaryComponent } from './components/end-game-summary/end-game-summary.component';
 import { EditBoxComponent } from './components/box/edit-box/edit-box.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,7 @@ import { EditBoxComponent } from './components/box/edit-box/edit-box.component';
     BoxComponent,
     BoardComponent,
     EndGameSummaryComponent,
-    EditBoxComponent
+    EditBoxComponent,
   ],
   entryComponents: [
     EndGameSummaryComponent,
@@ -22,11 +23,15 @@ import { EditBoxComponent } from './components/box/edit-box/edit-box.component';
     DiceComponent,
     BoardComponent,
     EndGameSummaryComponent,
-    EditBoxComponent
+    EditBoxComponent,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
   ]
 })
 export class SharedModule { }

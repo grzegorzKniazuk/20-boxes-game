@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { BoxSettings } from '../interfaces/box-settings';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { GameStateService } from './game-state.service';
 import { ConsoleMessageType } from '../enums/console-message-type.enum';
+import { SnackbarService } from './snackbar.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +16,14 @@ export class BoxesService {
   public readonly boxesSettings$: BehaviorSubject<BoxSettings[]> = new BehaviorSubject<BoxSettings[]>(null);
   private boxesSettings: BoxSettings[] = [];
 
-  constructor(private localStorage: LocalStorage, private gameStateService: GameStateService) { }
+  constructor(private localStorage: LocalStorage,
+              private gameStateService: GameStateService,
+              private router: Router,
+              private snackbarService: SnackbarService) { }
 
   public initBoxesSettings(): void {
-    this.localStorage.getItem('boxesSettings').subscribe((boxes: BoxSettings[]) => {
+    this.localStorage.getItem('boxesSettings')
+    .subscribe((boxes: BoxSettings[]) => {
       if (boxes) {
         this.sendBoxesSettingsLoadMessage();
         this.boxesSettings = boxes;
@@ -38,7 +44,6 @@ export class BoxesService {
     for (let i = 0; i < 20; i++) {
       this.boxesSettings.push({
         id: i + 1,
-        win: i + 1 === 20,
         dead: i + 1 === 12,
         goTo: i + 1 === 19 ? 11 : null,
       });
@@ -58,8 +63,31 @@ export class BoxesService {
   }
 
   private saveBoxesSettings(boxesSettings: BoxSettings[]): Observable<boolean> {
-    return this.localStorage.setItem('boxesSettings', boxesSettings).pipe(map((isSaved) => {
-      return isSaved;
-    }));
+    return this.localStorage.setItem('boxesSettings', boxesSettings)
+      .pipe(catchError((error) => {
+        this.snackbarService.error(error);
+        return of(false);
+      }))
+      .pipe(map((isSaved) => {
+        return isSaved;
+      }));
+  }
+
+  public saveBoxSettings(box: BoxSettings): void {
+    this.boxesSettings = this.boxesSettings.map((boxSettings: BoxSettings) => {
+      if (boxSettings.id === box.id) {
+        boxSettings.dead = box.dead;
+        boxSettings.goTo = box.goTo;
+      }
+      return boxSettings;
+    });
+    this.saveBoxesSettings(this.boxesSettings);
+    this.boxesSettings$.next(this.boxesSettings);
+
+    this.router.navigate(['../', 'settings', { outlets: { board: 'board', edit: 'edit' }}]).then(() => {
+      this.snackbarService.success(`Zapisano ustawienia dla pola ${box.id}`);
+    }).catch((error) => {
+      this.snackbarService.error('Nie udało się powrócić do strony głównej ustawień');
+    });
   }
 }

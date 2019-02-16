@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-dice',
@@ -10,7 +10,6 @@ export class DiceComponent {
 
   @Output() public drawnNumber$: EventEmitter<number> = new EventEmitter<number>();
 
-  @HostListener('document:keypress:enter')
   public emitDrawnNumber(): void {
     this.drawnNumber$.emit(this.randomize);
   }

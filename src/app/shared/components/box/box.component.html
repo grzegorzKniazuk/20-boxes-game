@@ -2,11 +2,6 @@
   <img class="start--finish-line" *ngIf="boxSettings.id === 1" src="../../../../assets/images/start.png" alt="">
   <img class="start--finish-line" *ngIf="boxSettings.id === 20" src="../../../../assets/images/finish.png" alt="">
 
-  <div class="numbers">
-    <img class="number" [src]="srcFirstDigit" alt="">
-    <img class="number" *ngIf="boxSettings.id > 9" [src]="srcLastDigit" alt="">
-  </div>
-
   <div class="go-to-message" *ngIf="boxSettings.goTo">
     <img class="icon" src="../../../../assets/images/back.svg" alt="" [matTooltip]="tooltip">
     <strong>{{ boxSettings.goTo }}</strong>
