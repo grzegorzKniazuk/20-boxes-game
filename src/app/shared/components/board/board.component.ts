@@ -21,6 +21,7 @@ export class BoardComponent implements OnInit {
   private initBoxesSettings(): void {
     this.boxesService.boxesSettings$.subscribe((boxes: BoxSettings[]) => {
       this.boxesSettings = boxes;
+      console.log(this.boxesSettings);
     });
   }
 }

@@ -11,6 +11,7 @@ export class BoxComponent implements OnInit, AfterContentChecked {
   @Input() public id: number;
   @Input() public pawnPosition: number;
   @Input() public boxSettings: BoxSettings;
+  @Input() public editMode: boolean;
   public src: string;
   public srcFirstDigit: string;
   public srcLastDigit: string;

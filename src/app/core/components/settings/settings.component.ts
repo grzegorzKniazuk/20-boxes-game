@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BoxesService } from '../../services/boxes.service';
 
 @Component({
   templateUrl: './settings.component.html',
@@ -6,9 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private boxesService: BoxesService) { }
 
   ngOnInit() {
+    this.boxesService.initBoxesSettings();
   }
-
 }

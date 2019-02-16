@@ -11,4 +11,8 @@
     @include size(50%, 100%);
     min-width: 750px;
   }
+
+  .edit-form-container {
+    @include size(50%, 100%);
+  }
 }

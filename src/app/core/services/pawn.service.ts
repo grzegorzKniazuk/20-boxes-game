@@ -102,7 +102,7 @@ export class PawnService {
       if (box.dead && box.id === this.pawnPosition) {
         this.gameStateService.sendConsoleMessage({
           type: ConsoleMessageType.WARNING,
-          message: 'PRZEGRANA! SPRÓBÓJ JESZCZE RAZ!',
+          message: 'PRZEGRANA! SPRÓBUJ JESZCZE RAZ!',
         });
         this.openEndGameSummaryBox(false);
       }

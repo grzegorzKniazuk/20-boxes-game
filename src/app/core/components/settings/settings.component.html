@@ -1,5 +1,9 @@
 <div class="settings-container">
   <div class="board-container">
-    <app-board [editMode]="true"></app-board>
+    <router-outlet name="board"></router-outlet>
+    <!--<app-board [editMode]="true"></app-board>-->
+  </div>
+  <div class="edit-form-container">
+    <router-outlet name="edit"></router-outlet>
   </div>
 </div>
