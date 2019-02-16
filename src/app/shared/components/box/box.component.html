@@ -1,4 +1,4 @@
-<div class="box-item" *ngIf="boxSettings" (click)="editMode ? selectBox(): null">
+<div class="box-item" *ngIf="boxSettings" (click)="editMode ? selectBox(): null" >
   <img class="start--finish-line" *ngIf="id === 1" src="../../../../assets/images/start.png" alt="">
   <img class="start--finish-line" *ngIf="id === 20" src="../../../../assets/images/finish.png" alt="">
 
@@ -15,5 +15,6 @@
   <img class="dead-icon" *ngIf="boxSettings.dead" src="../../../../assets/images/dead.svg" matTooltip="Gra kończy się porażką" alt="">
 
   <img [src]="src" alt="box">
+  <div [matTooltip]="editMode ? tooltip: null" *ngIf="editMode" [ngClass]="editMode ? 'box-edit-mode': ''"></div>
   <img class="pawn" *ngIf="pawnInBox" src="../../../../assets/images/pawn.png" alt="">
 </div>

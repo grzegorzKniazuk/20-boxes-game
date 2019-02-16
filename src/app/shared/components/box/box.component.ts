@@ -1,5 +1,6 @@
 import { AfterContentChecked, Component, Input, OnInit } from '@angular/core';
 import { BoxSettings } from '../../../core/interfaces/box-settings';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-box',
@@ -18,7 +19,7 @@ export class BoxComponent implements OnInit, AfterContentChecked {
   public tooltip: string;
   public pawnInBox = false;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
     this.initBoxBackground();
@@ -47,7 +48,11 @@ export class BoxComponent implements OnInit, AfterContentChecked {
   }
 
   private initTooltip(): void {
-    this.tooltip = `Przechodzisz na pole ${this.boxSettings.goTo}`;
+    if (this.boxSettings.goTo && !this.editMode) {
+      this.tooltip = `Przechodzisz na pole ${this.boxSettings.goTo}`;
+    } else if (this.editMode) {
+      this.tooltip = 'Kliknij, aby edytować';
+    }
   }
 
   private checkPawnPosition(): void {
@@ -56,5 +61,6 @@ export class BoxComponent implements OnInit, AfterContentChecked {
 
   public selectBox(): void {
     console.log(this.boxSettings);
+    this.router.navigate(['../', 'settings', { outlets: { board: 'board', edit: `edit/${this.boxSettings.id}` }}]);
   }
 }
