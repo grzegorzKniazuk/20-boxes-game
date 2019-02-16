@@ -1,4 +1,4 @@
-<div class="box-item" *ngIf="boxSettings">
+<div class="box-item" *ngIf="boxSettings" (click)="editMode ? selectBox(): null">
   <img class="start--finish-line" *ngIf="id === 1" src="../../../../assets/images/start.png" alt="">
   <img class="start--finish-line" *ngIf="id === 20" src="../../../../assets/images/finish.png" alt="">
 

@@ -53,4 +53,8 @@ export class BoxComponent implements OnInit, AfterContentChecked {
   private checkPawnPosition(): void {
     this.pawnInBox = this.id === this.pawnPosition;
   }
+
+  public selectBox(): void {
+    console.log(this.boxSettings);
+  }
 }
