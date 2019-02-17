@@ -4,7 +4,9 @@
     "outDir": "../out-tsc/app",
     "sourceMap": true,
     "removeComments": true,
-    "types": []
+    "types": [
+      "hammerjs"
+    ]
   },
   "exclude": [
     "test.ts",
