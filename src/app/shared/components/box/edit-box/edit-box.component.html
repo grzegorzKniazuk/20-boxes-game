@@ -1,4 +1,5 @@
 <div class="form-container">
+  <mat-icon *ngIf="!boxSettings">info_outline</mat-icon>
   <div class="no-box-selected" *ngIf="!boxSettings">Kliknij na wybrane pole, aby edytować jego właściwości</div>
   <ng-container *ngIf="boxSettings">
     <div class="box-title">Edytujesz pole nr:</div>

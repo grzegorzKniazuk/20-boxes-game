@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-import { Router } from '@angular/router';
+import { Router, RouterEvent } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class SnackbarService {
   }
 
   public watchRouterEventsAndCloseSnackBars(): void {
-    this.router.events.subscribe((event) => {
+    this.router.events.subscribe((event: RouterEvent) => {
       if (event) {
         this.matSnackBar.dismiss();
       }
