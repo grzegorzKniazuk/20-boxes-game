@@ -6,6 +6,7 @@ import { FormsService } from '../../../../core/services/forms.service';
 import { FormGroup } from '@angular/forms';
 import { BoxesService } from '../../../../core/services/boxes.service';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
+import { GameStateService } from '../../../../core/services/game-state.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -24,6 +25,7 @@ export class EditBoxComponent implements OnInit, OnDestroy {
               private formService: FormsService,
               private router: Router,
               private snackbarService: SnackbarService,
+              private gameStateService: GameStateService,
               private boxesService: BoxesService) { }
 
   ngOnInit() {
@@ -83,5 +85,18 @@ export class EditBoxComponent implements OnInit, OnDestroy {
     if (this.editBoxForm.valid) {
       this.boxesService.saveBoxSettings(this.editBoxForm.value);
     }
+  }
+
+  public goToHomepage(): void {
+    this.router.navigate(['../', 'home']).catch(() => {
+      this.snackbarService.error('Wystąpił problem z przekierowaniem na strone główną');
+    });
+  }
+
+  public startNewGame(): void {
+    this.gameStateService.resetGameState();
+    this.router.navigate(['../', 'game-panel']).catch(() => {
+      this.snackbarService.error('Wystąpił problem z przekierowaniem do nowej gry');
+    });
   }
 }

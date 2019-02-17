@@ -1,24 +1,32 @@
 <div class="form-container">
   <ng-container *ngIf="!boxSettings">
-    <mat-icon>info_outline</mat-icon>
-    <div class="no-box-selected">Kliknij na wybrane pole, aby edytować jego właściwości</div>
+    <div class="nav-buttons-container">
+      <mat-icon matTooltip="Wyjdź do menu głównego" (click)="goToHomepage()">home</mat-icon>
+      <button mat-raised-button color="primary" (click)="startNewGame()">Rozpocznij nową grę</button>
+    </div>
+    <div class="no-box-selected-container">
+      <mat-icon>info_outline</mat-icon>
+      <div class="no-box-selected">Kliknij na wybrane pole, aby edytować jego właściwości</div>
+    </div>
   </ng-container>
   <ng-container *ngIf="boxSettings">
-    <div class="box-title">Edytujesz pole nr:</div>
-    <div class="box-id">{{ boxSettings.id }}</div>
-    <form [formGroup]="editBoxForm">
-      <div>Po wejściu przejdź do:</div>
-      <mat-form-field>
-        <mat-select placeholder="Wybierz pole" formControlName="goTo">
-          <mat-option *ngFor="let id of idsArray" [value]="id">
-            {{ id }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-slide-toggle class="toggle" color="primary" formControlName="dead">Ustaw jako pole kończące grę</mat-slide-toggle>
-      <div class="buttons-container">
-        <button type="submit" mat-raised-button color="primary" (click)="saveBoxOptions()">Zapisz</button>
-      </div>
-    </form>
+    <div class="box-form">
+      <div class="box-title">Edytujesz pole nr:</div>
+      <div class="box-id">{{ boxSettings.id }}</div>
+      <form [formGroup]="editBoxForm">
+        <div>Po wejściu przejdź do:</div>
+        <mat-form-field>
+          <mat-select placeholder="Wybierz pole" formControlName="goTo">
+            <mat-option *ngFor="let id of idsArray" [value]="id">
+              {{ id }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-slide-toggle class="toggle" color="primary" formControlName="dead">Ustaw jako pole kończące grę</mat-slide-toggle>
+        <div class="buttons-container">
+          <button type="submit" mat-raised-button color="primary" (click)="saveBoxOptions()">Zapisz</button>
+        </div>
+      </form>
+    </div>
   </ng-container>
 </div>
