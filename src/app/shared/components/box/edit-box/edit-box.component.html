@@ -3,6 +3,7 @@
     <div class="nav-buttons-container">
       <mat-icon matTooltip="Wyjdź do menu głównego" (click)="goToHomepage()">home</mat-icon>
       <button mat-raised-button color="primary" (click)="startNewGame()">Rozpocznij nową grę</button>
+      <button mat-raised-button color="warn" (click)="restoreDefaultSettings()">Przywróć ustawienia domyślne</button>
     </div>
     <div class="no-box-selected-container">
       <mat-icon>info_outline</mat-icon>
@@ -22,6 +23,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <mat-slide-toggle class="toggle" color="primary" formControlName="goToStart">Ustaw jako pole powrotu na start</mat-slide-toggle>
         <mat-slide-toggle class="toggle" color="primary" formControlName="dead">Ustaw jako pole kończące grę</mat-slide-toggle>
         <div class="buttons-container">
           <button type="submit" mat-raised-button color="primary" (click)="saveBoxOptions()">Zapisz</button>

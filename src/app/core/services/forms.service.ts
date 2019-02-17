@@ -12,6 +12,7 @@ export class FormsService {
     return this.formBuilder.group({
       id: [null, [ Validators.required ]],
       dead: [false],
+      goToStart: [false],
       goTo: [null],
     });
   }

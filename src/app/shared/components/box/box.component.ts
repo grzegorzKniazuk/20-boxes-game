@@ -13,6 +13,7 @@ export class BoxComponent implements OnInit, AfterContentChecked {
   @Input() public pawnPosition: number;
   @Input() public boxSettings: BoxSettings;
   @Input() public editMode: boolean;
+
   public src: string;
   public tooltip: string;
   public pawnInBox = false;

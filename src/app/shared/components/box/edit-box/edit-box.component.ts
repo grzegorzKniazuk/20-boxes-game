@@ -70,8 +70,9 @@ export class EditBoxComponent implements OnInit, OnDestroy {
     if (this.editBoxForm) {
       this.editBoxForm.setValue({
         id: this.boxSettings.id,
-        goTo: this.boxSettings.goTo,
         dead: this.boxSettings.dead,
+        goToStart: this.boxSettings.goToStart,
+        goTo: this.boxSettings.goTo,
       });
     }
   }
@@ -98,5 +99,9 @@ export class EditBoxComponent implements OnInit, OnDestroy {
     this.router.navigate(['../', 'game-panel']).catch(() => {
       this.snackbarService.error('Wystąpił problem z przekierowaniem do nowej gry');
     });
+  }
+
+  public restoreDefaultSettings(): void {
+    this.boxesService.setBoxesDefaultSettings();
   }
 }

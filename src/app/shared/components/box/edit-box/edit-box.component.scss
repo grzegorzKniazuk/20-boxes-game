@@ -9,8 +9,15 @@
     @include size(100%, 60px);
 
     button {
-      @include size(200px, 40px);
       margin-right: 2.5%;
+
+      &:first-of-type {
+        @include size(200px, 40px);
+      }
+
+      &:last-of-type {
+        @include size(240px, 40px);
+      }
     }
 
     mat-icon {

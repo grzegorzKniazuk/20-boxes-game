@@ -40,11 +40,13 @@ export class BoxesService {
     });
   }
 
-  private setBoxesDefaultSettings(): void {
+  public setBoxesDefaultSettings(): void {
+    this.boxesSettings = [];
     for (let i = 0; i < 20; i++) {
       this.boxesSettings.push({
         id: i + 1,
         dead: i + 1 === 12,
+        goToStart: false,
         goTo: i + 1 === 19 ? 11 : null,
       });
     }
@@ -56,10 +58,14 @@ export class BoxesService {
   }
 
   private sendBoxesSettingsLoadMessage(isSaved: boolean = false): void {
-    this.gameStateService.sendConsoleMessage({
-      type: ConsoleMessageType.INFO,
-      message: `Wczytano ${isSaved ? 'domyślne' : ''} ustawienia gry`
-    });
+    if (this.router.url.includes('settings')) {
+      this.snackbarService.success('Wczytano domyślne ustawienia gry');
+    } else {
+      this.gameStateService.sendConsoleMessage({
+        type: ConsoleMessageType.INFO,
+        message: `Wczytano ${isSaved ? 'domyślne' : ''} ustawienia gry`
+      });
+    }
   }
 
   private saveBoxesSettings(boxesSettings: BoxSettings[]): Observable<boolean> {
@@ -80,6 +86,7 @@ export class BoxesService {
     this.boxesSettings = this.boxesSettings.map((boxSettings: BoxSettings) => {
       if (boxSettings.id === box.id) {
         boxSettings.dead = box.dead;
+        boxSettings.goToStart = box.goToStart;
         boxSettings.goTo = box.goTo;
       }
       return boxSettings;
@@ -89,7 +96,7 @@ export class BoxesService {
 
       this.router.navigate(['../', 'settings', { outlets: { board: 'board', edit: 'edit' }}]).then(() => {
         this.snackbarService.success(`Zapisano ustawienia dla pola ${box.id}`);
-      }).catch((error) => {
+      }).catch(() => {
         this.snackbarService.error('Nie udało się powrócić do strony głównej ustawień');
       });
     });
