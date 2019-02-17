@@ -56,6 +56,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, {
       enableTracing: false,
       preloadingStrategy: PreloadAllModules,
+      onSameUrlNavigation: 'reload',
     }),
   ],
   exports: [

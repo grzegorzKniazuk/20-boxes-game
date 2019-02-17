@@ -24,7 +24,7 @@ mat-error {
 }
 
 ::ng-deep .mat-tooltip {
-  @include font('medium');
+  @include font('small');
   padding: 15px;
   white-space: nowrap;
   max-width: 100% !important;

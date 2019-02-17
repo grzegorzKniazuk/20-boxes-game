@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { BoxSettings } from '../../../../core/interfaces/box-settings';
 import { FormsService } from '../../../../core/services/forms.service';
 import { FormGroup } from '@angular/forms';
 import { BoxesService } from '../../../../core/services/boxes.service';
+import { SnackbarService } from '../../../../core/services/snackbar.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -21,20 +22,32 @@ export class EditBoxComponent implements OnInit, OnDestroy {
 
   constructor(private activatedRoute: ActivatedRoute,
               private formService: FormsService,
+              private router: Router,
+              private snackbarService: SnackbarService,
               private boxesService: BoxesService) { }
 
   ngOnInit() {
-    this.loadBoxSettings();
     this.initForm();
+    this.loadBoxSettings();
+    this.redirectfNoDataOnPageReload();
   }
 
   ngOnDestroy() { }
 
+  private redirectfNoDataOnPageReload(): void {
+    if (this.router.url.includes('/settings/(board:board//edit:edit/') && !this.boxSettings) {
+      this.router.navigateByUrl('/settings/(board:board//edit:edit)').catch(() => {
+        this.snackbarService.error('Błąd przekierowania do ustawień gry');
+      });
+    }
+  }
+
   private loadBoxSettings(): void {
     this.activatedRoute.data.subscribe((data: { boxData: BoxSettings }) => {
-      console.log(data.boxData);
-      this.boxSettings = data.boxData;
-      this.initFormData();
+      if (data.boxData) {
+        this.boxSettings = data.boxData;
+        this.initFormData();
+      }
     });
   }
 

@@ -24,6 +24,18 @@
         @include size(200px, 40px);
         margin-right: 2.5%;
       }
+
+      mat-icon {
+        @include mat-icon-size(40px);
+        transition: color 150ms ease-out;
+        margin-right: 2.5%;
+
+        &:hover {
+          cursor: pointer;
+          transition: color 150ms ease-in;
+          color: $mat-primary;
+        }
+      }
     }
 
     .console-panel {
