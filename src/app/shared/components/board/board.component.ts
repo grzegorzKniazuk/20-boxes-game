@@ -8,21 +8,23 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.scss'],
+  styleUrls: [ './board.component.scss' ],
 })
 export class BoardComponent implements OnInit, OnDestroy {
   @Input() public pawnPosition?: number;
   public editMode: boolean;
   public boxesSettings: BoxSettings[];
 
-  constructor(private boxesService: BoxesService, private activatedRoute: ActivatedRoute) {}
+  constructor(private boxesService: BoxesService, private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit() {
     this.initBoxesSettings();
     this.setEditMode();
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {
+  }
 
   private setEditMode(): void {
     this.editMode = this.activatedRoute.snapshot.data['enableEditMode'];

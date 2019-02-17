@@ -3,21 +3,24 @@
   <div class="background-top-right"></div>
   <div class="background-bottom-right"></div>
   <div class="game-logo">
-    <img src="../../../../assets/images/dice.png" alt="">
+    <img alt="" src="../../../../assets/images/dice.png">
   </div>
   <div class="buttons-container">
-    <button mat-raised-button
+    <button (click)="initNewGame()"
             color="primary"
-            routerLink="../game-panel"
+            mat-raised-button
             matTooltip="Kliknij aby rozpocząć nową grę"
-            (click)="initNewGame()">Nowa gra</button>
-    <button mat-raised-button
+            routerLink="../game-panel">Nowa gra
+    </button>
+    <button [disabled]="!(gameStateService.gameStateAvaiable$ | async)"
             color="primary"
-            routerLink="../game-panel"
+            mat-raised-button
             matTooltip="Kliknij aby kontynować grę"
-            [disabled]="!(gameStateService.gameStateAvaiable$ | async)">Kontynuuj grę</button>
-    <mat-icon matTooltip="Przejdź do ustawień gry"
-              [routerLink]="['../', 'settings', { outlets: { board: 'board', edit: 'edit' }}]">settings</mat-icon>
+            routerLink="../game-panel">Kontynuuj grę
+    </button>
+    <mat-icon [routerLink]="['../', 'settings', { outlets: { board: 'board', edit: 'edit' }}]"
+              matTooltip="Przejdź do ustawień gry">settings
+    </mat-icon>
   </div>
   <footer matTooltip="Aktualna wersja gry">version 1.0</footer>
 </div>

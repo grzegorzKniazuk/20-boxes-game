@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 import { ConsoleMessageType } from '../enums/console-message-type.enum';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GameStateService { // do poprawki wiadomosci inicjalizacyjne
 
@@ -22,7 +22,36 @@ export class GameStateService { // do poprawki wiadomosci inicjalizacyjne
   private averangeAmountDrawnNumbers = 0;
   private consoleMessages: ConsoleMessage[] = [];
 
-  constructor(private localStorage: LocalStorage) {}
+  constructor(private localStorage: LocalStorage) {
+  }
+
+  public get gameStateStatistics(): Statistics {
+    return {
+      totalThrows: this.totalThrows,
+      totalAmountDrawnNumbers: this.totalAmountDrawnNumbers,
+      averangeAmountDrawnNumbers: this.averangeAmountDrawnNumbers,
+    };
+  }
+
+  public get gameState(): Observable<GameState> {
+    return this.localStorage.getItem('gameState').pipe(map((state: GameState) => {
+      return state;
+    }));
+  }
+
+  public get resetGameMessage(): ConsoleMessage {
+    return ({
+      type: ConsoleMessageType.WARNING,
+      message: 'Zresetowano stan gry',
+    });
+  }
+
+  public get newGameMessage(): ConsoleMessage {
+    return ({
+      type: ConsoleMessageType.SUCCESS,
+      message: 'Rozpoczęto nową grę',
+    });
+  }
 
   public loadGameState(): void {
     this.gameState.subscribe((state: GameState) => {
@@ -59,26 +88,10 @@ export class GameStateService { // do poprawki wiadomosci inicjalizacyjne
     });
   }
 
-  private loadGameStateMessage(state: boolean = false): void {
-    this.consoleMessages.push({
-      type: ConsoleMessageType.SUCCESS,
-      message: state ? 'Wczytano grę' : 'Rozpoczęto nową grę',
-    });
-    this.consoleMessages$.next(this.consoleMessages);
-  }
-
   public updateGameStateStatistics(pawnPosition: number, drawnNumber: number): void {
     this.totalThrows = !this.totalThrows ? 1 : this.totalThrows + 1;
     this.totalAmountDrawnNumbers += drawnNumber;
     this.averangeAmountDrawnNumbers = Math.floor(this.totalAmountDrawnNumbers / this.totalThrows);
-  }
-
-  public get gameStateStatistics(): Statistics {
-    return {
-      totalThrows: this.totalThrows,
-      totalAmountDrawnNumbers: this.totalAmountDrawnNumbers,
-      averangeAmountDrawnNumbers: this.averangeAmountDrawnNumbers
-    };
   }
 
   public resetGameState(): void {
@@ -112,27 +125,15 @@ export class GameStateService { // do poprawki wiadomosci inicjalizacyjne
     });
   }
 
-  public get gameState(): Observable<GameState> {
-    return this.localStorage.getItem('gameState').pipe(map((state: GameState) => {
-      return state;
-    }));
-  }
-
   public sendConsoleMessage(msg: ConsoleMessage): void {
     this.consoleMessages.push(msg);
   }
 
-  public get resetGameMessage(): ConsoleMessage {
-    return ({
-      type: ConsoleMessageType.WARNING,
-      message: 'Zresetowano stan gry'
-    });
-  }
-
-  public get newGameMessage(): ConsoleMessage {
-    return ({
+  private loadGameStateMessage(state: boolean = false): void {
+    this.consoleMessages.push({
       type: ConsoleMessageType.SUCCESS,
-      message: 'Rozpoczęto nową grę'
+      message: state ? 'Wczytano grę' : 'Rozpoczęto nową grę',
     });
+    this.consoleMessages$.next(this.consoleMessages);
   }
 }

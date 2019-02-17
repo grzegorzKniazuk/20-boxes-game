@@ -4,12 +4,17 @@
   </div>
   <div class="panel-container">
     <div class="panel-top-buttons">
-      <mat-icon matTooltip="Zapisz i wyjdź z gry" (click)="saveGameAndGoToHome()">home</mat-icon>
-      <button mat-raised-button color="warn" matTooltip="Kliknij, aby rozpocząć grę od nowa" (click)="resetGame()">Zagraj od nowa</button>
-      <button mat-raised-button color="primary" matTooltip="Kliknij, aby rozpocząć poznać zasady gry" (click)="showRules()">Zasady gry</button>
+      <mat-icon (click)="saveGameAndGoToHome()" matTooltip="Zapisz i wyjdź z gry">home</mat-icon>
+      <button (click)="resetGame()" color="warn" mat-raised-button matTooltip="Kliknij, aby rozpocząć grę od nowa">
+        Zagraj od nowa
+      </button>
+      <button (click)="showRules()" color="primary" mat-raised-button
+              matTooltip="Kliknij, aby rozpocząć poznać zasady gry">Zasady gry
+      </button>
     </div>
     <div class="console-panel">
-      <p *ngFor="let consoleMessage of gameStateService.consoleMessages$ | async" [ngClass]="consoleMessage ? consoleMessage.type: ''">{{ consoleMessage ? consoleMessage.message : '' }}</p>
+      <p *ngFor="let consoleMessage of gameStateService.consoleMessages$ | async"
+         [ngClass]="consoleMessage ? consoleMessage.type: ''">{{ consoleMessage ? consoleMessage.message : '' }}</p>
     </div>
     <div class="panel-bottom-button">
       <app-dice (drawnNumber$)="onPawnMove($event)"></app-dice>

@@ -3,11 +3,12 @@ import { GameStateService } from '../../services/game-state.service';
 
 @Component({
   templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.scss'],
+  styleUrls: [ './homepage.component.scss' ],
 })
 export class HomepageComponent implements OnInit {
 
-  constructor(public gameStateService: GameStateService) { }
+  constructor(public gameStateService: GameStateService) {
+  }
 
   ngOnInit() {
     this.gameStateService.isGameStateAvaiable();

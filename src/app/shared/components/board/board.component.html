@@ -1,30 +1,70 @@
-<div class="board" *ngIf="boxesSettings">
+<div *ngIf="boxesSettings" class="board">
   <div class="left-side">
-    <div class="finish"><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[19]" [editMode]="editMode"></app-box></div>
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[18]" [editMode]="editMode"></app-box></div>
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[17]" [editMode]="editMode"></app-box></div>
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[16]" [editMode]="editMode"></app-box></div>
+    <div class="finish">
+      <app-box [boxSettings]="boxesSettings[19]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[18]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[17]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[16]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
   </div>
   <div class="top-side">
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[0]" [editMode]="editMode"></app-box></div>
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[1]" [editMode]="editMode"></app-box></div>
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[2]" [editMode]="editMode"></app-box></div>
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[3]" [editMode]="editMode"></app-box></div>
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[4]" [editMode]="editMode"></app-box></div>
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[5]" [editMode]="editMode"></app-box></div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[0]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[1]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[2]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[3]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[4]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[5]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
   </div>
   <div class="right-side">
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[6]" [editMode]="editMode"></app-box></div>
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[7]" [editMode]="editMode"></app-box></div>
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[8]" [editMode]="editMode"></app-box></div>
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[9]" [editMode]="editMode"></app-box></div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[6]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[7]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[8]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[9]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
   </div>
   <div class="bottom-side">
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[15]" [editMode]="editMode"></app-box></div>
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[14]" [editMode]="editMode"></app-box></div>
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[13]" [editMode]="editMode"></app-box></div>
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[12]" [editMode]="editMode"></app-box></div>
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[11]" [editMode]="editMode"></app-box></div>
-    <div><app-box [pawnPosition]="pawnPosition" [boxSettings]="boxesSettings[10]" [editMode]="editMode"></app-box></div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[15]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[14]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[13]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[12]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[11]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
+    <div>
+      <app-box [boxSettings]="boxesSettings[10]" [editMode]="editMode" [pawnPosition]="pawnPosition"></app-box>
+    </div>
   </div>
 </div>

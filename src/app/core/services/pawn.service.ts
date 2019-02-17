@@ -9,7 +9,7 @@ import { BoxesService } from './boxes.service';
 import { BoxSettings } from '../interfaces/box-settings';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PawnService {
 
@@ -20,7 +20,12 @@ export class PawnService {
               private matDialog: MatDialog,
               private router: Router,
               private boxesService: BoxesService,
-              private snackbarService: SnackbarService) { }
+              private snackbarService: SnackbarService) {
+  }
+
+  private get calculatePenatlyMoves(): string {
+    return `${this.pawnPosition - 20} ${this.pawnPosition - 20 === 1 ? 'pole' : this.pawnPosition - 20 < 5 ? 'pola' : 'pól'}`;
+  }
 
   public loadPawnPosition(): void {
     this.gameStateService.pawnPosition$.subscribe((pawnPosition: number) => {
@@ -37,7 +42,7 @@ export class PawnService {
   public movePawnTo(drawnNumber: number): void {
     this.gameStateService.sendConsoleMessage({
       type: ConsoleMessageType.INFO,
-      message: `Wylosowano ${drawnNumber}`
+      message: `Wylosowano ${drawnNumber}`,
     });
 
     this.updatePawnPosition(drawnNumber);
@@ -46,7 +51,7 @@ export class PawnService {
   public movePawnToSpecificField(fieldNumber: number): void {
     this.gameStateService.sendConsoleMessage({
       type: ConsoleMessageType.INFO,
-      message: `Przechodzisz na pole ${fieldNumber}`
+      message: `Przechodzisz na pole ${fieldNumber}`,
     });
 
     this.updatePawnPosition(null, fieldNumber);
@@ -85,16 +90,12 @@ export class PawnService {
     if (this.pawnPosition > 20) {
       this.gameStateService.sendConsoleMessage({
         type: ConsoleMessageType.WARNING,
-        message: `Przekroczyłeś/aś metę! Cofasz się o ${this.calculatePenatlyMoves} od mety`
+        message: `Przekroczyłeś/aś metę! Cofasz się o ${this.calculatePenatlyMoves} od mety`,
       });
 
       this.pawnPosition = 20 - (this.pawnPosition - 20);
       this.gameStateService.pawnPosition$.next(this.pawnPosition);
     }
-  }
-
-  private get calculatePenatlyMoves(): string {
-    return `${this.pawnPosition - 20} ${this.pawnPosition - 20 === 1 ? 'pole' : this.pawnPosition - 20 < 5 ? 'pola' : 'pól'}`;
   }
 
   private checkIsWinner(): void {
@@ -137,12 +138,12 @@ export class PawnService {
 
   private openEndGameSummaryBox(isWinner: boolean): void {
     this.matDialog.open(EndGameSummaryComponent, {
-      data: isWinner
+      data: isWinner,
     }).afterClosed().subscribe((startNewGame: boolean) => {
       if (startNewGame) {
         this.gameStateService.resetGameState();
       } else {
-        this.router.navigate(['../', 'home']).then(() => {
+        this.router.navigate([ '../', 'home' ]).then(() => {
           this.snackbarService.success('Zakończono grę');
           this.gameStateService.removeGameState();
         });

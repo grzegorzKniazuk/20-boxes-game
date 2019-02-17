@@ -7,18 +7,20 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: [ './app.component.scss' ],
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  constructor(private snackbarService: SnackbarService, private router: Router) {}
+  constructor(private snackbarService: SnackbarService, private router: Router) {
+  }
 
   ngOnInit() {
     this.snackbarService.watchRouterEventsAndCloseSnackBars();
     this.watchRouterUrl();
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {
+  }
 
   private watchRouterUrl(): void {
     this.router.events.subscribe((event: RouterEvent) => {

@@ -1,18 +1,21 @@
-<div class="box-item" *ngIf="boxSettings" (click)="editMode ? selectBox(): null" >
-  <img class="start--finish-line" *ngIf="boxSettings.id === 1" src="../../../../assets/images/start.png" alt="">
-  <img class="start--finish-line" *ngIf="boxSettings.id === 20" src="../../../../assets/images/finish.png" alt="">
+<div (click)="editMode ? selectBox(): null" *ngIf="boxSettings" class="box-item">
+  <img *ngIf="boxSettings.id === 1" alt="" class="start--finish-line" src="../../../../assets/images/start.png">
+  <img *ngIf="boxSettings.id === 20" alt="" class="start--finish-line" src="../../../../assets/images/finish.png">
 
-  <div class="go-to-message" *ngIf="boxSettings.goTo">
-    <img class="icon" src="../../../../assets/images/back.svg" alt="" [matTooltip]="tooltip">
+  <div *ngIf="boxSettings.goTo" class="go-to-message">
+    <img [matTooltip]="tooltip" alt="" class="icon" src="../../../../assets/images/back.svg">
     <strong>{{ boxSettings.goTo }}</strong>
   </div>
 
-  <img class="dead-icon" *ngIf="boxSettings.dead" src="../../../../assets/images/dead.svg" matTooltip="Gra kończy się porażką" alt="">
-  <img class="go-to-start-icon" *ngIf="boxSettings.goToStart" src="../../../../assets/images/go-back-arrow.svg" matTooltip="Wracasz na pole startowe" alt="">
+  <img *ngIf="boxSettings.dead" alt="" class="dead-icon"
+       matTooltip="Gra kończy się porażką" src="../../../../assets/images/dead.svg">
+  <img *ngIf="boxSettings.goToStart" alt="" class="go-to-start-icon"
+       matTooltip="Wracasz na pole startowe" src="../../../../assets/images/go-back-arrow.svg">
 
   <img [src]="src" alt="box">
-  <div [matTooltip]="editMode && boxSettings.id !== 1 && boxSettings.id !== 20 ? tooltip: 'Nie można edytować tego pola'"
-       *ngIf="editMode"
-       [ngClass]="editMode && boxSettings.id !== 1 && boxSettings.id !== 20 ? 'box-edit-mode': 'disable-edit-mode'"></div>
-  <img class="pawn" *ngIf="pawnInBox" src="../../../../assets/images/pawn.png" alt="">
+  <div
+    *ngIf="editMode"
+    [matTooltip]="editMode && boxSettings.id !== 1 && boxSettings.id !== 20 ? tooltip: 'Nie można edytować tego pola'"
+    [ngClass]="editMode && boxSettings.id !== 1 && boxSettings.id !== 20 ? 'box-edit-mode': 'disable-edit-mode'"></div>
+  <img *ngIf="pawnInBox" alt="" class="pawn" src="../../../../assets/images/pawn.png">
 </div>

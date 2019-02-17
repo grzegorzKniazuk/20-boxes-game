@@ -3,22 +3,27 @@ import { MatSnackBar } from '@angular/material';
 import { Router, RouterEvent } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SnackbarService {
 
-  constructor(private matSnackBar: MatSnackBar, private router: Router) { }
+  constructor(private matSnackBar: MatSnackBar, private router: Router) {
+  }
 
   public success(message: string): void {
     this.matSnackBar.open(message, '', {
-      panelClass: 'snackbar-success'
+      panelClass: 'snackbar-success',
     });
   }
 
   public error(message: string): void {
     this.matSnackBar.open(message, '', {
-      panelClass: 'snackbar-error'
+      panelClass: 'snackbar-error',
     });
+  }
+
+  public close(): void {
+    this.matSnackBar.dismiss();
   }
 
   public watchRouterEventsAndCloseSnackBars(): void {

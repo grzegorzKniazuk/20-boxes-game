@@ -5,11 +5,12 @@ import { BoxSettings } from '../interfaces/box-settings';
 import { BoxesService } from '../services/boxes.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BoxDataResolve implements Resolve<BoxSettings> {
 
-  constructor(private boxesService: BoxesService) {}
+  constructor(private boxesService: BoxesService) {
+  }
 
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<BoxSettings> | Promise<BoxSettings> | BoxSettings {
     return this.boxesService.getBoxSettings(+route.params['id']);

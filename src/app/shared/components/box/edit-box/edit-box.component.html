@@ -1,9 +1,9 @@
 <div class="form-container">
   <ng-container *ngIf="!boxSettings">
     <div class="nav-buttons-container">
-      <mat-icon matTooltip="Wyjdź do menu głównego" (click)="goToHomepage()">home</mat-icon>
-      <button mat-raised-button color="primary" (click)="startNewGame()">Rozpocznij nową grę</button>
-      <button mat-raised-button color="warn" (click)="restoreDefaultSettings()">Przywróć ustawienia domyślne</button>
+      <mat-icon (click)="goToHomepage()" matTooltip="Wyjdź do menu głównego">home</mat-icon>
+      <button (click)="startNewGame()" color="primary" mat-raised-button>Rozpocznij nową grę</button>
+      <button (click)="restoreDefaultSettings()" color="warn" mat-raised-button>Przywróć ustawienia domyślne</button>
     </div>
     <div class="no-box-selected-container">
       <mat-icon>info_outline</mat-icon>
@@ -17,16 +17,18 @@
       <form [formGroup]="editBoxForm">
         <div>Po wejściu przejdź do:</div>
         <mat-form-field>
-          <mat-select placeholder="Wybierz pole" formControlName="goTo">
+          <mat-select formControlName="goTo" placeholder="Wybierz pole">
             <mat-option *ngFor="let id of idsArray" [value]="id">
               {{ id }}
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-slide-toggle class="toggle" color="primary" formControlName="goToStart">Ustaw jako pole powrotu na start</mat-slide-toggle>
-        <mat-slide-toggle class="toggle" color="primary" formControlName="dead">Ustaw jako pole kończące grę</mat-slide-toggle>
+        <mat-slide-toggle class="toggle" color="primary" formControlName="goToStart">Ustaw jako pole powrotu na start
+        </mat-slide-toggle>
+        <mat-slide-toggle class="toggle" color="primary" formControlName="dead">Ustaw jako pole kończące grę
+        </mat-slide-toggle>
         <div class="buttons-container">
-          <button type="submit" mat-raised-button color="primary" (click)="saveBoxOptions()">Zapisz</button>
+          <button (click)="saveBoxOptions()" color="primary" mat-raised-button type="submit">Zapisz</button>
         </div>
       </form>
     </div>

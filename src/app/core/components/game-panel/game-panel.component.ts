@@ -12,7 +12,7 @@ import { RulesComponent } from '../../../shared/components/rules/rules.component
 @AutoUnsubscribe()
 @Component({
   templateUrl: './game-panel.component.html',
-  styleUrls: ['./game-panel.component.scss'],
+  styleUrls: [ './game-panel.component.scss' ],
 
 }) // reset stanu gry przy zmianie regul
 export class GamePanelComponent implements OnInit, OnDestroy {
@@ -25,18 +25,14 @@ export class GamePanelComponent implements OnInit, OnDestroy {
               private router: Router,
               private snackbarService: SnackbarService,
               private matDialog: MatDialog,
-              private pawnService: PawnService) { }
+              private pawnService: PawnService) {
+  }
 
   ngOnInit() {
     this.newGame();
   }
 
-  ngOnDestroy() { }
-
-  private initPawnPosition(): void {
-    this.gameStateService.pawnPosition$.subscribe((pawnPosition: number) => {
-      this.pawnPosition = pawnPosition;
-    });
+  ngOnDestroy() {
   }
 
   public newGame(): void {
@@ -57,7 +53,7 @@ export class GamePanelComponent implements OnInit, OnDestroy {
   }
 
   public saveGameAndGoToHome(): void {
-    this.router.navigate(['../', 'home']).then(() => {
+    this.router.navigate([ '../', 'home' ]).then(() => {
       this.snackbarService.success('Zapisano stan gry');
     }).catch(() => {
       this.snackbarService.error('Wystąpił problem z przekierowaniem na strone główną');
@@ -66,5 +62,11 @@ export class GamePanelComponent implements OnInit, OnDestroy {
 
   public showRules(): void {
     this.matDialog.open(RulesComponent);
+  }
+
+  private initPawnPosition(): void {
+    this.gameStateService.pawnPosition$.subscribe((pawnPosition: number) => {
+      this.pawnPosition = pawnPosition;
+    });
   }
 }

@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { BoxDependencies } from '../interfaces/box-dependencies';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BoxesService {
 
@@ -20,7 +20,8 @@ export class BoxesService {
   constructor(private localStorage: LocalStorage,
               private gameStateService: GameStateService,
               private router: Router,
-              private snackbarService: SnackbarService) { }
+              private snackbarService: SnackbarService) {
+  }
 
   public initBoxesSettings(): void {
     this.localStorage.getItem('boxesSettings')
@@ -58,29 +59,6 @@ export class BoxesService {
     });
   }
 
-  private sendBoxesSettingsLoadMessage(isSaved: boolean = false): void {
-    if (this.router.url.includes('settings') && isSaved) {
-      this.snackbarService.success('Wczytano domyślne ustawienia gry');
-    } else {
-      this.gameStateService.sendConsoleMessage({
-        type: ConsoleMessageType.INFO,
-        message: `Wczytano ${isSaved ? 'domyślne' : ''} ustawienia gry`
-      });
-    }
-  }
-
-  private saveBoxesSettings(boxesSettings: BoxSettings[]): Observable<boolean> {
-    return this.localStorage.setItem('boxesSettings', boxesSettings)
-      .pipe(catchError((error) => {
-        this.snackbarService.error(error);
-        return of(false);
-      }))
-      .pipe(map((isSaved) => {
-        return isSaved;
-      }))
-      .pipe(shareReplay());
-  }
-
   public saveBoxSettings(box: BoxSettings): void {
     this.gameStateService.removeGameState();
 
@@ -95,7 +73,7 @@ export class BoxesService {
     this.saveBoxesSettings(this.boxesSettings).subscribe(() => {
       this.boxesSettings$.next(this.boxesSettings);
 
-      this.router.navigate(['../', 'settings', { outlets: { board: 'board', edit: 'edit' }}]).then(() => {
+      this.router.navigate([ '../', 'settings', { outlets: { board: 'board', edit: 'edit' } } ]).then(() => {
         this.snackbarService.success(`Zapisano ustawienia dla pola ${box.id}`);
       }).catch(() => {
         this.snackbarService.error('Nie udało się powrócić do strony głównej ustawień');
@@ -104,7 +82,7 @@ export class BoxesService {
   }
 
   public getBoxDependencies(id: number): BoxDependencies {
-    const dependencies =  [];
+    const dependencies = [];
 
     for (const box of this.boxesSettings) {
       if (box.goTo === id) {
@@ -115,5 +93,28 @@ export class BoxesService {
     return ({
       cannotMove: dependencies,
     });
+  }
+
+  private sendBoxesSettingsLoadMessage(isSaved: boolean = false): void {
+    if (this.router.url.includes('settings') && isSaved) {
+      this.snackbarService.success('Wczytano domyślne ustawienia gry');
+    } else {
+      this.gameStateService.sendConsoleMessage({
+        type: ConsoleMessageType.INFO,
+        message: `Wczytano ${isSaved ? 'domyślne' : ''} ustawienia gry`,
+      });
+    }
+  }
+
+  private saveBoxesSettings(boxesSettings: BoxSettings[]): Observable<boolean> {
+    return this.localStorage.setItem('boxesSettings', boxesSettings)
+    .pipe(catchError((error) => {
+      this.snackbarService.error(error);
+      return of(false);
+    }))
+    .pipe(map((isSaved) => {
+      return isSaved;
+    }))
+    .pipe(shareReplay());
   }
 }

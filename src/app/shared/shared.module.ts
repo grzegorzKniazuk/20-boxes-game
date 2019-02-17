@@ -36,6 +36,7 @@ import { RulesComponent } from './components/rules/rules.component';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-  ]
+  ],
 })
-export class SharedModule { }
+export class SharedModule {
+}

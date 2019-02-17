@@ -19,7 +19,8 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     MaterialModule,
     RouterModule,
-    SharedModule
-  ]
+    SharedModule,
+  ],
 })
-export class CoreModule { }
+export class CoreModule {
+}

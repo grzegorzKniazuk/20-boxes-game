@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { HomepageComponent } from './core/components/homepage/homepage.component';
 import { GamePanelComponent } from './core/components/game-panel/game-panel.component';
 import { SettingsComponent } from './core/components/settings/settings.component';
@@ -11,21 +11,22 @@ import { BoxDataResolve } from './core/resolves/box-data.resolve';
 import { BoxDependenciesResolve } from './core/resolves/box-dependencies.resolve';
 
 const routes: Routes = [
-  { path: '',
+  {
+    path: '',
     redirectTo: 'home',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'home',
-    component: HomepageComponent
+    component: HomepageComponent,
   },
   {
     path: 'game-panel',
     component: GamePanelComponent,
     resolve: {
-      data: EditModeResolve
+      data: EditModeResolve,
     },
-    runGuardsAndResolvers: 'always'
+    runGuardsAndResolvers: 'always',
   },
   {
     path: 'settings',
@@ -36,14 +37,14 @@ const routes: Routes = [
         component: BoardComponent,
         outlet: 'board',
         resolve: {
-          enableEditMode: EditModeResolve
+          enableEditMode: EditModeResolve,
         },
-        runGuardsAndResolvers: 'always'
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'edit',
         component: EditBoxComponent,
-        outlet: 'edit'
+        outlet: 'edit',
       },
       {
         path: 'edit/:id',
@@ -51,13 +52,13 @@ const routes: Routes = [
         outlet: 'edit',
         resolve: {
           boxData: BoxDataResolve,
-          boxDependencies: BoxDependenciesResolve
+          boxDependencies: BoxDependenciesResolve,
         },
-        runGuardsAndResolvers: 'always'
+        runGuardsAndResolvers: 'always',
       },
-    ]
+    ],
   },
-  { path: '**', component: NotFoundComponent }
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({
@@ -72,4 +73,5 @@ const routes: Routes = [
     RouterModule,
   ],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
