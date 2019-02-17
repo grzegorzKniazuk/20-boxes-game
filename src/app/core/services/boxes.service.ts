@@ -86,12 +86,12 @@ export class BoxesService {
     });
     this.saveBoxesSettings(this.boxesSettings).subscribe(() => {
       this.boxesSettings$.next(this.boxesSettings);
-    });
 
-    this.router.navigate(['../', 'settings', { outlets: { board: 'board', edit: 'edit' }}]).then(() => {
-      this.snackbarService.success(`Zapisano ustawienia dla pola ${box.id}`);
-    }).catch((error) => {
-      this.snackbarService.error('Nie udało się powrócić do strony głównej ustawień');
+      this.router.navigate(['../', 'settings', { outlets: { board: 'board', edit: 'edit' }}]).then(() => {
+        this.snackbarService.success(`Zapisano ustawienia dla pola ${box.id}`);
+      }).catch((error) => {
+        this.snackbarService.error('Nie udało się powrócić do strony głównej ustawień');
+      });
     });
   }
 }

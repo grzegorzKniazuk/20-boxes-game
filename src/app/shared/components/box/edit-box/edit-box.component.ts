@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { BoxSettings } from '../../../../core/interfaces/box-settings';
@@ -18,7 +18,7 @@ export class EditBoxComponent implements OnInit, OnDestroy {
   public boxSettings: BoxSettings;
   public editBoxForm: FormGroup;
   private readonly deleteGoToMessage = 'Usuń właściwość';
-  public readonly idsArray = [this.deleteGoToMessage, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+  public readonly idsArray: [string, number?] = [this.deleteGoToMessage];
 
   constructor(private activatedRoute: ActivatedRoute,
               private formService: FormsService,
@@ -34,6 +34,20 @@ export class EditBoxComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() { }
 
+  private initForm(): void {
+    this.editBoxForm = this.formService.editBoxForm;
+  }
+
+  private loadBoxSettings(): void {
+    this.activatedRoute.data.subscribe((data: { boxData: BoxSettings }) => {
+      if (data.boxData) {
+        this.boxSettings = data.boxData;
+        this.initFormData();
+        this.fillIdsArray();
+      }
+    });
+  }
+
   private redirectfNoDataOnPageReload(): void {
     if (this.router.url.includes('/settings/(board:board//edit:edit/') && !this.boxSettings) {
       this.router.navigateByUrl('/settings/(board:board//edit:edit)').catch(() => {
@@ -42,17 +56,12 @@ export class EditBoxComponent implements OnInit, OnDestroy {
     }
   }
 
-  private loadBoxSettings(): void {
-    this.activatedRoute.data.subscribe((data: { boxData: BoxSettings }) => {
-      if (data.boxData) {
-        this.boxSettings = data.boxData;
-        this.initFormData();
+  private fillIdsArray(): void {
+    for (let id = 2; id <= 19; id++) {
+      if (id !== this.boxSettings.id) {
+        this.idsArray.push(id);
       }
-    });
-  }
-
-  private initForm(): void {
-    this.editBoxForm = this.formService.editBoxForm;
+    }
   }
 
   private initFormData(): void {
@@ -65,6 +74,7 @@ export class EditBoxComponent implements OnInit, OnDestroy {
     }
   }
 
+  @HostListener('document:keydown.enter')
   private saveBoxOptions(): void {
     if (this.editBoxForm.get('goTo').value === this.deleteGoToMessage) {
       this.editBoxForm.get('goTo').setValue(null);
