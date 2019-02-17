@@ -58,7 +58,7 @@ export class BoxesService {
   }
 
   private sendBoxesSettingsLoadMessage(isSaved: boolean = false): void {
-    if (this.router.url.includes('settings')) {
+    if (this.router.url.includes('settings') && isSaved) {
       this.snackbarService.success('Wczytano domyślne ustawienia gry');
     } else {
       this.gameStateService.sendConsoleMessage({
