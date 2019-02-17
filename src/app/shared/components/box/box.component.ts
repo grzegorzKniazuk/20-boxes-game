@@ -17,7 +17,8 @@ export class BoxComponent implements OnInit, AfterContentChecked {
   public tooltip: string;
   public pawnInBox = false;
 
-  constructor(private router: Router, private snackbarService: SnackbarService) { }
+  constructor(private router: Router,
+              private snackbarService: SnackbarService) { }
 
   ngOnInit() {
     this.initBoxBackground();
@@ -45,8 +46,12 @@ export class BoxComponent implements OnInit, AfterContentChecked {
   }
 
   public selectBox(): void {
-    this.router.navigate(['../', 'settings', { outlets: { board: 'board', edit: `edit/${this.boxSettings.id}` }}]).catch(() => {
-      this.snackbarService.error('Błąd pobierania danych do edycji');
-    });
+    if (this.boxSettings.id === 1 || this.boxSettings.id === 20) {
+      this.snackbarService.error(`Nie można edytować pola ${this.boxSettings.id === 1 ? 'startowego' : 'końcowego'}`);
+    } else {
+      this.router.navigate(['../', 'settings', { outlets: { board: 'board', edit: `edit/${this.boxSettings.id}` }}]).catch(() => {
+        this.snackbarService.error('Błąd pobierania danych do edycji');
+      });
+    }
   }
 }

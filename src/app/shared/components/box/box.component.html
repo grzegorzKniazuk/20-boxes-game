@@ -10,6 +10,8 @@
   <img class="dead-icon" *ngIf="boxSettings.dead" src="../../../../assets/images/dead.svg" matTooltip="Gra kończy się porażką" alt="">
 
   <img [src]="src" alt="box">
-  <div [matTooltip]="editMode ? tooltip: null" *ngIf="editMode" [ngClass]="editMode ? 'box-edit-mode': ''"></div>
+  <div [matTooltip]="editMode && boxSettings.id !== 1 && boxSettings.id !== 20 ? tooltip: 'Nie można edytować tego pola'"
+       *ngIf="editMode"
+       [ngClass]="editMode && boxSettings.id !== 1 && boxSettings.id !== 20 ? 'box-edit-mode': 'disable-edit-mode'"></div>
   <img class="pawn" *ngIf="pawnInBox" src="../../../../assets/images/pawn.png" alt="">
 </div>

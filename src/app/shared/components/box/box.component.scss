@@ -52,9 +52,16 @@
   }
 
   .box-edit-mode {
-    @include size(125px, 75px);
+    @include size(125px, 125px);
     z-index: 2;
     position: absolute;
     cursor: pointer;
+  }
+
+  .disable-edit-mode {
+    @include size(125px, 125px);
+    z-index: 2;
+    position: absolute;
+    cursor: not-allowed;
   }
 }
