@@ -19,7 +19,7 @@ export class EditBoxComponent implements OnInit, OnDestroy {
   public boxSettings: BoxSettings;
   public editBoxForm: FormGroup;
   private readonly deleteGoToMessage = 'Usuń właściwość';
-  public readonly idsArray: [string, number?] = [this.deleteGoToMessage];
+  public idsArray: [string, number?];
 
   constructor(private activatedRoute: ActivatedRoute,
               private formService: FormsService,
@@ -59,6 +59,7 @@ export class EditBoxComponent implements OnInit, OnDestroy {
   }
 
   private fillIdsArray(): void {
+    this.idsArray = [this.deleteGoToMessage];
     for (let id = 2; id <= 19; id++) {
       if (id !== this.boxSettings.id) {
         this.idsArray.push(id);
