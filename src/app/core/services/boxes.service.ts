@@ -7,6 +7,7 @@ import { GameStateService } from './game-state.service';
 import { ConsoleMessageType } from '../enums/console-message-type.enum';
 import { SnackbarService } from './snackbar.service';
 import { Router } from '@angular/router';
+import { BoxDependencies } from '../interfaces/box-dependencies';
 
 @Injectable({
   providedIn: 'root'
@@ -99,6 +100,20 @@ export class BoxesService {
       }).catch(() => {
         this.snackbarService.error('Nie udało się powrócić do strony głównej ustawień');
       });
+    });
+  }
+
+  public getBoxDependencies(id: number): BoxDependencies {
+    const dependencies =  [];
+
+    for (const box of this.boxesSettings) {
+      if (box.goTo === id) {
+        dependencies.push(box.id);
+      }
+    }
+
+    return ({
+      cannotMove: dependencies,
     });
   }
 }

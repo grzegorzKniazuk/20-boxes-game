@@ -7,6 +7,10 @@ import { FormGroup } from '@angular/forms';
 import { BoxesService } from '../../../../core/services/boxes.service';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
 import { GameStateService } from '../../../../core/services/game-state.service';
+import { BoxDependencies } from '../../../../core/interfaces/box-dependencies';
+import { merge, Observable } from 'rxjs';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { BoxResolve } from '../../../../core/interfaces/box-resolve';
 
 @AutoUnsubscribe()
 @Component({
@@ -17,9 +21,10 @@ import { GameStateService } from '../../../../core/services/game-state.service';
 export class EditBoxComponent implements OnInit, OnDestroy {
 
   public boxSettings: BoxSettings;
+  private boxDependencies: BoxDependencies;
   public editBoxForm: FormGroup;
   private readonly deleteGoToMessage = 'Usuń właściwość';
-  public idsArray: [string, number?];
+  public idsArray: [string, number?] = [this.deleteGoToMessage];
 
   constructor(private activatedRoute: ActivatedRoute,
               private formService: FormsService,
@@ -30,7 +35,7 @@ export class EditBoxComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
-    this.loadBoxSettings();
+    this.loadEditorBoxData();
     this.redirectfNoDataOnPageReload();
   }
 
@@ -40,14 +45,34 @@ export class EditBoxComponent implements OnInit, OnDestroy {
     this.editBoxForm = this.formService.editBoxForm;
   }
 
-  private loadBoxSettings(): void {
-    this.activatedRoute.data.subscribe((data: { boxData: BoxSettings }) => {
-      if (data.boxData) {
-        this.boxSettings = data.boxData;
-        this.initFormData();
-        this.fillIdsArray();
-      }
+  private loadEditorBoxData(): void {
+    merge(this.loadBoxSettings, this.loadBoxDependencies)
+      .pipe(distinctUntilChanged())
+      .subscribe((data: BoxResolve) => {
+        if (data) {
+          this.boxSettings = data.boxData;
+          this.boxDependencies = data.boxDependencies;
+
+          this.initFormData();
+          this.fillIdsArray();
+        }
     });
+  }
+
+  private get loadBoxSettings(): Observable<{ boxData: BoxSettings }> {
+    return this.activatedRoute.data
+      .pipe(filter((data: BoxResolve) => !!data.boxData && !!data.boxDependencies))
+      .pipe(map((data: { boxData: BoxSettings }) => {
+        return data;
+      }));
+  }
+
+  private get loadBoxDependencies(): Observable<{boxDependencies: BoxDependencies}> {
+    return this.activatedRoute.data
+      .pipe(filter((data: BoxResolve) => !!data.boxData && !!data.boxDependencies))
+      .pipe(map((data: { boxDependencies: BoxDependencies }) => {
+        return data;
+      }));
   }
 
   private redirectfNoDataOnPageReload(): void {
@@ -61,7 +86,7 @@ export class EditBoxComponent implements OnInit, OnDestroy {
   private fillIdsArray(): void {
     this.idsArray = [this.deleteGoToMessage];
     for (let id = 2; id <= 19; id++) {
-      if (id !== this.boxSettings.id) {
+      if (id !== this.boxSettings.id && !this.boxDependencies.cannotMove.includes(id)) {
         this.idsArray.push(id);
       }
     }

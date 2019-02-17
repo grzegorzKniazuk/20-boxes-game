@@ -8,6 +8,7 @@ import { BoardComponent } from './shared/components/board/board.component';
 import { EditBoxComponent } from './shared/components/box/edit-box/edit-box.component';
 import { EditModeResolve } from './core/resolves/edit-mode.resolve';
 import { BoxDataResolve } from './core/resolves/box-data.resolve';
+import { BoxDependenciesResolve } from './core/resolves/box-dependencies.resolve';
 
 const routes: Routes = [
   { path: '',
@@ -21,7 +22,9 @@ const routes: Routes = [
   {
     path: 'game-panel',
     component: GamePanelComponent,
-    resolve: { data: EditModeResolve },
+    resolve: {
+      data: EditModeResolve
+    },
     runGuardsAndResolvers: 'always'
   },
   {
@@ -32,7 +35,9 @@ const routes: Routes = [
         path: 'board',
         component: BoardComponent,
         outlet: 'board',
-        resolve: { enableEditMode: EditModeResolve },
+        resolve: {
+          enableEditMode: EditModeResolve
+        },
         runGuardsAndResolvers: 'always'
       },
       {
@@ -44,7 +49,10 @@ const routes: Routes = [
         path: 'edit/:id',
         component: EditBoxComponent,
         outlet: 'edit',
-        resolve: { boxData: BoxDataResolve },
+        resolve: {
+          boxData: BoxDataResolve,
+          boxDependencies: BoxDependenciesResolve
+        },
         runGuardsAndResolvers: 'always'
       },
     ]
