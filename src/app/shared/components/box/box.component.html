@@ -13,7 +13,7 @@
        matTooltip="Wracasz na pole startowe" src="../../../../assets/images/go-back-arrow.svg">
 
   <div class="box-number">{{ boxSettings.id }}</div>
-  <img [src]="src" alt="box">
+  <img [ngClass]="pawnInBox ? 'box-background' : ''" [src]="src" alt="box">
   <div
     *ngIf="editMode"
     [matTooltip]="editMode && boxSettings.id !== 1 && boxSettings.id !== 20 ? tooltip: 'Nie można edytować tego pola'"

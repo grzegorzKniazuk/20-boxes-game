@@ -44,14 +44,18 @@ export class PawnService {
       type: ConsoleMessageType.INFO,
       message: `Wylosowano ${drawnNumber}`,
     });
+    this.gameStateService.sendConsoleMessage({
+      type: ConsoleMessageType.GOTO,
+      message: `Przechodzisz na pole ${this.pawnPosition + drawnNumber}`,
+    });
 
     this.updatePawnPosition(drawnNumber);
   }
 
   public movePawnToSpecificField(fieldNumber: number): void {
     this.gameStateService.sendConsoleMessage({
-      type: ConsoleMessageType.INFO,
-      message: `Przechodzisz na pole ${fieldNumber}`,
+      type: ConsoleMessageType.MOVED,
+      message: `Zostajesz przeniesiony na pole ${fieldNumber}`,
     });
 
     this.updatePawnPosition(null, fieldNumber);

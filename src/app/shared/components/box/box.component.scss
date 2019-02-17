@@ -51,12 +51,14 @@
     @include size(125px, 125px);
   }
 
+  .box-background {
+    box-sizing: border-box;
+    border: 5px solid $success;
+  }
+
   .pawn {
-    @include size(105px, 105px);
-    position: absolute;
+    @include size(95px, 95px);
     z-index: 3;
-    top: 10px;
-    left: 10px;
   }
 
   .box-edit-mode {
