@@ -12,6 +12,7 @@
   <img *ngIf="boxSettings.goToStart" alt="" class="go-to-start-icon"
        matTooltip="Wracasz na pole startowe" src="../../../../assets/images/go-back-arrow.svg">
 
+  <div class="box-number">{{ boxSettings.id }}</div>
   <img [src]="src" alt="box">
   <div
     *ngIf="editMode"

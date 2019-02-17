@@ -25,6 +25,14 @@
     }
   }
 
+  .box-number {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    text-shadow: 2px 2px $black;
+    z-index: 1;
+  }
+
   .dead-icon, .go-to-start-icon {
     @include size(75px, 75px);
     z-index: 1;
