@@ -52,6 +52,15 @@ export class PawnService {
     this.updatePawnPosition(null, fieldNumber);
   }
 
+  public movePawnToStartField(): void {
+    this.gameStateService.sendConsoleMessage({
+      type: ConsoleMessageType.WARNING,
+      message: `Wracasz na pole startowe`,
+    });
+
+    this.updatePawnPosition(null, 1);
+  }
+
   private updatePawnPosition(drawnNumber: number, fieldNumber?: number): void {
 
     if (drawnNumber) {
@@ -65,6 +74,7 @@ export class PawnService {
     this.checkIsWinner();
     this.checkIsBeaten();
     this.checkIsToMove();
+    this.checkIsToBackToStart();
 
     this.gameStateService.pawnPosition$.next(this.pawnPosition);
 
@@ -113,6 +123,14 @@ export class PawnService {
     for (const box of this.boxesSettings) {
       if (box.goTo && box.id === this.pawnPosition) {
         this.movePawnToSpecificField(box.goTo);
+      }
+    }
+  }
+
+  private checkIsToBackToStart(): void {
+    for (const box of this.boxesSettings) {
+      if (box.goToStart && box.id === this.pawnPosition) {
+        this.movePawnToStartField();
       }
     }
   }

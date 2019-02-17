@@ -25,8 +25,8 @@
     }
   }
 
-  .dead-icon {
-    @include size(100px, 100px);
+  .dead-icon, .go-to-start-icon {
+    @include size(75px, 75px);
     z-index: 1;
   }
 
@@ -46,7 +46,7 @@
   .pawn {
     @include size(105px, 105px);
     position: absolute;
-    z-index: 2;
+    z-index: 3;
     top: 10px;
     left: 10px;
   }

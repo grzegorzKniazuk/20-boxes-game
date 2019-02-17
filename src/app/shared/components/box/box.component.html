@@ -8,6 +8,7 @@
   </div>
 
   <img class="dead-icon" *ngIf="boxSettings.dead" src="../../../../assets/images/dead.svg" matTooltip="Gra kończy się porażką" alt="">
+  <img class="go-to-start-icon" *ngIf="boxSettings.goToStart" src="../../../../assets/images/go-back-arrow.svg" matTooltip="Wracasz na pole startowe" alt="">
 
   <img [src]="src" alt="box">
   <div [matTooltip]="editMode && boxSettings.id !== 1 && boxSettings.id !== 20 ? tooltip: 'Nie można edytować tego pola'"
