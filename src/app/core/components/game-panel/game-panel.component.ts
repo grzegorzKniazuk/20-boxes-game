@@ -6,6 +6,8 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { BoxesService } from '../../services/boxes.service';
 import { Router } from '@angular/router';
 import { SnackbarService } from '../../services/snackbar.service';
+import { MatDialog } from '@angular/material';
+import { RulesComponent } from '../../../shared/components/rules/rules.component';
 
 @AutoUnsubscribe()
 @Component({
@@ -22,6 +24,7 @@ export class GamePanelComponent implements OnInit, OnDestroy {
               private boxesService: BoxesService,
               private router: Router,
               private snackbarService: SnackbarService,
+              private matDialog: MatDialog,
               private pawnService: PawnService) { }
 
   ngOnInit() {
@@ -59,5 +62,9 @@ export class GamePanelComponent implements OnInit, OnDestroy {
     }).catch(() => {
       this.snackbarService.error('Wystąpił problem z przekierowaniem na strone główną');
     });
+  }
+
+  public showRules(): void {
+    this.matDialog.open(RulesComponent);
   }
 }

@@ -7,6 +7,7 @@ import { BoardComponent } from './components/board/board.component';
 import { EndGameSummaryComponent } from './components/end-game-summary/end-game-summary.component';
 import { EditBoxComponent } from './components/box/edit-box/edit-box.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RulesComponent } from './components/rules/rules.component';
 
 @NgModule({
   declarations: [
@@ -15,15 +16,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     BoardComponent,
     EndGameSummaryComponent,
     EditBoxComponent,
+    RulesComponent,
   ],
   entryComponents: [
     EndGameSummaryComponent,
+    RulesComponent,
   ],
   exports: [
     DiceComponent,
     BoardComponent,
     EndGameSummaryComponent,
     EditBoxComponent,
+    RulesComponent,
     FormsModule,
     ReactiveFormsModule,
   ],
