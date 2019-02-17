@@ -21,8 +21,9 @@ const routes: Routes = [
   {
     path: 'game-panel',
     component: GamePanelComponent,
-    resolve: { data: EditModeResolve }
-    },
+    resolve: { data: EditModeResolve },
+    runGuardsAndResolvers: 'always'
+  },
   {
     path: 'settings',
     component: SettingsComponent,
