@@ -29,3 +29,15 @@ mat-error {
   white-space: nowrap;
   max-width: 100% !important;
 }
+
+::ng-deep mat-checkbox {
+  .mat-checkbox-background {
+    background-color: $white;
+  }
+
+  &.mat-checkbox-focused{
+    .mat-ink-ripple{
+      background-color: $white;
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { BoxSettings } from '../../../core/interfaces/box-settings';
-import { BoxesService } from '../../../core/services/boxes.service';
+import { BoxSettings } from 'src/app/core/interfaces/box-settings';
+import { BoxesService } from 'src/app/core/services/boxes.service';
 import { ActivatedRoute } from '@angular/router';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 

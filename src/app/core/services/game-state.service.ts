@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ConsoleMessage } from '../interfaces/console-message';
 import { Statistics } from '../interfaces/statistics';
 import { GameState } from '../interfaces/game-state';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { map } from 'rxjs/operators';
-import { ConsoleMessageType } from '../enums/console-message-type.enum';
+import { ConsoleService } from 'src/app/core/services/console.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class GameStateService { // do poprawki wiadomosci inicjalizacyjne
+export class GameStateService extends ConsoleService {
 
-  public readonly consoleMessages$: BehaviorSubject<ConsoleMessage[]> = new BehaviorSubject<ConsoleMessage[]>(null);
   public readonly pawnPosition$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
   public readonly gameStateAvaiable$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -20,9 +18,9 @@ export class GameStateService { // do poprawki wiadomosci inicjalizacyjne
   private totalThrows = 0;
   private totalAmountDrawnNumbers = 0;
   private averangeAmountDrawnNumbers = 0;
-  private consoleMessages: ConsoleMessage[] = [];
 
   constructor(private localStorage: LocalStorage) {
+    super();
   }
 
   public get gameStateStatistics(): Statistics {
@@ -39,29 +37,15 @@ export class GameStateService { // do poprawki wiadomosci inicjalizacyjne
     }));
   }
 
-  public get resetGameMessage(): ConsoleMessage {
-    return ({
-      type: ConsoleMessageType.WARNING,
-      message: 'Zresetowano stan gry',
-    });
-  }
-
-  public get newGameMessage(): ConsoleMessage {
-    return ({
-      type: ConsoleMessageType.SUCCESS,
-      message: 'Rozpoczęto nową grę',
-    });
-  }
-
   public loadGameState(): void {
     this.gameState.subscribe((state: GameState) => {
       if (state) {
-        this.pawnPosition = state.pawnPosition; // pawn position
+        this.pawnPosition = state.pawnPosition;
         this.totalThrows = state.totalThrows;
         this.totalAmountDrawnNumbers = state.totalAmountDrawnNumbers;
         this.averangeAmountDrawnNumbers = state.averangeAmountDrawnNumbers;
         this.consoleMessages = state.consoleMessages;
-        this.loadGameStateMessage(true);
+        this.onLoadGameStateMessage(true);
 
         this.pawnPosition$.next(this.pawnPosition);
 
@@ -123,17 +107,5 @@ export class GameStateService { // do poprawki wiadomosci inicjalizacyjne
     this.localStorage.removeItem('gameState').subscribe(() => {
       this.gameStateAvaiable$.next(false);
     });
-  }
-
-  public sendConsoleMessage(msg: ConsoleMessage): void {
-    this.consoleMessages.push(msg);
-  }
-
-  private loadGameStateMessage(state: boolean = false): void {
-    this.consoleMessages.push({
-      type: ConsoleMessageType.SUCCESS,
-      message: state ? 'Wczytano grę' : 'Rozpoczęto nową grę',
-    });
-    this.consoleMessages$.next(this.consoleMessages);
   }
 }

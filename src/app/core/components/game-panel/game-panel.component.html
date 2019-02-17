@@ -13,14 +13,21 @@
       </button>
     </div>
     <div class="console-panel">
+      <form [formGroup]="consoleFilterForm">
+        <mat-checkbox formControlName="warning" color="accent"><mat-icon>error_outline</mat-icon></mat-checkbox>
+        <mat-checkbox formControlName="success" color="accent"><mat-icon>arrow_forward_ios</mat-icon></mat-checkbox>
+        <mat-checkbox formControlName="moved" color="accent"><mat-icon>redo</mat-icon></mat-checkbox>
+        <mat-checkbox formControlName="goto" color="accent"><mat-icon>subdirectory_arrow_right</mat-icon></mat-checkbox>
+        <mat-checkbox formControlName="info" color="accent"><mat-icon>refresh</mat-icon></mat-checkbox>
+      </form>
       <p *ngFor="let consoleMessage of gameStateService.consoleMessages$ | async"
          [ngClass]="consoleMessage ? consoleMessage.type : ''">
-        <mat-icon *ngIf="consoleMessage.type === 'warning'">error_outline</mat-icon>
-        <mat-icon *ngIf="consoleMessage.type === 'success'">arrow_forward_ios</mat-icon>
-        <mat-icon *ngIf="consoleMessage.type === 'moved'">redo</mat-icon>
-        <mat-icon *ngIf="consoleMessage.type === 'goto'">subdirectory_arrow_right</mat-icon>
-        <mat-icon *ngIf="consoleMessage.type === 'info'">refresh</mat-icon>
-        {{ consoleMessage ? consoleMessage.message : '' }}</p>
+        <mat-icon *ngIf="consoleMessage.type === 'warning' && consoleFilterRules.warning">error_outline</mat-icon>
+        <mat-icon *ngIf="consoleMessage.type === 'success' && consoleFilterRules.success">arrow_forward_ios</mat-icon>
+        <mat-icon *ngIf="consoleMessage.type === 'moved' && consoleFilterRules.moved">redo</mat-icon>
+        <mat-icon *ngIf="consoleMessage.type === 'goto' && consoleFilterRules.goto">subdirectory_arrow_right</mat-icon>
+        <mat-icon *ngIf="consoleMessage.type === 'info' && consoleFilterRules.info">refresh</mat-icon>
+        {{ consoleMessage | consoleFilter:consoleFilterRules }}</p>
     </div>
     <div class="panel-bottom-button">
       <app-dice (drawnNumber$)="onPawnMove($event)"></app-dice>

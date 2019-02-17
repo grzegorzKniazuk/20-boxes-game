@@ -98,6 +98,12 @@ export class PawnService {
       });
 
       this.pawnPosition = 20 - (this.pawnPosition - 20);
+
+      this.gameStateService.sendConsoleMessage({
+        type: ConsoleMessageType.GOTO,
+        message: `Przechodzisz na pole ${this.pawnPosition}`,
+      });
+
       this.gameStateService.pawnPosition$.next(this.pawnPosition);
     }
   }

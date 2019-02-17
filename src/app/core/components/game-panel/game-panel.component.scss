@@ -40,7 +40,7 @@
 
     .console-panel {
       @include size(95%, calc(100% - 300px));
-      @include flex(flex, flex-end, flex-start, column);
+      @include flex(flex, flex-end, flex-start, column, relative);
       @include font('medium');
       background: darken($background-353, 25%);
       box-sizing: border-box;
@@ -48,8 +48,14 @@
       overflow: hidden;
 
       p {
+        &:not(&:last-of-type) {
+          font-weight: 200;
+          opacity: 0.90;
+        }
+
         &:last-of-type {
           font-weight: 700;
+          opacity: 1;
         }
       }
 
@@ -71,6 +77,11 @@
 
       .goto {
         color: $indigo;
+      }
+
+      form {
+        @include flex(flex, center, center, column, absolute);
+        @include position(5px, 10px);
       }
     }
 

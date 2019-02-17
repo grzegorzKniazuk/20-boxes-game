@@ -17,4 +17,18 @@ export class FormsService {
       goTo: [ null ],
     });
   }
+
+  public get consoleFilterForm(): FormGroup {
+    return this.formBuilder.group({
+      success: [ true ],
+      warning: [ true ],
+      info: [ true ],
+      moved: [ true ],
+      goto: [ true ],
+    });
+  }
+
+  public get formBuilderInstance(): FormBuilder {
+    return this.formBuilder;
+  }
 }

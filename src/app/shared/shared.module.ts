@@ -8,6 +8,7 @@ import { EndGameSummaryComponent } from './components/end-game-summary/end-game-
 import { EditBoxComponent } from './components/box/edit-box/edit-box.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RulesComponent } from './components/rules/rules.component';
+import { ConsoleFilterPipe } from './pipes/console-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { RulesComponent } from './components/rules/rules.component';
     EndGameSummaryComponent,
     EditBoxComponent,
     RulesComponent,
+    ConsoleFilterPipe,
   ],
   entryComponents: [
     EndGameSummaryComponent,
@@ -30,6 +32,7 @@ import { RulesComponent } from './components/rules/rules.component';
     RulesComponent,
     FormsModule,
     ReactiveFormsModule,
+    ConsoleFilterPipe,
   ],
   imports: [
     CommonModule,

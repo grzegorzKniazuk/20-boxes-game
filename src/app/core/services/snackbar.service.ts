@@ -22,10 +22,6 @@ export class SnackbarService {
     });
   }
 
-  public close(): void {
-    this.matSnackBar.dismiss();
-  }
-
   public watchRouterEventsAndCloseSnackBars(): void {
     this.router.events.subscribe((event: RouterEvent) => {
       if (event) {
