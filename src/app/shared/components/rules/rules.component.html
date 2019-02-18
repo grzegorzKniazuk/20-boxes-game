@@ -1,6 +1,21 @@
 <h1 align="center" mat-dialog-title><strong>Zasady gry</strong></h1>
 <div mat-dialog-content align="center">
+  <div class="rules">
+    Rzucaj kostą aby dotrzeć do mety. Po drodze czekają Cię pola specjalne wymienione poniżej:
 
+    <div>
+      <img alt="" src="../../../../assets/images/back.svg">
+      <p>Zostajesz przeniesiony/a na określone pole</p>
+    </div>
+    <div>
+      <img alt="" src="../../../../assets/images/dead.svg">
+      <p>Gra kończy się porażką</p>
+    </div>
+    <div>
+      <img alt="" src="../../../../assets/images/go-back-arrow.svg">
+      <p>Wracasz na pole startowe</p>
+    </div>
+  </div>
 </div>
 <div mat-dialog-actions align="center">
   <button mat-raised-button color="primary" (click)="closeDialog()">OK, rozumiem</button>

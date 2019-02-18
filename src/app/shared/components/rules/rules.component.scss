@@ -1,0 +1,8 @@
+@import "./src/assets/styles/base.scss";
+
+.rules {
+  img {
+    @include size(100px, 100px);
+    margin-top: 30px;
+  }
+}

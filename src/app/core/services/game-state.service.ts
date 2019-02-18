@@ -86,6 +86,7 @@ export class GameStateService extends ConsoleService {
 
     this.pawnPosition$.next(this.pawnPosition);
     this.consoleMessages$.next(this.consoleMessages);
+    this.gameStateAvaiable$.next(false);
 
     this.sendConsoleMessage(this.resetGameMessage);
     this.sendConsoleMessage(this.newGameMessage);

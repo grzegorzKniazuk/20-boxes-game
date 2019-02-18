@@ -101,7 +101,7 @@ export class PawnService {
 
       this.gameStateService.sendConsoleMessage({
         type: ConsoleMessageType.GOTO,
-        message: `Przechodzisz na pole ${this.pawnPosition}`,
+        message: `Przenosisz się na pole ${this.pawnPosition}`,
       });
 
       this.gameStateService.pawnPosition$.next(this.pawnPosition);
