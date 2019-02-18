@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ConsoleFilerRules } from 'src/app/core/interfaces/console-filer-rules';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
-import { debounceTime, filter } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 export class ConsoleComponent {
 
@@ -23,13 +23,6 @@ export class ConsoleComponent {
     this.consoleFilterRules = this.consoleFilterForm.value;
   }
 
-  protected watchConsoleFormFilterChanges(): void {
-    this.consoleFilterForm.valueChanges.subscribe((formValue) => {
-      this.consoleFilterRules = formValue;
-      this.saveConsoleFilterRules();
-    });
-  }
-
   protected loadSavedConsoleFilterRules(): void {
     this.localStorage.getItem('consoleFilterRules').subscribe((rules: ConsoleFilerRules) => {
       if (rules) {
@@ -38,6 +31,15 @@ export class ConsoleComponent {
       } else {
         this.saveConsoleFilterRules();
       }
+      this.watchConsoleFormFilterChanges();
+    });
+  }
+
+  protected watchConsoleFormFilterChanges(): void {
+    this.consoleFilterForm.valueChanges
+    .subscribe((formValue) => {
+      this.consoleFilterRules = formValue;
+      this.saveConsoleFilterRules();
     });
   }
 
@@ -52,7 +54,6 @@ export class ConsoleComponent {
   protected saveConsoleFilterRules(): void {
     this.localStorage.setItem('consoleFilterRules', this.consoleFilterRules)
       .pipe(filter((isSaved) => !!isSaved))
-      .pipe(debounceTime(500))
       .subscribe(() => {
         this.snackbarService.success('Zapisano ustawienia filtrowania konsoli');
       });
