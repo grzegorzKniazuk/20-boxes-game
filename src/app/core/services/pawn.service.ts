@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ConsoleMessageType } from '../enums/console-message-type.enum';
 import { GameStateService } from './game-state.service';
 import { MatDialog } from '@angular/material';
 import { EndGameSummaryComponent } from '../../shared/components/end-game-summary/end-game-summary.component';
@@ -40,38 +39,21 @@ export class PawnService {
   }
 
   public movePawnTo(drawnNumber: number): void {
-    this.gameStateService.sendConsoleMessage({
-      type: ConsoleMessageType.INFO,
-      message: `Wylosowano ${drawnNumber}`,
-    });
-    this.gameStateService.sendConsoleMessage({
-      type: ConsoleMessageType.GOTO,
-      message: `Przechodzisz na pole ${this.pawnPosition + drawnNumber}`,
-    });
-
+    this.gameStateService.movePawnToMessage(drawnNumber, this.pawnPosition);
     this.updatePawnPosition(drawnNumber);
   }
 
   public movePawnToSpecificField(fieldNumber: number): void {
-    this.gameStateService.sendConsoleMessage({
-      type: ConsoleMessageType.MOVED,
-      message: `Zostajesz przeniesiony na pole ${fieldNumber}`,
-    });
-
+    this.gameStateService.movePawnToSpecificFieldMessage(fieldNumber);
     this.updatePawnPosition(null, fieldNumber);
   }
 
   public movePawnToStartField(): void {
-    this.gameStateService.sendConsoleMessage({
-      type: ConsoleMessageType.WARNING,
-      message: `Wracasz na pole startowe`,
-    });
-
+    this.gameStateService.sendConsoleMessage(this.gameStateService.movePawnToStartFieldMessage);
     this.updatePawnPosition(null, 1);
   }
 
   private updatePawnPosition(drawnNumber: number, fieldNumber?: number): void {
-
     if (drawnNumber) {
       this.pawnPosition += drawnNumber;
     } else {
@@ -92,17 +74,9 @@ export class PawnService {
 
   private checkPawnPosition(): void {
     if (this.pawnPosition > 20) {
-      this.gameStateService.sendConsoleMessage({
-        type: ConsoleMessageType.WARNING,
-        message: `Przekroczyłeś/aś metę! Cofasz się o ${this.calculatePenatlyMoves} od mety`,
-      });
+      this.gameStateService.exceedFinishLineMessage(this.calculatePenatlyMoves, this.pawnPosition);
 
       this.pawnPosition = 20 - (this.pawnPosition - 20);
-
-      this.gameStateService.sendConsoleMessage({
-        type: ConsoleMessageType.GOTO,
-        message: `Przenosisz się na pole ${this.pawnPosition}`,
-      });
 
       this.gameStateService.pawnPosition$.next(this.pawnPosition);
     }
@@ -110,10 +84,7 @@ export class PawnService {
 
   private checkIsWinner(): void {
     if (this.pawnPosition === 20) {
-      this.gameStateService.sendConsoleMessage({
-        type: ConsoleMessageType.SUCCESS,
-        message: 'BRAWO, WYGRAŁEŚ/AŚ!',
-      });
+      this.gameStateService.winnerOfBeatenMessage(true);
       this.openEndGameSummaryBox(true);
     }
   }
@@ -121,10 +92,7 @@ export class PawnService {
   private checkIsBeaten(): void {
     for (const box of this.boxesSettings) {
       if (box.dead && box.id === this.pawnPosition) {
-        this.gameStateService.sendConsoleMessage({
-          type: ConsoleMessageType.WARNING,
-          message: 'PRZEGRANA! SPRÓBUJ JESZCZE RAZ!',
-        });
+        this.gameStateService.winnerOfBeatenMessage(false);
         this.openEndGameSummaryBox(false);
       }
     }

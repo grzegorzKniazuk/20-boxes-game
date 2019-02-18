@@ -36,4 +36,54 @@ export class ConsoleService {
       message: 'Rozpoczęto nową grę',
     });
   }
+
+  public get movePawnToStartFieldMessage(): ConsoleMessage {
+    return ({
+      type: ConsoleMessageType.WARNING,
+      message: `Wracasz na pole startowe`,
+    });
+  }
+
+  public movePawnToMessage(drawnNumber: number, pawnPosition: number): void {
+    this.sendConsoleMessage({
+      type: ConsoleMessageType.INFO,
+      message: `Wylosowano ${drawnNumber}`,
+    });
+    this.sendConsoleMessage({
+      type: ConsoleMessageType.GOTO,
+      message: `Przechodzisz na pole ${pawnPosition + drawnNumber}`,
+    });
+  }
+
+  public movePawnToSpecificFieldMessage(fieldNumber: number): void {
+    this.sendConsoleMessage({
+      type: ConsoleMessageType.MOVED,
+      message: `Zostajesz przeniesiony na pole ${fieldNumber}`,
+    });
+  }
+
+  public exceedFinishLineMessage(penatlyMoves: string, pawnPosition: number): void {
+    this.sendConsoleMessage({
+      type: ConsoleMessageType.WARNING,
+      message: `Przekroczyłeś/aś metę! Cofasz się o ${penatlyMoves} od mety`,
+    });
+    this.sendConsoleMessage({
+      type: ConsoleMessageType.GOTO,
+      message: `Przenosisz się na pole ${pawnPosition}`,
+    });
+  }
+
+  public winnerOfBeatenMessage(isWinner: boolean): void {
+    this.sendConsoleMessage({
+      type: isWinner ? ConsoleMessageType.SUCCESS : ConsoleMessageType.WARNING,
+      message: isWinner ?  'BRAWO, WYGRAŁEŚ/AŚ!' : 'PRZEGRANA! SPRÓBUJ JESZCZE RAZ!',
+    });
+  }
+
+  public loadSavedOfDefaultGameSettings(isSaved: boolean): void {
+    this.sendConsoleMessage({
+      type: ConsoleMessageType.INFO,
+      message: `Wczytano ${isSaved ? 'domyślne' : ''} ustawienia gry`,
+    });
+  }
 }

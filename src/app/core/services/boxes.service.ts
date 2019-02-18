@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { BoxSettings } from '../interfaces/box-settings';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map, shareReplay } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { GameStateService } from './game-state.service';
-import { ConsoleMessageType } from '../enums/console-message-type.enum';
 import { SnackbarService } from './snackbar.service';
 import { Router } from '@angular/router';
 import { BoxDependencies } from '../interfaces/box-dependencies';
@@ -99,22 +98,18 @@ export class BoxesService {
     if (this.router.url.includes('settings') && isSaved) {
       this.snackbarService.success('Wczytano domyślne ustawienia gry');
     } else {
-      this.gameStateService.sendConsoleMessage({
-        type: ConsoleMessageType.INFO,
-        message: `Wczytano ${isSaved ? 'domyślne' : ''} ustawienia gry`,
-      });
+      this.gameStateService.loadSavedOfDefaultGameSettings(isSaved);
     }
   }
 
   private saveBoxesSettings(boxesSettings: BoxSettings[]): Observable<boolean> {
     return this.localStorage.setItem('boxesSettings', boxesSettings)
-    .pipe(catchError((error) => {
-      this.snackbarService.error(error);
-      return of(false);
-    }))
-    .pipe(map((isSaved) => {
-      return isSaved;
-    }))
-    .pipe(shareReplay());
+      .pipe(catchError((error) => {
+        this.snackbarService.error(error);
+        return of(false);
+      }))
+      .pipe(map((isSaved) => {
+        return isSaved;
+      }));
   }
 }
