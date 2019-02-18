@@ -7,7 +7,6 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: [ './app.component.scss' ],
 })
 export class AppComponent implements OnInit, OnDestroy {
 
@@ -25,7 +24,9 @@ export class AppComponent implements OnInit, OnDestroy {
   private watchRouterUrl(): void {
     this.router.events.subscribe((event: RouterEvent) => {
       if (event.url === '/settings') {
-        this.router.navigateByUrl('/settings/(board:board//edit:edit)');
+        this.router.navigateByUrl('/settings/(board:board//edit:edit)').catch(() => {
+          this.snackbarService.error('Wystąpił błąd routingu');
+        });
       }
     });
   }
