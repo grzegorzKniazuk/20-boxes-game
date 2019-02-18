@@ -27,8 +27,9 @@
         </mat-slide-toggle>
         <mat-slide-toggle class="toggle" color="primary" formControlName="dead">Ustaw jako pole kończące grę
         </mat-slide-toggle>
-        <div class="buttons-container">
+        <div class="edit-buttons-container">
           <button (click)="saveBoxOptions()" color="primary" mat-raised-button type="submit">Zapisz</button>
+          <button (click)="abortBoxEditing()" mat-raised-button>Anuluj</button>
         </div>
       </form>
     </div>

@@ -113,9 +113,7 @@ export class EditBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private redirectfNoDataOnPageReload(): void {
     if (this.router.url.includes('/settings/(board:board//edit:edit/') && !this.boxSettings) {
-      this.router.navigateByUrl('/settings/(board:board//edit:edit)').catch(() => {
-        this.snackbarService.error('Błąd przekierowania do ustawień gry');
-      });
+      this.abortBoxEditing();
     }
   }
 
@@ -140,7 +138,7 @@ export class EditBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   @HostListener('document:keydown.enter')
-  private saveBoxOptions(): void {
+  public saveBoxOptions(): void {
     if (this.editBoxForm.get('goTo').value === this.deleteGoToValue) {
       this.editBoxForm.get('goTo').setValue(null);
     }
@@ -148,6 +146,13 @@ export class EditBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.editBoxForm.valid) {
       this.boxesService.saveBoxSettings(this.editBoxForm.value);
     }
+  }
+
+  @HostListener('document:keydown.esc')
+  public abortBoxEditing(): void {
+    this.router.navigateByUrl('/settings/(board:board//edit:edit)').catch(() => {
+      this.snackbarService.error('Błąd przekierowania do ustawień gry');
+    });
   }
 
   private watchFormChanges(): void {

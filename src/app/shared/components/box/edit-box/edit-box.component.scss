@@ -67,9 +67,15 @@
         margin: 30px 0 15px;
       }
 
-      button {
-        @include size(200px, 40px);
+      .edit-buttons-container {
+        @include flex(flex, space-between, center, column);
         margin-top: 30px;
+        height: 100px;
+
+        button {
+          @include size(200px, 40px);
+
+        }
       }
     }
   }
