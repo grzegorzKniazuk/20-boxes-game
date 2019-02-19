@@ -9,6 +9,7 @@ import { EditBoxComponent } from './shared/components/box/edit-box/edit-box.comp
 import { EditModeResolve } from './core/resolves/edit-mode.resolve';
 import { BoxDataResolve } from './core/resolves/box-data.resolve';
 import { BoxDependenciesResolve } from './core/resolves/box-dependencies.resolve';
+import { BoxesSettingsResolve } from 'src/app/core/resolves/boxes-settings.resolve';
 
 const routes: Routes = [
   {
@@ -38,6 +39,7 @@ const routes: Routes = [
         outlet: 'board',
         resolve: {
           enableEditMode: EditModeResolve,
+          boxesSettings: BoxesSettingsResolve
         },
         runGuardsAndResolvers: 'always',
       },

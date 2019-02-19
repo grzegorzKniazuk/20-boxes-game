@@ -5,15 +5,12 @@ import { EndGameSummaryComponent } from '../../shared/components/end-game-summar
 import { Router } from '@angular/router';
 import { SnackbarService } from './snackbar.service';
 import { BoxesService } from './boxes.service';
-import { BoxSettings } from '../interfaces/box-settings';
 import { StoreService } from 'src/app/core/services/store.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PawnService {
-
-  private boxesSettings: BoxSettings[];
 
   constructor(private gameStateService: GameStateService,
               private matDialog: MatDialog,
@@ -25,12 +22,6 @@ export class PawnService {
 
   private get calculatePenatlyMoves(): string {
     return `${this.storeService.pawnPosition - 20} ${this.storeService.pawnPosition - 20 === 1 ? 'pole' : this.storeService.pawnPosition - 20 < 5 ? 'pola' : 'pól'}`;
-  }
-
-  public initBoxesSettings(): void {
-    this.boxesService.boxesSettings$.subscribe((boxes: BoxSettings[]) => {
-      this.boxesSettings = boxes;
-    });
   }
 
   public movePawnTo(drawnNumber: number): void {
@@ -81,7 +72,7 @@ export class PawnService {
   }
 
   private checkIsBeaten(): void {
-    for (const box of this.boxesSettings) {
+    for (const box of this.storeService.boxesSettings) {
       if (box.dead && box.id === this.storeService.pawnPosition) {
         this.gameStateService.winnerOfBeatenMessage(false);
         this.openEndGameSummaryBox(false);
@@ -90,7 +81,7 @@ export class PawnService {
   }
 
   private checkIsToMove(): void {
-    for (const box of this.boxesSettings) {
+    for (const box of this.storeService.boxesSettings) {
       if (box.goTo && box.id === this.storeService.pawnPosition) {
         this.movePawnToSpecificField(box.goTo);
       }
@@ -98,7 +89,7 @@ export class PawnService {
   }
 
   private checkIsToBackToStart(): void {
-    for (const box of this.boxesSettings) {
+    for (const box of this.storeService.boxesSettings) {
       if (box.goToStart && box.id === this.storeService.pawnPosition) {
         this.movePawnToStartField();
       }

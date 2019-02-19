@@ -1,34 +1,32 @@
 import { Injectable } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { BoxSettings } from '../interfaces/box-settings';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { GameStateService } from './game-state.service';
 import { SnackbarService } from './snackbar.service';
 import { Router } from '@angular/router';
 import { BoxDependencies } from '../interfaces/box-dependencies';
+import { StoreService } from 'src/app/core/services/store.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BoxesService {
 
-  public readonly boxesSettings$: BehaviorSubject<BoxSettings[]> = new BehaviorSubject<BoxSettings[]>(null);
-  private boxesSettings: BoxSettings[] = [];
-
   constructor(private localStorage: LocalStorage,
               private gameStateService: GameStateService,
               private router: Router,
+              private storeService: StoreService,
               private snackbarService: SnackbarService) {
   }
 
-  public initBoxesSettings(): void {
+  public loadBoxesSettings(): void {
     this.localStorage.getItem('boxesSettings')
     .subscribe((boxes: BoxSettings[]) => {
       if (boxes) {
         this.sendBoxesSettingsLoadMessage();
-        this.boxesSettings = boxes;
-        this.boxesSettings$.next(boxes);
+        this.storeService.boxesSettings = boxes;
       } else {
         return this.setBoxesDefaultSettings();
       }
@@ -36,15 +34,14 @@ export class BoxesService {
   }
 
   public getBoxSettings(id: number): BoxSettings {
-    return this.boxesSettings.find((settings: BoxSettings) => {
+    return this.storeService.boxesSettings.find((settings: BoxSettings) => {
       return settings.id === id;
     });
   }
 
   public setBoxesDefaultSettings(): void {
-    this.boxesSettings = [];
     for (let i = 0; i < 20; i++) {
-      this.boxesSettings.push({
+      this.storeService.boxesSettings.push({
         id: i + 1,
         dead: i + 1 === 12,
         goToStart: false,
@@ -52,16 +49,15 @@ export class BoxesService {
       });
     }
 
-    this.saveBoxesSettings(this.boxesSettings).subscribe((isSaved) => {
+    this.saveBoxesSettings(this.storeService.boxesSettings).subscribe((isSaved) => {
       this.sendBoxesSettingsLoadMessage(isSaved);
-      this.boxesSettings$.next(this.boxesSettings);
     });
   }
 
   public saveBoxSettings(box: BoxSettings): void {
     this.gameStateService.removeGameState();
 
-    this.boxesSettings = this.boxesSettings.map((boxSettings: BoxSettings) => {
+    this.storeService.boxesSettings = this.storeService.boxesSettings.map((boxSettings: BoxSettings) => {
       if (boxSettings.id === box.id) {
         boxSettings.dead = box.dead;
         boxSettings.goToStart = box.goToStart;
@@ -69,8 +65,7 @@ export class BoxesService {
       }
       return boxSettings;
     });
-    this.saveBoxesSettings(this.boxesSettings).subscribe(() => {
-      this.boxesSettings$.next(this.boxesSettings);
+    this.saveBoxesSettings(this.storeService.boxesSettings).subscribe(() => {
 
       this.router.navigate([ '../', 'settings', { outlets: { board: 'board', edit: 'edit' } } ]).then(() => {
         this.snackbarService.success(`Zapisano ustawienia dla pola ${box.id}`);
@@ -83,7 +78,7 @@ export class BoxesService {
   public getBoxDependencies(id: number): BoxDependencies {
     const dependencies = [];
 
-    for (const box of this.boxesSettings) {
+    for (const box of this.storeService.boxesSettings) {
       if (box.goTo === id) {
         dependencies.push(box.id);
       }

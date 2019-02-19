@@ -39,10 +39,8 @@ export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDe
   }
 
   public newGame(): void {
-    this.boxesService.initBoxesSettings();
-    this.storeService.initPawnPosition();
+    this.boxesService.loadBoxesSettings();
     this.gameStateService.loadGameState();
-    this.pawnService.initBoxesSettings();
   }
 
   public resetGame(): void {
