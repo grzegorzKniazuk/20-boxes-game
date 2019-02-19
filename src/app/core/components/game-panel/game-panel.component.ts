@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { GameStateService } from '../../services/game-state.service';
 import { PawnService } from '../../services/pawn.service';
-import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { BoxesService } from '../../services/boxes.service';
 import { Router } from '@angular/router';
 import { SnackbarService } from '../../services/snackbar.service';
@@ -10,15 +9,13 @@ import { MatDialog } from '@angular/material';
 import { RulesComponent } from 'src/app/shared/components/rules/rules.component';
 import { FormsService } from 'src/app/core/services/forms.service';
 import { ConsoleComponent } from 'src/app/core/components/game-panel/console.component';
+import { StoreService } from 'src/app/core/services/store.service';
 
-@AutoUnsubscribe()
 @Component({
   templateUrl: './game-panel.component.html',
   styleUrls: [ './game-panel.component.scss' ],
 })
 export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDestroy {
-
-  public pawnPosition = 1;
 
   constructor(protected localStorage: LocalStorage,
               public gameStateService: GameStateService,
@@ -27,6 +24,7 @@ export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDe
               protected snackbarService: SnackbarService,
               private matDialog: MatDialog,
               protected formService: FormsService,
+              public storeService: StoreService,
               private pawnService: PawnService) {
     super(formService, localStorage, snackbarService);
   }
@@ -42,10 +40,8 @@ export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDe
 
   public newGame(): void {
     this.boxesService.initBoxesSettings();
-    this.initPawnPosition();
-    this.gameStateService.initPawnPosition();
+    this.storeService.initPawnPosition();
     this.gameStateService.loadGameState();
-    this.pawnService.loadPawnPosition();
     this.pawnService.initBoxesSettings();
   }
 
@@ -67,11 +63,5 @@ export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDe
 
   public showRules(): void {
     this.matDialog.open(RulesComponent);
-  }
-
-  private initPawnPosition(): void {
-    this.gameStateService.pawnPosition$.subscribe((pawnPosition: number) => {
-      this.pawnPosition = pawnPosition;
-    });
   }
 }

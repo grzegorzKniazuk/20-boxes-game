@@ -5,21 +5,19 @@ import { GameState } from '../interfaces/game-state';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { map } from 'rxjs/operators';
 import { ConsoleService } from 'src/app/core/services/console.service';
+import { StoreService } from 'src/app/core/services/store.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameStateService extends ConsoleService {
-
-  public readonly pawnPosition$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
   public readonly gameStateAvaiable$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  private pawnPosition: number;
   private totalThrows = 0;
   private totalAmountDrawnNumbers = 0;
   private averangeAmountDrawnNumbers = 0;
 
-  constructor(private localStorage: LocalStorage) {
+  constructor(private localStorage: LocalStorage, private storeService: StoreService) {
     super();
   }
 
@@ -40,14 +38,12 @@ export class GameStateService extends ConsoleService {
   public loadGameState(): void {
     this.gameState.subscribe((state: GameState) => {
       if (state) {
-        this.pawnPosition = state.pawnPosition;
+        this.storeService.pawnPosition = state.pawnPosition;
         this.totalThrows = state.totalThrows;
         this.totalAmountDrawnNumbers = state.totalAmountDrawnNumbers;
         this.averangeAmountDrawnNumbers = state.averangeAmountDrawnNumbers;
         this.consoleMessages = state.consoleMessages;
         this.onLoadGameStateMessage(true);
-
-        this.pawnPosition$.next(this.pawnPosition);
 
         this.setGameState();
       } else {
@@ -66,12 +62,6 @@ export class GameStateService extends ConsoleService {
     });
   }
 
-  public initPawnPosition(): void {
-    this.pawnPosition$.subscribe((pawnPosition: number) => {
-      this.pawnPosition = pawnPosition;
-    });
-  }
-
   public updateGameStateStatistics(pawnPosition: number, drawnNumber: number): void {
     this.totalThrows = !this.totalThrows ? 1 : this.totalThrows + 1;
     this.totalAmountDrawnNumbers += drawnNumber;
@@ -79,12 +69,11 @@ export class GameStateService extends ConsoleService {
   }
 
   public resetGameState(): void {
-    this.pawnPosition = 1;
+    this.storeService.pawnPosition = 1;
     this.totalThrows = 0;
     this.totalAmountDrawnNumbers = 0;
     this.consoleMessages = [];
 
-    this.pawnPosition$.next(this.pawnPosition);
     this.consoleMessages$.next(this.consoleMessages);
     this.gameStateAvaiable$.next(false);
 
@@ -96,7 +85,7 @@ export class GameStateService extends ConsoleService {
 
   public setGameState(): void {
     this.localStorage.setItem('gameState', {
-      pawnPosition: this.pawnPosition,
+      pawnPosition: this.storeService.pawnPosition,
       totalThrows: this.totalThrows,
       totalAmountDrawnNumbers: this.totalAmountDrawnNumbers,
       averangeAmountDrawnNumbers: this.averangeAmountDrawnNumbers,

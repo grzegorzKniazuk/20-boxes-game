@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { SnackbarService } from './snackbar.service';
 import { BoxesService } from './boxes.service';
 import { BoxSettings } from '../interfaces/box-settings';
+import { StoreService } from 'src/app/core/services/store.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,23 +14,17 @@ import { BoxSettings } from '../interfaces/box-settings';
 export class PawnService {
 
   private boxesSettings: BoxSettings[];
-  private pawnPosition = 1;
 
   constructor(private gameStateService: GameStateService,
               private matDialog: MatDialog,
               private router: Router,
               private boxesService: BoxesService,
+              private storeService: StoreService,
               private snackbarService: SnackbarService) {
   }
 
   private get calculatePenatlyMoves(): string {
-    return `${this.pawnPosition - 20} ${this.pawnPosition - 20 === 1 ? 'pole' : this.pawnPosition - 20 < 5 ? 'pola' : 'pól'}`;
-  }
-
-  public loadPawnPosition(): void {
-    this.gameStateService.pawnPosition$.subscribe((pawnPosition: number) => {
-      this.pawnPosition = pawnPosition;
-    });
+    return `${this.storeService.pawnPosition - 20} ${this.storeService.pawnPosition - 20 === 1 ? 'pole' : this.storeService.pawnPosition - 20 < 5 ? 'pola' : 'pól'}`;
   }
 
   public initBoxesSettings(): void {
@@ -39,7 +34,7 @@ export class PawnService {
   }
 
   public movePawnTo(drawnNumber: number): void {
-    this.gameStateService.movePawnToMessage(drawnNumber, this.pawnPosition);
+    this.gameStateService.movePawnToMessage(drawnNumber, this.storeService.pawnPosition);
     this.updatePawnPosition(drawnNumber);
   }
 
@@ -55,35 +50,31 @@ export class PawnService {
 
   private updatePawnPosition(drawnNumber: number, fieldNumber?: number): void {
     if (drawnNumber) {
-      this.pawnPosition += drawnNumber;
+      this.storeService.pawnPosition += drawnNumber;
     } else {
-      this.pawnPosition = fieldNumber;
+      this.storeService.pawnPosition = fieldNumber;
     }
 
-    this.gameStateService.updateGameStateStatistics(this.pawnPosition, drawnNumber || fieldNumber);
+    this.gameStateService.updateGameStateStatistics(this.storeService.pawnPosition, drawnNumber || fieldNumber);
     this.checkPawnPosition();
     this.checkIsWinner();
     this.checkIsBeaten();
     this.checkIsToMove();
     this.checkIsToBackToStart();
 
-    this.gameStateService.pawnPosition$.next(this.pawnPosition);
-
     this.gameStateService.setGameState();
   }
 
   private checkPawnPosition(): void {
-    if (this.pawnPosition > 20) {
-      this.gameStateService.exceedFinishLineMessage(this.calculatePenatlyMoves, this.pawnPosition);
+    if (this.storeService.pawnPosition > 20) {
+      this.gameStateService.exceedFinishLineMessage(this.calculatePenatlyMoves, this.storeService.pawnPosition);
 
-      this.pawnPosition = 20 - (this.pawnPosition - 20);
-
-      this.gameStateService.pawnPosition$.next(this.pawnPosition);
+      this.storeService.pawnPosition = 20 - (this.storeService.pawnPosition - 20);
     }
   }
 
   private checkIsWinner(): void {
-    if (this.pawnPosition === 20) {
+    if (this.storeService.pawnPosition === 20) {
       this.gameStateService.winnerOfBeatenMessage(true);
       this.openEndGameSummaryBox(true);
     }
@@ -91,7 +82,7 @@ export class PawnService {
 
   private checkIsBeaten(): void {
     for (const box of this.boxesSettings) {
-      if (box.dead && box.id === this.pawnPosition) {
+      if (box.dead && box.id === this.storeService.pawnPosition) {
         this.gameStateService.winnerOfBeatenMessage(false);
         this.openEndGameSummaryBox(false);
       }
@@ -100,7 +91,7 @@ export class PawnService {
 
   private checkIsToMove(): void {
     for (const box of this.boxesSettings) {
-      if (box.goTo && box.id === this.pawnPosition) {
+      if (box.goTo && box.id === this.storeService.pawnPosition) {
         this.movePawnToSpecificField(box.goTo);
       }
     }
@@ -108,7 +99,7 @@ export class PawnService {
 
   private checkIsToBackToStart(): void {
     for (const box of this.boxesSettings) {
-      if (box.goToStart && box.id === this.pawnPosition) {
+      if (box.goToStart && box.id === this.storeService.pawnPosition) {
         this.movePawnToStartField();
       }
     }

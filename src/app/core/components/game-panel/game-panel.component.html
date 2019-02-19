@@ -1,6 +1,6 @@
 <div class="game-panel-container">
   <div class="board-container">
-    <app-board [pawnPosition]="pawnPosition"></app-board>
+    <app-board [pawnPosition]="(storeService.pawnPosition$ | async)"></app-board>
   </div>
   <div class="panel-container">
     <div class="panel-top-buttons">
