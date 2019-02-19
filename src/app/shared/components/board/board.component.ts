@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { BoxSettings } from 'src/app/core/interfaces/box-settings';
 import { ActivatedRoute } from '@angular/router';
 import { StoreService } from 'src/app/core/services/store.service';
-import { BoxesService } from 'src/app/core/services/boxes.service';
 
 @Component({
   selector: 'app-board',
@@ -14,8 +13,7 @@ export class BoardComponent implements OnInit {
   @Input() public boxesSettings: BoxSettings[];
   public editMode: boolean;
 
-  constructor(private boxesService: BoxesService,
-              private storeService: StoreService,
+  constructor(private storeService: StoreService,
               private activatedRoute: ActivatedRoute) {
   }
 
