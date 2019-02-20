@@ -10,7 +10,9 @@ import { RulesComponent } from 'src/app/shared/components/rules/rules.component'
 import { FormsService } from 'src/app/core/services/forms.service';
 import { ConsoleComponent } from 'src/app/core/components/game-panel/console.component';
 import { StoreService } from 'src/app/core/services/store.service';
+import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 
+@AutoUnsubscribe()
 @Component({
   templateUrl: './game-panel.component.html',
   styleUrls: [ './game-panel.component.scss' ],
@@ -32,6 +34,7 @@ export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDe
   ngOnInit() {
     this.newGame();
     this.initConsole();
+    this.checkDeadState();
   }
 
   ngOnDestroy() {
@@ -60,5 +63,13 @@ export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDe
 
   public showRules(): void {
     this.matDialog.open(RulesComponent);
+  }
+
+  private checkDeadState(): void {
+    this.gameStateService.deadState.subscribe((isDead) => {
+      if (isDead) {
+        this.pawnService.openEndGameSummaryBox(false);
+      }
+    });
   }
 }

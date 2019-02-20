@@ -11,7 +11,7 @@ export class HomepageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.gameStateService.isGameStateAvaiable();
+
   }
 
   public initNewGame(): void {

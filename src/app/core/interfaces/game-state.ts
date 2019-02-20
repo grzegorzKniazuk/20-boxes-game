@@ -4,4 +4,6 @@ import { ConsoleMessage } from './console-message';
 export interface GameState extends Statistics {
   pawnPosition: number;
   consoleMessages: ConsoleMessage[];
+  deadState: boolean;
+  gameStateAvailable: boolean;
 }

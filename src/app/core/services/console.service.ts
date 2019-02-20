@@ -20,7 +20,6 @@ export class ConsoleService {
       type: ConsoleMessageType.SUCCESS,
       message: state ? 'Wczytano grę' : 'Rozpoczęto nową grę',
     });
-    this.consoleMessages$.next(this.consoleMessages);
   }
 
   public get resetGameMessage(): ConsoleMessage {

@@ -25,7 +25,7 @@ export class BoxesService {
     this.localStorage.getItem('boxesSettings')
     .subscribe((boxes: BoxSettings[]) => {
       if (boxes) {
-        this.sendBoxesSettingsLoadMessage();
+        this.sendBoxesSettingsLoadMessage(false);
         this.storeService.boxesSettings = boxes;
       } else {
         return this.setBoxesDefaultSettings();
@@ -58,7 +58,7 @@ export class BoxesService {
   }
 
   public saveBoxSettings(box: BoxSettings): void {
-    this.gameStateService.removeGameState();
+    this.gameStateService.resetGameState();
 
     this.storeService.boxesSettings = this.storeService.boxesSettings.map((boxSettings: BoxSettings) => {
       if (boxSettings.id === box.id) {
@@ -91,11 +91,15 @@ export class BoxesService {
     return { cannotMove: dependencies };
   }
 
-  private sendBoxesSettingsLoadMessage(isSaved: boolean = false): void {
+  private sendBoxesSettingsLoadMessage(isSaved: boolean): void {
     if (this.router.url.includes('settings') && isSaved) {
       this.snackbarService.success('Wczytano domyślne ustawienia gry');
     } else {
-      this.gameStateService.loadSavedOfDefaultGameSettings(isSaved);
+      this.gameStateService.deadState.subscribe((deadState) => {
+        if (!deadState) {
+          this.gameStateService.loadSavedOfDefaultGameSettings(isSaved);
+        }
+      });
     }
   }
 
