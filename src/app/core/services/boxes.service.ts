@@ -8,6 +8,8 @@ import { SnackbarService } from './snackbar.service';
 import { Router } from '@angular/router';
 import { BoxDependencies } from '../interfaces/box-dependencies';
 import { StoreService } from 'src/app/core/services/store.service';
+import { STORE_URL } from 'src/app/core/constants/store';
+import { SNACKBAR_MESSAGES } from 'src/app/core/constants/snackbar-messages';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +24,7 @@ export class BoxesService {
   }
 
   public loadBoxesSettings(): void {
-    this.localStorage.getItem('boxesSettings')
+    this.localStorage.getItem(STORE_URL.boxesSettings)
     .subscribe((boxes: BoxSettings[]) => {
       if (boxes) {
         this.sendBoxesSettingsLoadMessage(false);
@@ -72,9 +74,9 @@ export class BoxesService {
     this.saveBoxesSettings(this.storeService.boxesSettings).subscribe(() => {
 
       this.router.navigate([ '../', 'settings', { outlets: { board: 'board', edit: 'edit' } } ]).then(() => {
-        this.snackbarService.success(`Zapisano ustawienia dla pola ${box.id}`);
+        this.snackbarService.success(`${SNACKBAR_MESSAGES.savedSettingsForBox} ${box.id}`);
       }).catch(() => {
-        this.snackbarService.error('Nie udało się powrócić do strony głównej ustawień');
+        this.snackbarService.error(SNACKBAR_MESSAGES.redirectFailure);
       });
     });
   }
@@ -93,7 +95,7 @@ export class BoxesService {
 
   private sendBoxesSettingsLoadMessage(isSaved: boolean): void {
     if (this.router.url.includes('settings') && isSaved) {
-      this.snackbarService.success('Wczytano domyślne ustawienia gry');
+      this.snackbarService.success(SNACKBAR_MESSAGES.loadDefaultBoxesSettingsToEdit);
     } else {
       this.gameStateService.deadState.subscribe((deadState) => {
         if (!deadState) {
@@ -104,7 +106,7 @@ export class BoxesService {
   }
 
   private saveBoxesSettings(boxesSettings: BoxSettings[]): Observable<boolean> {
-    return this.localStorage.setItem('boxesSettings', boxesSettings)
+    return this.localStorage.setItem(STORE_URL.boxesSettings, boxesSettings)
       .pipe(catchError((error) => {
         this.snackbarService.error(error);
         return of(false);

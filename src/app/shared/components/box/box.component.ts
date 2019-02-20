@@ -2,6 +2,8 @@ import { AfterContentChecked, Component, Input, OnInit } from '@angular/core';
 import { BoxSettings } from 'src/app/core/interfaces/box-settings';
 import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { SNACKBAR_MESSAGES } from 'src/app/core/constants/snackbar-messages';
+import { CONSOLE_MESSAGES } from 'src/app/core/constants/console-messages';
 
 @Component({
   selector: 'app-box',
@@ -33,10 +35,10 @@ export class BoxComponent implements OnInit, AfterContentChecked {
 
   public selectBox(): void {
     if (this.boxSettings.id === 1 || this.boxSettings.id === 20) {
-      this.snackbarService.error(`Nie można edytować pola ${this.boxSettings.id === 1 ? 'startowego' : 'końcowego'}`);
+      this.snackbarService.error(this.boxSettings.id === 1 ? SNACKBAR_MESSAGES.disableEditStartField : SNACKBAR_MESSAGES.disableEditFinishField);
     } else {
       this.router.navigate([ '../', 'settings', { outlets: { board: 'board', edit: `edit/${this.boxSettings.id}` } } ]).catch(() => {
-        this.snackbarService.error('Błąd pobierania danych do edycji');
+        this.snackbarService.error(SNACKBAR_MESSAGES.dataToEditError);
       });
     }
   }
@@ -47,7 +49,7 @@ export class BoxComponent implements OnInit, AfterContentChecked {
 
   private initTooltip(): void {
     if (this.boxSettings.goTo && !this.editMode) {
-      this.tooltip = `Przechodzisz na pole ${this.boxSettings.goTo}`;
+      this.tooltip = `${CONSOLE_MESSAGES.goTo} ${this.boxSettings.goTo}`;
     } else if (this.editMode) {
       this.tooltip = 'Kliknij, aby edytować';
     }

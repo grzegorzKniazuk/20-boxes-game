@@ -21,7 +21,7 @@
         <mat-checkbox formControlName="goto" color="accent"><mat-icon>subdirectory_arrow_right</mat-icon></mat-checkbox>
         <mat-checkbox formControlName="info" color="accent"><mat-icon>refresh</mat-icon></mat-checkbox>
       </form>
-      <p *ngFor="let consoleMessage of gameStateService.consoleMessages$ | async"
+      <p *ngFor="let consoleMessage of storeService.consoleMessages$ | async"
          [ngClass]="consoleMessage ? consoleMessage.type : ''">
         <mat-icon *ngIf="consoleMessage.type === 'warning' && consoleFilterRules.warning">error_outline</mat-icon>
         <mat-icon *ngIf="consoleMessage.type === 'success' && consoleFilterRules.success">arrow_forward_ios</mat-icon>

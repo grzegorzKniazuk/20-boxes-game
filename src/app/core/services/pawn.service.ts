@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { SnackbarService } from './snackbar.service';
 import { BoxesService } from './boxes.service';
 import { StoreService } from 'src/app/core/services/store.service';
+import { SNACKBAR_MESSAGES } from 'src/app/core/constants/snackbar-messages';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +36,7 @@ export class PawnService {
   }
 
   public movePawnToStartField(): void {
-    this.gameStateService.sendConsoleMessage(this.gameStateService.movePawnToStartFieldMessage);
+    this.storeService.sendConsoleMessage(this.gameStateService.movePawnToStartFieldMessage);
     this.updatePawnPosition(null, 1);
   }
 
@@ -105,7 +106,7 @@ export class PawnService {
         this.gameStateService.resetGameState();
       } else {
         this.router.navigate([ '../', 'home' ]).then(() => {
-          this.snackbarService.success('Zakończono grę');
+          this.snackbarService.success(SNACKBAR_MESSAGES.gameEnd);
           this.gameStateService.resetGameState();
         });
       }

@@ -11,6 +11,7 @@ import { BoxDependencies } from 'src/app/core/interfaces/box-dependencies';
 import { merge, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { BoxResolve } from 'src/app/core/interfaces/box-resolve';
+import { SNACKBAR_MESSAGES } from 'src/app/core/constants/snackbar-messages';
 
 @AutoUnsubscribe()
 @Component({
@@ -78,14 +79,14 @@ export class EditBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public goToHomepage(): void {
     this.router.navigate([ '../', 'home' ]).catch(() => {
-      this.snackbarService.error('Wystąpił problem z przekierowaniem na strone główną');
+      this.snackbarService.error(SNACKBAR_MESSAGES.redirectFailure);
     });
   }
 
   public startNewGame(): void {
     this.gameStateService.resetGameState();
     this.router.navigate([ '../', 'game-panel' ]).catch(() => {
-      this.snackbarService.error('Wystąpił problem z przekierowaniem do nowej gry');
+      this.snackbarService.error(SNACKBAR_MESSAGES.redirectFailure);
     });
   }
 
@@ -151,7 +152,7 @@ export class EditBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   @HostListener('document:keydown.esc')
   public abortBoxEditing(): void {
     this.router.navigateByUrl('/settings/(board:board//edit:edit)').catch(() => {
-      this.snackbarService.error('Błąd przekierowania do ustawień gry');
+      this.snackbarService.error(SNACKBAR_MESSAGES.redirectFailure);
     });
   }
 
@@ -168,7 +169,7 @@ export class EditBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     .subscribe(() => {
       if (this.goToStartField.value || this.deadField.value) {
         this.goToField.reset(null);
-        this.snackbarService.error('Możesz ustawić maksymlanie jedną właściwość dla każdego z pól');
+        this.snackbarService.error(SNACKBAR_MESSAGES.maxOneSpecialValuePerField);
       }
     });
   }
@@ -180,7 +181,7 @@ export class EditBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     .subscribe(() => {
       if ((this.goToField.value && this.goToField.value !== this.deleteGoToValue) || this.deadField.value) {
         this.goToStartField.reset(false);
-        this.snackbarService.error('Możesz ustawić maksymlanie jedną właściwość dla każdego z pól');
+        this.snackbarService.error(SNACKBAR_MESSAGES.maxOneSpecialValuePerField);
       }
     });
   }
@@ -192,7 +193,7 @@ export class EditBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     .subscribe(() => {
       if ((this.goToField.value && this.goToField.value !== this.deleteGoToValue) || this.goToStartField.value) {
         this.deadField.reset(false);
-        this.snackbarService.error('Możesz ustawić maksymlanie jedną właściwość dla każdego z pól');
+        this.snackbarService.error(SNACKBAR_MESSAGES.maxOneSpecialValuePerField);
       }
     });
   }

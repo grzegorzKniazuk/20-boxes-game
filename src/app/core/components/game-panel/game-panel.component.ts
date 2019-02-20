@@ -11,6 +11,7 @@ import { FormsService } from 'src/app/core/services/forms.service';
 import { ConsoleComponent } from 'src/app/core/components/game-panel/console.component';
 import { StoreService } from 'src/app/core/services/store.service';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { SNACKBAR_MESSAGES } from 'src/app/core/constants/snackbar-messages';
 
 @AutoUnsubscribe()
 @Component({
@@ -20,7 +21,7 @@ import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDestroy {
 
   constructor(protected localStorage: LocalStorage,
-              public gameStateService: GameStateService,
+              private gameStateService: GameStateService,
               private boxesService: BoxesService,
               private router: Router,
               protected snackbarService: SnackbarService,
@@ -55,9 +56,9 @@ export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDe
 
   public saveGameAndGoToHome(): void {
     this.router.navigate([ '../', 'home' ]).then(() => {
-      this.snackbarService.success('Zapisano stan gry');
+      this.snackbarService.success(SNACKBAR_MESSAGES.saved);
     }).catch(() => {
-      this.snackbarService.error('Wystąpił problem z przekierowaniem na strone główną');
+      this.snackbarService.error(SNACKBAR_MESSAGES.redirectFailure);
     });
   }
 

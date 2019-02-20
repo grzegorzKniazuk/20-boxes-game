@@ -4,6 +4,9 @@ import { ConsoleFilerRules } from 'src/app/core/interfaces/console-filer-rules';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
 import { filter } from 'rxjs/operators';
+import { STORE_URL } from 'src/app/core/constants/store';
+import { ConsoleMessageType } from 'src/app/core/enums/console-message-type.enum';
+import { SNACKBAR_MESSAGES } from 'src/app/core/constants/snackbar-messages';
 
 export class ConsoleComponent {
 
@@ -30,7 +33,7 @@ export class ConsoleComponent {
   }
 
   protected loadSavedConsoleFilterRules(): void {
-    this.localStorage.getItem('consoleFilterRules').subscribe((rules: ConsoleFilerRules) => {
+    this.localStorage.getItem(STORE_URL.consoleFilterRules).subscribe((rules: ConsoleFilerRules) => {
       if (rules) {
         this.consoleFilterRules = rules;
         this.setFormValues(rules);
@@ -50,18 +53,18 @@ export class ConsoleComponent {
   }
 
   protected setFormValues(rules: ConsoleFilerRules): void {
-    this.consoleFilterForm.get('success').setValue(rules.success);
-    this.consoleFilterForm.get('goto').setValue(rules.goto);
-    this.consoleFilterForm.get('moved').setValue(rules.moved);
-    this.consoleFilterForm.get('warning').setValue(rules.warning);
-    this.consoleFilterForm.get('info').setValue(rules.info);
+    this.consoleFilterForm.get(ConsoleMessageType.SUCCESS).setValue(rules.success);
+    this.consoleFilterForm.get(ConsoleMessageType.GOTO).setValue(rules.goto);
+    this.consoleFilterForm.get(ConsoleMessageType.MOVED).setValue(rules.moved);
+    this.consoleFilterForm.get(ConsoleMessageType.WARNING).setValue(rules.warning);
+    this.consoleFilterForm.get(ConsoleMessageType.INFO).setValue(rules.info);
   }
 
   protected saveConsoleFilterRules(): void {
-    this.localStorage.setItem('consoleFilterRules', this.consoleFilterRules)
+    this.localStorage.setItem(STORE_URL.consoleFilterRules, this.consoleFilterRules)
       .pipe(filter((isSaved) => !!isSaved))
       .subscribe(() => {
-        this.snackbarService.success('Zapisano ustawienia filtrowania konsoli');
+        this.snackbarService.success(SNACKBAR_MESSAGES.consoleFilterRulesSaved);
       });
   }
 }

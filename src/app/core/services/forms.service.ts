@@ -27,8 +27,4 @@ export class FormsService {
       goto: [ true ],
     });
   }
-
-  public get formBuilderInstance(): FormBuilder {
-    return this.formBuilder;
-  }
 }

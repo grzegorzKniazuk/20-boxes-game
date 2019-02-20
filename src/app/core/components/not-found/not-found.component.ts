@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import { SNACKBAR_MESSAGES } from 'src/app/core/constants/snackbar-messages';
 
 @Component({
   templateUrl: './not-found.component.html',
@@ -24,9 +25,9 @@ export class NotFoundComponent implements OnInit {
     setTimeout(() => {
       clearInterval(counting);
       this.router.navigate(['../', 'home']).then(() => {
-        this.snackbarService.success('Przekierowano na stronę główną');
+        this.snackbarService.success(SNACKBAR_MESSAGES.redirectSuccessful);
       }).catch(() => {
-        this.snackbarService.error('Wystąpił błąd przekierowania');
+        this.snackbarService.error(SNACKBAR_MESSAGES.redirectFailure);
       });
     }, 10000);
   }
