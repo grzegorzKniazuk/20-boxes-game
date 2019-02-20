@@ -38,7 +38,7 @@ export class GameStateService extends ConsoleService {
         this.averangeAmountDrawnNumbers = state.averangeAmountDrawnNumbers;
         this.storeService.consoleMessages = state.consoleMessages;
 
-        if (!state.deadState && state.gameStateAvailable) {
+        if (!state.deadState && state.gameStateAvailable && state.pawnPosition !== this.storeService.finishPosition) {
           this.onLoadGameStateMessage();
         }
 

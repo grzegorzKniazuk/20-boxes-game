@@ -12,9 +12,14 @@ export class StoreService {
   public readonly boxesSettings$: BehaviorSubject<BoxSettings[]> = new BehaviorSubject<BoxSettings[]>(null);
   public readonly consoleMessages$: BehaviorSubject<ConsoleMessage[]> = new BehaviorSubject<ConsoleMessage[]>(null);
 
+  private readonly _finishPosition = 20;
   private _boxesSettings: BoxSettings[] = [];
   private _pawnPosition: number;
   private _consoleMessages: ConsoleMessage[] = [];
+
+  public get finishPosition(): number {
+    return this._finishPosition;
+  }
 
   public get pawnPosition(): number {
     return this._pawnPosition;

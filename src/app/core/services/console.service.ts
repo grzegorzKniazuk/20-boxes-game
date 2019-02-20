@@ -75,6 +75,7 @@ export class ConsoleService {
     });
   }
 
+  // do uzycia
   public loadSavedGameSettingsMessage(): void {
     this.storeService.sendConsoleMessage({
       type: ConsoleMessageType.INFO,

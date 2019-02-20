@@ -36,6 +36,7 @@ export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDe
     this.newGame();
     this.initConsole();
     this.checkDeadState();
+    this.checkWinState();
   }
 
   ngOnDestroy() {
@@ -70,6 +71,14 @@ export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDe
     this.gameStateService.deadState.subscribe((isDead) => {
       if (isDead) {
         this.pawnService.openEndGameSummaryBox(false);
+      }
+    });
+  }
+
+  private checkWinState(): void {
+    this.storeService.pawnPosition$.subscribe((pawnPosition) => {
+      if (pawnPosition === this.storeService.finishPosition) {
+        this.pawnService.openEndGameSummaryBox(true);
       }
     });
   }
