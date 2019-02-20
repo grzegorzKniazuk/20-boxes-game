@@ -12,9 +12,15 @@ export class ConsoleComponent {
 
   constructor(protected formService: FormsService,
               protected localStorage: LocalStorage,
-              protected snackbarService: SnackbarService) {}
+              protected snackbarService: SnackbarService) {
+  }
 
-  protected initConsoleFilterForm(): void {
+  protected initConsole(): void {
+    this.initConsoleFilterForm();
+    this.loadSavedConsoleFilterRules();
+  }
+
+  private initConsoleFilterForm(): void {
     this.consoleFilterForm = this.formService.consoleFilterForm;
     this.loadConsoleFilterFormBaseConfig();
   }
@@ -35,7 +41,7 @@ export class ConsoleComponent {
     });
   }
 
-  protected watchConsoleFormFilterChanges(): void {
+  private watchConsoleFormFilterChanges(): void {
     this.consoleFilterForm.valueChanges
     .subscribe((formValue) => {
       this.consoleFilterRules = formValue;

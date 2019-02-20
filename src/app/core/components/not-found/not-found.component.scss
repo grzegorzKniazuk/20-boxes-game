@@ -2,7 +2,17 @@
 
 .not-found-container {
   @include flex(flex, center, center, column);
-  @include font('big');
   @include size(100%, 100%);
   color: $white;
+
+  p {
+    &:first-of-type {
+      @include font('big');
+    }
+
+    &:last-of-type {
+      @include font('medium');
+      color: $warning-alert;
+    }
+  }
 }

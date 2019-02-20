@@ -31,8 +31,7 @@ export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDe
 
   ngOnInit() {
     this.newGame();
-    this.initConsoleFilterForm();
-    this.loadSavedConsoleFilterRules();
+    this.initConsole();
   }
 
   ngOnDestroy() {

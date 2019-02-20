@@ -40,14 +40,17 @@ export class BoxesService {
   }
 
   public setBoxesDefaultSettings(): void {
+    const settings = [];
     for (let i = 0; i < 20; i++) {
-      this.storeService.boxesSettings.push({
+      settings.push({
         id: i + 1,
         dead: i + 1 === 12,
         goToStart: false,
         goTo: i + 1 === 19 ? 11 : null,
       });
     }
+
+    this.storeService.boxesSettings = settings;
 
     this.saveBoxesSettings(this.storeService.boxesSettings).subscribe((isSaved) => {
       this.sendBoxesSettingsLoadMessage(isSaved);
@@ -65,6 +68,7 @@ export class BoxesService {
       }
       return boxSettings;
     });
+
     this.saveBoxesSettings(this.storeService.boxesSettings).subscribe(() => {
 
       this.router.navigate([ '../', 'settings', { outlets: { board: 'board', edit: 'edit' } } ]).then(() => {
@@ -84,9 +88,7 @@ export class BoxesService {
       }
     }
 
-    return ({
-      cannotMove: dependencies,
-    });
+    return { cannotMove: dependencies };
   }
 
   private sendBoxesSettingsLoadMessage(isSaved: boolean = false): void {

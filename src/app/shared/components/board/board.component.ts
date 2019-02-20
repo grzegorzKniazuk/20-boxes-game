@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { BoxSettings } from 'src/app/core/interfaces/box-settings';
 import { ActivatedRoute } from '@angular/router';
 import { StoreService } from 'src/app/core/services/store.service';
+import { BoxesService } from 'src/app/core/services/boxes.service';
 
 @Component({
   selector: 'app-board',
@@ -13,22 +14,24 @@ export class BoardComponent implements OnInit {
   @Input() public boxesSettings: BoxSettings[];
   public editMode: boolean;
 
-  constructor(private storeService: StoreService,
+  constructor(private boxesService: BoxesService,
+              private storeService: StoreService,
               private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
     this.setEditMode();
-    this.fetchBoxSettings();
+    this.boxesService.loadBoxesSettings();
+    this.initBoxesSettings();
   }
 
   private setEditMode(): void {
     this.editMode = this.activatedRoute.snapshot.data['enableEditMode'];
   }
 
-  private fetchBoxSettings(): void {
-    if (this.editMode) {
-      this.boxesSettings = this.activatedRoute.snapshot.data['boxesSettings'];
-    }
+  private initBoxesSettings(): void {
+    this.storeService.boxesSettings$.subscribe((settings) => {
+      this.boxesSettings = settings;
+    });
   }
 }
