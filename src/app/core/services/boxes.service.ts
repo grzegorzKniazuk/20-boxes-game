@@ -55,6 +55,7 @@ export class BoxesService {
     this.storeService.boxesSettings = settings;
 
     this.saveBoxesSettings(this.storeService.boxesSettings).subscribe((isSaved) => {
+      this.gameStateService.resetGameState();
       this.sendBoxesSettingsLoadMessage(isSaved);
     });
   }
