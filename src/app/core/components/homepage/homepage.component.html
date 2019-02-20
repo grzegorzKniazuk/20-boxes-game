@@ -12,7 +12,7 @@
             matTooltip="Kliknij aby rozpocząć nową grę"
             routerLink="../game-panel">Nowa gra
     </button>
-    <button [disabled]="!(gameStateService.gameStateAvaiable$ | async)"
+    <button [disabled]="!isGameStateAvailable"
             color="primary"
             mat-raised-button
             matTooltip="Kliknij aby kontynować grę"
