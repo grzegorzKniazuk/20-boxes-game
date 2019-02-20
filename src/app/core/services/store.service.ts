@@ -34,8 +34,12 @@ export class StoreService {
     this.boxesSettings$.next(this._boxesSettings);
   }
 
+  public get consoleMessages(): ConsoleMessage[] {
+    return this._consoleMessages;
+  }
+
   public set consoleMessages(msgs: ConsoleMessage[]) {
-    this._consoleMessages = msgs || [];
+    this._consoleMessages = msgs;
     this.consoleMessages$.next(this._consoleMessages);
   }
 

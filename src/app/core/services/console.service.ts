@@ -11,10 +11,10 @@ export class ConsoleService {
 
   constructor(protected storeService: StoreService) { }
 
-  protected onLoadGameStateMessage(state: boolean = false): void {
+  protected onLoadGameStateMessage(): void {
     this.storeService.sendConsoleMessage({
       type: ConsoleMessageType.SUCCESS,
-      message: state ? CONSOLE_MESSAGES.loadGame : CONSOLE_MESSAGES.newGame,
+      message: CONSOLE_MESSAGES.loadGame,
     });
   }
 
@@ -75,10 +75,17 @@ export class ConsoleService {
     });
   }
 
-  public loadSavedOfDefaultGameSettings(isSaved: boolean): void {
+  public loadSavedGameSettingsMessage(): void {
     this.storeService.sendConsoleMessage({
       type: ConsoleMessageType.INFO,
-      message: isSaved ? CONSOLE_MESSAGES.loadDefaultSettings : CONSOLE_MESSAGES.loadSettings,
+      message: CONSOLE_MESSAGES.loadSettings,
+    });
+  }
+
+  public loadDefaultGameSettingsMessage(): void {
+    this.storeService.sendConsoleMessage({
+      type: ConsoleMessageType.INFO,
+      message: CONSOLE_MESSAGES.loadDefaultSettings,
     });
   }
 }

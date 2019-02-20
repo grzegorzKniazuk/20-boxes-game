@@ -38,8 +38,8 @@ export class GameStateService extends ConsoleService {
         this.averangeAmountDrawnNumbers = state.averangeAmountDrawnNumbers;
         this.storeService.consoleMessages = state.consoleMessages;
 
-        if (!state.deadState) {
-          this.onLoadGameStateMessage(true);
+        if (!state.deadState && state.gameStateAvailable) {
+          this.onLoadGameStateMessage();
         }
 
         this.setGameState(state.gameStateAvailable, state.deadState);
@@ -62,10 +62,20 @@ export class GameStateService extends ConsoleService {
     this.storeService.pawnPosition = 1;
     this.storeService.consoleMessages = [];
 
-    this.storeService.sendConsoleMessage(this.resetGameMessage);
-    this.storeService.sendConsoleMessage(this.newGameMessage);
+    this.sendMessagesOnResetGameState();
 
     this.setGameState(false, false);
+  }
+
+  private sendMessagesOnResetGameState(): void {
+    this.gameStateAvailable.subscribe((isGameStateAvailable) => {
+      if (isGameStateAvailable) {
+        this.storeService.sendConsoleMessage(this.resetGameMessage);
+        this.storeService.sendConsoleMessage(this.newGameMessage);
+      } else {
+        this.storeService.sendConsoleMessage(this.newGameMessage);
+      }
+    });
   }
 
   public setGameState(gameStateAvailable: boolean, deadState: boolean): void {
@@ -83,6 +93,12 @@ export class GameStateService extends ConsoleService {
   public get deadState(): Observable<boolean> {
     return this.localStorage.getItem(STORE_URL.gameState).pipe(map((gameState: GameState) => {
       return gameState.deadState;
+    }));
+  }
+
+  public get gameStateAvailable(): Observable<boolean> {
+    return this.localStorage.getItem(STORE_URL.gameState).pipe(map((gameState: GameState) => {
+      return gameState.gameStateAvailable;
     }));
   }
 }

@@ -99,7 +99,7 @@ export class BoxesService {
     } else {
       this.gameStateService.deadState.subscribe((deadState) => {
         if (!deadState) {
-          this.gameStateService.loadSavedOfDefaultGameSettings(isSaved);
+
         }
       });
     }
