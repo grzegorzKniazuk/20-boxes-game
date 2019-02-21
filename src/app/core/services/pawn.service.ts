@@ -58,11 +58,11 @@ export class PawnService {
   private updatePawnPosition(drawnNumber: number, fieldNumber?: number): void {
     if (drawnNumber) {
       this.storeService.pawnPosition += drawnNumber;
+      this.gameStateService.updateGameStateStatistics(this.storeService.pawnPosition, drawnNumber);
     } else {
       this.storeService.pawnPosition = fieldNumber;
     }
 
-    this.gameStateService.updateGameStateStatistics(this.storeService.pawnPosition, drawnNumber || fieldNumber);
     this.gameStateService.setGameState(true, false);
 
     this.checkPawnPosition();
