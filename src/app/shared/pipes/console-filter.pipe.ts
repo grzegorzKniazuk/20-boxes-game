@@ -16,6 +16,6 @@ export class ConsoleFilterPipe implements PipeTransform {
       }
     });
 
-    return message;
+    return message ? message : '';
   }
 }
