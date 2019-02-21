@@ -30,8 +30,6 @@ export class NotFoundComponent implements OnInit {
       clearInterval(counting);
       this.router.navigate([ '../', 'home' ]).then(() => {
         this.snackbarService.success(SNACKBAR_MESSAGES.redirectSuccessful);
-      }).catch(() => {
-        this.snackbarService.error(SNACKBAR_MESSAGES.redirectFailure);
       });
     }, 10000);
   }

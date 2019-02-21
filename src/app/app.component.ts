@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SnackbarService } from './core/services/snackbar.service';
-import { Router, RouterEvent } from '@angular/router';
+import { NavigationError, Router, RouterEvent } from '@angular/router';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
+import { SNACKBAR_MESSAGES } from 'src/app/core/constants/snackbar-messages';
 
 @AutoUnsubscribe()
 @Component({
@@ -23,9 +24,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private watchRouterUrl(): void {
     this.router.events.subscribe((event: RouterEvent) => {
-      if (event.url === '/settings') {
+      if (event instanceof NavigationError) {
+        this.snackbarService.error(SNACKBAR_MESSAGES.redirectFailure);
+      } else if (event.url === '/settings') {
         this.router.navigateByUrl('/settings/(board:board//edit:edit)').catch(() => {
-          this.snackbarService.error('Wystąpił błąd routingu');
+          this.snackbarService.error(SNACKBAR_MESSAGES.redirectFailure);
         });
       }
     });

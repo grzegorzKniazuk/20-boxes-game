@@ -73,11 +73,8 @@ export class BoxesService {
     });
 
     this.saveBoxesSettings(this.storeService.boxesSettings).subscribe(() => {
-
       this.router.navigate([ '../', 'settings', { outlets: { board: 'board', edit: 'edit' } } ]).then(() => {
         this.snackbarService.success(`${SNACKBAR_MESSAGES.savedSettingsForBox} ${box.id}`);
-      }).catch(() => {
-        this.snackbarService.error(SNACKBAR_MESSAGES.redirectFailure);
       });
     });
   }

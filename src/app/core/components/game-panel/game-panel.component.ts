@@ -59,8 +59,6 @@ export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDe
           this.snackbarService.success(SNACKBAR_MESSAGES.saved);
         }
       });
-    }).catch(() => {
-      this.snackbarService.error(SNACKBAR_MESSAGES.redirectFailure);
     });
   }
 
