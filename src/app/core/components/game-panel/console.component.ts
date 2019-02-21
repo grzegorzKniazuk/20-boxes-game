@@ -45,10 +45,10 @@ export class ConsoleComponent {
 
   protected saveConsoleFilterRules(): void {
     this.localStorage.setItem(STORE_URL.consoleFilterRules, this.consoleFilterRules)
-    .pipe(filter((isSaved) => !!isSaved))
-    .subscribe(() => {
-      this.snackbarService.success(SNACKBAR_MESSAGES.consoleFilterRulesSaved);
-    });
+        .pipe(filter((isSaved) => !!isSaved))
+        .subscribe(() => {
+          this.snackbarService.success(SNACKBAR_MESSAGES.consoleFilterRulesSaved);
+        });
   }
 
   private initConsoleFilterForm(): void {
@@ -62,9 +62,9 @@ export class ConsoleComponent {
 
   private watchConsoleFormFilterChanges(): void {
     this.consoleFilterForm.valueChanges
-    .subscribe((formValue) => {
-      this.consoleFilterRules = formValue;
-      this.saveConsoleFilterRules();
-    });
+        .subscribe((formValue) => {
+          this.consoleFilterRules = formValue;
+          this.saveConsoleFilterRules();
+        });
   }
 }

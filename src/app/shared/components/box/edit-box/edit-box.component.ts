@@ -37,18 +37,18 @@ export class EditBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private get loadBoxSettings(): Observable<{ boxData: BoxSettings }> {
     return this.activatedRoute.data
-    .pipe(filter((data: BoxResolve) => !!data.boxData && !!data.boxDependencies))
-    .pipe(map((data: { boxData: BoxSettings }) => {
-      return data;
-    }));
+               .pipe(filter((data: BoxResolve) => !!data.boxData && !!data.boxDependencies))
+               .pipe(map((data: { boxData: BoxSettings }) => {
+                 return data;
+               }));
   }
 
   private get loadBoxDependencies(): Observable<{ boxDependencies: BoxDependencies }> {
     return this.activatedRoute.data
-    .pipe(filter((data: BoxResolve) => !!data.boxData && !!data.boxDependencies))
-    .pipe(map((data: { boxDependencies: BoxDependencies }) => {
-      return data;
-    }));
+               .pipe(filter((data: BoxResolve) => !!data.boxData && !!data.boxDependencies))
+               .pipe(map((data: { boxDependencies: BoxDependencies }) => {
+                 return data;
+               }));
   }
 
   private get goToField(): AbstractControl {
@@ -164,37 +164,37 @@ export class EditBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private watchGoToChanges(): void {
     this.goToField.valueChanges
-    .pipe(filter((value => value !== null && value !== this.deleteGoToValue)))
-    .pipe(distinctUntilChanged())
-    .subscribe(() => {
-      if (this.goToStartField.value || this.deadField.value) {
-        this.goToField.reset(null);
-        this.snackbarService.error(SNACKBAR_MESSAGES.maxOneSpecialValuePerField);
-      }
-    });
+        .pipe(filter((value => value !== null && value !== this.deleteGoToValue)))
+        .pipe(distinctUntilChanged())
+        .subscribe(() => {
+          if (this.goToStartField.value || this.deadField.value) {
+            this.goToField.reset(null);
+            this.snackbarService.error(SNACKBAR_MESSAGES.maxOneSpecialValuePerField);
+          }
+        });
   }
 
   private watchGoToStartChanges(): void {
     this.goToStartField.valueChanges
-    .pipe(filter((value => value !== null)))
-    .pipe(distinctUntilChanged())
-    .subscribe(() => {
-      if ((this.goToField.value && this.goToField.value !== this.deleteGoToValue) || this.deadField.value) {
-        this.goToStartField.reset(false);
-        this.snackbarService.error(SNACKBAR_MESSAGES.maxOneSpecialValuePerField);
-      }
-    });
+        .pipe(filter((value => value !== null)))
+        .pipe(distinctUntilChanged())
+        .subscribe(() => {
+          if ((this.goToField.value && this.goToField.value !== this.deleteGoToValue) || this.deadField.value) {
+            this.goToStartField.reset(false);
+            this.snackbarService.error(SNACKBAR_MESSAGES.maxOneSpecialValuePerField);
+          }
+        });
   }
 
   private watchDeadChanges(): void {
     this.deadField.valueChanges
-    .pipe(filter((value => value !== null)))
-    .pipe(distinctUntilChanged())
-    .subscribe(() => {
-      if ((this.goToField.value && this.goToField.value !== this.deleteGoToValue) || this.goToStartField.value) {
-        this.deadField.reset(false);
-        this.snackbarService.error(SNACKBAR_MESSAGES.maxOneSpecialValuePerField);
-      }
-    });
+        .pipe(filter((value => value !== null)))
+        .pipe(distinctUntilChanged())
+        .subscribe(() => {
+          if ((this.goToField.value && this.goToField.value !== this.deleteGoToValue) || this.goToStartField.value) {
+            this.deadField.reset(false);
+            this.snackbarService.error(SNACKBAR_MESSAGES.maxOneSpecialValuePerField);
+          }
+        });
   }
 }
