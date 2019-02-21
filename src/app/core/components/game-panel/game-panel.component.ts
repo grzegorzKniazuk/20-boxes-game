@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { GameStateService } from '../../services/game-state.service';
 import { PawnService } from '../../services/pawn.service';
-import { BoxesService } from '../../services/boxes.service';
 import { Router } from '@angular/router';
 import { SnackbarService } from '../../services/snackbar.service';
 import { MatDialog } from '@angular/material';
@@ -22,7 +21,6 @@ export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDe
 
   constructor(protected localStorage: LocalStorage,
               private gameStateService: GameStateService,
-              private boxesService: BoxesService,
               private router: Router,
               protected snackbarService: SnackbarService,
               private matDialog: MatDialog,
@@ -44,7 +42,6 @@ export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDe
 
   public newGame(): void {
     this.gameStateService.loadGameState();
-    this.boxesService.loadBoxesSettings();
   }
 
   public resetGame(): void {

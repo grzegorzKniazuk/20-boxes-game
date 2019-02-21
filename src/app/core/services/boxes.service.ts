@@ -25,14 +25,16 @@ export class BoxesService {
 
   public loadBoxesSettings(): void {
     this.localStorage.getItem(STORE_URL.boxesSettings)
-    .subscribe((boxes: BoxSettings[]) => {
-      if (boxes) {
-        this.sendBoxesSettingsLoadMessage(false);
-        this.storeService.boxesSettings = boxes;
-      } else {
-        return this.setBoxesDefaultSettings();
-      }
-    });
+      .subscribe((boxes: BoxSettings[]) => {
+        if (boxes) {
+          this.sendBoxesSettingsLoadMessage(false);
+          this.storeService.boxesSettings = boxes;
+          this.gameStateService.loadSavedGameSettingsMessage();
+        } else {
+          this.gameStateService.loadDefaultGameSettingsMessage();
+          this.setBoxesDefaultSettings();
+        }
+      });
   }
 
   public getBoxSettings(id: number): BoxSettings {
@@ -97,12 +99,6 @@ export class BoxesService {
   private sendBoxesSettingsLoadMessage(isSaved: boolean): void {
     if (this.router.url.includes('settings') && isSaved) {
       this.snackbarService.success(SNACKBAR_MESSAGES.loadDefaultBoxesSettingsToEdit);
-    } else {
-      this.gameStateService.deadState.subscribe((deadState) => {
-        if (!deadState) {
-
-        }
-      });
     }
   }
 
