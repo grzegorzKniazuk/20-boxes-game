@@ -16,7 +16,7 @@ export class EndGameSummaryComponent implements OnInit {
   public readonly beatenURL = '../../../../assets/images/beaten.svg';
 
   constructor(private gameStateService: GameStateService,
-              @Inject(MAT_DIALOG_DATA) private isWinner: boolean,
+              @Inject(MAT_DIALOG_DATA) public isWinner: boolean,
               private matDialogRef: MatDialogRef<EndGameSummaryComponent>) {
   }
 
