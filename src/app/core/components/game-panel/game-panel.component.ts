@@ -11,7 +11,6 @@ import { ConsoleComponent } from 'src/app/core/components/game-panel/console.com
 import { StoreService } from 'src/app/core/services/store.service';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { SNACKBAR_MESSAGES } from 'src/app/core/constants/snackbar-messages';
-import { debounceTime } from 'rxjs/operators';
 
 @AutoUnsubscribe()
 @Component({
@@ -55,7 +54,11 @@ export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDe
 
   public saveGameAndGoToHome(): void {
     this.router.navigate([ '../', 'home' ]).then(() => {
-      this.snackbarService.success(SNACKBAR_MESSAGES.saved);
+      this.gameStateService.gameStateAvailable.subscribe((isGameStateAvailable) => {
+        if (isGameStateAvailable) {
+          this.snackbarService.success(SNACKBAR_MESSAGES.saved);
+        }
+      });
     }).catch(() => {
       this.snackbarService.error(SNACKBAR_MESSAGES.redirectFailure);
     });
@@ -74,8 +77,8 @@ export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDe
   }
 
   private checkWinState(): void {
-    this.storeService.pawnPosition$.pipe(debounceTime(500)).subscribe((pawnPosition) => {
-      if (pawnPosition === this.storeService.finishPosition) {
+    this.gameStateService.winState.subscribe((isWin) => {
+      if (isWin) {
         this.pawnService.openEndGameSummaryBox(true);
       }
     });

@@ -29,9 +29,7 @@ export class BoxesService {
       if (boxes) {
         this.sendBoxesSettingsLoadMessage(false);
         this.storeService.boxesSettings = boxes;
-        this.gameStateService.loadSavedGameSettingsMessage();
       } else {
-        this.gameStateService.loadDefaultGameSettingsMessage();
         this.setBoxesDefaultSettings();
       }
     });

@@ -17,7 +17,9 @@ export class GameStateService extends ConsoleService {
   private totalAmountDrawnNumbers = 0;
   private averangeAmountDrawnNumbers = 0;
 
-  constructor(private localStorage: LocalStorage, protected storeService: StoreService) {
+  constructor(private localStorage: LocalStorage,
+              protected storeService: StoreService,
+              private consoleService: ConsoleService) {
     super(storeService);
   }
 
@@ -32,6 +34,12 @@ export class GameStateService extends ConsoleService {
   public get deadState(): Observable<boolean> {
     return this.localStorage.getItem(STORE_URL.gameState).pipe(map((gameState: GameState) => {
       return gameState.deadState;
+    }));
+  }
+
+  public get winState(): Observable<boolean> {
+    return this.localStorage.getItem(STORE_URL.gameState).pipe(map((gameState: GameState) => {
+      return gameState.pawnPosition === this.storeService.finishPosition;
     }));
   }
 
@@ -96,8 +104,10 @@ export class GameStateService extends ConsoleService {
       if (isGameStateAvailable) {
         this.storeService.sendConsoleMessage(this.resetGameMessage);
         this.storeService.sendConsoleMessage(this.newGameMessage);
+        this.consoleService.loadSavedGameSettingsMessage();
       } else {
         this.storeService.sendConsoleMessage(this.newGameMessage);
+        this.consoleService.loadSavedGameSettingsMessage();
       }
     });
   }

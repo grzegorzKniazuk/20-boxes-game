@@ -11,5 +11,4 @@ export const CONSOLE_MESSAGES = {
   win: 'BRAWO, WYGRANA!',
   loose: 'PRZEGRANA! SPRÓBUJ JESZCZE RAZ!',
   loadSettings: 'Wczytano ustawienia gry',
-  loadDefaultSettings: 'Wczytano domyślne ustawienia gry',
 };

@@ -58,7 +58,7 @@ export class ConsoleService {
     });
     this.storeService.sendConsoleMessage({
       type: ConsoleMessageType.GOTO,
-      message: `${CONSOLE_MESSAGES.redirectTo} ${pawnPosition}`,
+      message: `${CONSOLE_MESSAGES.redirectTo} ${20 - (pawnPosition - 20)}`,
     });
   }
 
@@ -73,13 +73,6 @@ export class ConsoleService {
     this.storeService.sendConsoleMessage({
       type: ConsoleMessageType.INFO,
       message: CONSOLE_MESSAGES.loadSettings,
-    });
-  }
-
-  public loadDefaultGameSettingsMessage(): void {
-    this.storeService.sendConsoleMessage({
-      type: ConsoleMessageType.INFO,
-      message: CONSOLE_MESSAGES.loadDefaultSettings,
     });
   }
 
