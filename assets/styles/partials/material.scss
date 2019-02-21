@@ -1,0 +1,43 @@
+mat-icon {
+  user-select: none;
+}
+
+mat-error {
+  @include font('ultra-small');
+  margin-top: -8px;
+}
+
+.snackbar {
+  color: $white;
+  white-space: nowrap;
+  max-width: 100% !important;
+}
+
+.snackbar-success {
+  @extend .snackbar;
+  background: $leaf;
+}
+
+.snackbar-error {
+  @extend .snackbar;
+  background: $danger;
+}
+
+::ng-deep .mat-tooltip {
+  @include font('small');
+  padding: 15px;
+  white-space: nowrap;
+  max-width: 100% !important;
+}
+
+::ng-deep mat-checkbox {
+  .mat-checkbox-background {
+    background-color: $white;
+  }
+
+  &.mat-checkbox-focused{
+    .mat-ink-ripple{
+      background-color: $white;
+    }
+  }
+}
