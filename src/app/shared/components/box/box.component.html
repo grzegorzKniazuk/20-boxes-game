@@ -1,16 +1,16 @@
 <div (click)="editMode ? selectBox(): null" *ngIf="boxSettings" class="box-item">
-  <img *ngIf="boxSettings.id === 1" alt="" class="start--finish-line" src="../../../../assets/images/start.png">
-  <img *ngIf="boxSettings.id === 20" alt="" class="start--finish-line" src="../../../../assets/images/finish.png">
+  <img *ngIf="boxSettings.id === 1" alt="" class="start--finish-line" src="assets/images/start.png">
+  <img *ngIf="boxSettings.id === 20" alt="" class="start--finish-line" src="assets/images/finish.png">
 
   <div *ngIf="boxSettings.goTo" class="go-to-message">
-    <img [matTooltip]="tooltip" alt="" class="icon" src="../../../../assets/images/back.svg">
+    <img [matTooltip]="tooltip" alt="" class="icon" src="assets/images/back.svg">
     <strong>{{ boxSettings.goTo }}</strong>
   </div>
 
   <img *ngIf="boxSettings.dead" alt="" class="dead-icon"
-       matTooltip="Gra kończy się porażką" src="../../../../assets/images/dead.svg">
+       matTooltip="Gra kończy się porażką" src="assets/images/dead.svg">
   <img *ngIf="boxSettings.goToStart" alt="" class="go-to-start-icon"
-       matTooltip="Wracasz na pole startowe" src="../../../../assets/images/go-back-arrow.svg">
+       matTooltip="Wracasz na pole startowe" src="assets/images/go-back-arrow.svg">
 
   <div class="box-number">{{ boxSettings.id }}</div>
   <img [ngClass]="pawnInBox ? 'box-background' : ''" [src]="src" alt="box">
@@ -18,5 +18,5 @@
     *ngIf="editMode"
     [matTooltip]="editMode && boxSettings.id !== 1 && boxSettings.id !== 20 ? tooltip: 'Nie można edytować tego pola'"
     [ngClass]="editMode && boxSettings.id !== 1 && boxSettings.id !== 20 ? 'box-edit-mode': 'disable-edit-mode'"></div>
-  <img *ngIf="pawnInBox" alt="" class="pawn" src="../../../../assets/images/pawn.png">
+  <img *ngIf="pawnInBox" alt="" class="pawn" src="assets/images/pawn.png">
 </div>
