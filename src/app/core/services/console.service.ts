@@ -5,17 +5,11 @@ import { StoreService } from 'src/app/core/services/store.service';
 import { CONSOLE_MESSAGES } from 'src/app/core/constants/console-messages';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConsoleService {
 
-  constructor(protected storeService: StoreService) { }
-
-  protected onLoadGameStateMessage(): void {
-    this.storeService.sendConsoleMessage({
-      type: ConsoleMessageType.SUCCESS,
-      message: CONSOLE_MESSAGES.loadGame,
-    });
+  constructor(protected storeService: StoreService) {
   }
 
   public get resetGameMessage(): ConsoleMessage {
@@ -86,6 +80,13 @@ export class ConsoleService {
     this.storeService.sendConsoleMessage({
       type: ConsoleMessageType.INFO,
       message: CONSOLE_MESSAGES.loadDefaultSettings,
+    });
+  }
+
+  protected onLoadGameStateMessage(): void {
+    this.storeService.sendConsoleMessage({
+      type: ConsoleMessageType.SUCCESS,
+      message: CONSOLE_MESSAGES.loadGame,
     });
   }
 }

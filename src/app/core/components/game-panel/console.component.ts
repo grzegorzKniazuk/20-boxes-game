@@ -23,15 +23,6 @@ export class ConsoleComponent {
     this.loadSavedConsoleFilterRules();
   }
 
-  private initConsoleFilterForm(): void {
-    this.consoleFilterForm = this.formService.consoleFilterForm;
-    this.loadConsoleFilterFormBaseConfig();
-  }
-
-  private loadConsoleFilterFormBaseConfig(): void {
-    this.consoleFilterRules = this.consoleFilterForm.value;
-  }
-
   protected loadSavedConsoleFilterRules(): void {
     this.localStorage.getItem(STORE_URL.consoleFilterRules).subscribe((rules: ConsoleFilerRules) => {
       if (rules) {
@@ -41,14 +32,6 @@ export class ConsoleComponent {
         this.saveConsoleFilterRules();
       }
       this.watchConsoleFormFilterChanges();
-    });
-  }
-
-  private watchConsoleFormFilterChanges(): void {
-    this.consoleFilterForm.valueChanges
-    .subscribe((formValue) => {
-      this.consoleFilterRules = formValue;
-      this.saveConsoleFilterRules();
     });
   }
 
@@ -62,9 +45,26 @@ export class ConsoleComponent {
 
   protected saveConsoleFilterRules(): void {
     this.localStorage.setItem(STORE_URL.consoleFilterRules, this.consoleFilterRules)
-      .pipe(filter((isSaved) => !!isSaved))
-      .subscribe(() => {
-        this.snackbarService.success(SNACKBAR_MESSAGES.consoleFilterRulesSaved);
-      });
+    .pipe(filter((isSaved) => !!isSaved))
+    .subscribe(() => {
+      this.snackbarService.success(SNACKBAR_MESSAGES.consoleFilterRulesSaved);
+    });
+  }
+
+  private initConsoleFilterForm(): void {
+    this.consoleFilterForm = this.formService.consoleFilterForm;
+    this.loadConsoleFilterFormBaseConfig();
+  }
+
+  private loadConsoleFilterFormBaseConfig(): void {
+    this.consoleFilterRules = this.consoleFilterForm.value;
+  }
+
+  private watchConsoleFormFilterChanges(): void {
+    this.consoleFilterForm.valueChanges
+    .subscribe((formValue) => {
+      this.consoleFilterRules = formValue;
+      this.saveConsoleFilterRules();
+    });
   }
 }

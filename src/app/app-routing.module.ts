@@ -37,7 +37,7 @@ const routes: Routes = [
         component: BoardComponent,
         outlet: 'board',
         resolve: {
-          enableEditMode: EditModeResolve
+          enableEditMode: EditModeResolve,
         },
         runGuardsAndResolvers: 'always',
       },

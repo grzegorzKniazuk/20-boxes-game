@@ -37,18 +37,18 @@ export class EditBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private get loadBoxSettings(): Observable<{ boxData: BoxSettings }> {
     return this.activatedRoute.data
-      .pipe(filter((data: BoxResolve) => !!data.boxData && !!data.boxDependencies))
-      .pipe(map((data: { boxData: BoxSettings }) => {
-        return data;
-      }));
+    .pipe(filter((data: BoxResolve) => !!data.boxData && !!data.boxDependencies))
+    .pipe(map((data: { boxData: BoxSettings }) => {
+      return data;
+    }));
   }
 
   private get loadBoxDependencies(): Observable<{ boxDependencies: BoxDependencies }> {
     return this.activatedRoute.data
-      .pipe(filter((data: BoxResolve) => !!data.boxData && !!data.boxDependencies))
-      .pipe(map((data: { boxDependencies: BoxDependencies }) => {
-        return data;
-      }));
+    .pipe(filter((data: BoxResolve) => !!data.boxData && !!data.boxDependencies))
+    .pipe(map((data: { boxDependencies: BoxDependencies }) => {
+      return data;
+    }));
   }
 
   private get goToField(): AbstractControl {
@@ -94,22 +94,40 @@ export class EditBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     this.boxesService.setBoxesDefaultSettings();
   }
 
+  @HostListener('document:keydown.enter')
+  public saveBoxOptions(): void {
+    if (this.editBoxForm.get('goTo').value === this.deleteGoToValue) {
+      this.editBoxForm.get('goTo').setValue(null);
+    }
+
+    if (this.editBoxForm.valid) {
+      this.boxesService.saveBoxSettings(this.editBoxForm.value);
+    }
+  }
+
+  @HostListener('document:keydown.esc')
+  public abortBoxEditing(): void {
+    this.router.navigateByUrl('/settings/(board:board//edit:edit)').catch(() => {
+      this.snackbarService.error(SNACKBAR_MESSAGES.redirectFailure);
+    });
+  }
+
   private initForm(): void {
     this.editBoxForm = this.formService.editBoxForm;
   }
 
   private loadEditorBoxData(): void {
     merge(this.loadBoxSettings, this.loadBoxDependencies)
-      .pipe(distinctUntilChanged())
-      .subscribe((data: BoxResolve) => {
-        if (data) {
-          this.boxSettings = data.boxData;
-          this.boxDependencies = data.boxDependencies;
+    .pipe(distinctUntilChanged())
+    .subscribe((data: BoxResolve) => {
+      if (data) {
+        this.boxSettings = data.boxData;
+        this.boxDependencies = data.boxDependencies;
 
-          this.initFormData();
-          this.fillIdsArray();
-        }
-      });
+        this.initFormData();
+        this.fillIdsArray();
+      }
+    });
   }
 
   private redirectfNoDataOnPageReload(): void {
@@ -138,24 +156,6 @@ export class EditBoxComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  @HostListener('document:keydown.enter')
-  public saveBoxOptions(): void {
-    if (this.editBoxForm.get('goTo').value === this.deleteGoToValue) {
-      this.editBoxForm.get('goTo').setValue(null);
-    }
-
-    if (this.editBoxForm.valid) {
-      this.boxesService.saveBoxSettings(this.editBoxForm.value);
-    }
-  }
-
-  @HostListener('document:keydown.esc')
-  public abortBoxEditing(): void {
-    this.router.navigateByUrl('/settings/(board:board//edit:edit)').catch(() => {
-      this.snackbarService.error(SNACKBAR_MESSAGES.redirectFailure);
-    });
-  }
-
   private watchFormChanges(): void {
     this.watchGoToChanges();
     this.watchGoToStartChanges();
@@ -164,37 +164,37 @@ export class EditBoxComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private watchGoToChanges(): void {
     this.goToField.valueChanges
-      .pipe(filter((value => value !== null && value !== this.deleteGoToValue)))
-      .pipe(distinctUntilChanged())
-      .subscribe(() => {
-        if (this.goToStartField.value || this.deadField.value) {
-          this.goToField.reset(null);
-          this.snackbarService.error(SNACKBAR_MESSAGES.maxOneSpecialValuePerField);
-        }
-      });
+    .pipe(filter((value => value !== null && value !== this.deleteGoToValue)))
+    .pipe(distinctUntilChanged())
+    .subscribe(() => {
+      if (this.goToStartField.value || this.deadField.value) {
+        this.goToField.reset(null);
+        this.snackbarService.error(SNACKBAR_MESSAGES.maxOneSpecialValuePerField);
+      }
+    });
   }
 
   private watchGoToStartChanges(): void {
     this.goToStartField.valueChanges
-      .pipe(filter((value => value !== null)))
-      .pipe(distinctUntilChanged())
-      .subscribe(() => {
-        if ((this.goToField.value && this.goToField.value !== this.deleteGoToValue) || this.deadField.value) {
-          this.goToStartField.reset(false);
-          this.snackbarService.error(SNACKBAR_MESSAGES.maxOneSpecialValuePerField);
-        }
-      });
+    .pipe(filter((value => value !== null)))
+    .pipe(distinctUntilChanged())
+    .subscribe(() => {
+      if ((this.goToField.value && this.goToField.value !== this.deleteGoToValue) || this.deadField.value) {
+        this.goToStartField.reset(false);
+        this.snackbarService.error(SNACKBAR_MESSAGES.maxOneSpecialValuePerField);
+      }
+    });
   }
 
   private watchDeadChanges(): void {
     this.deadField.valueChanges
-      .pipe(filter((value => value !== null)))
-      .pipe(distinctUntilChanged())
-      .subscribe(() => {
-        if ((this.goToField.value && this.goToField.value !== this.deleteGoToValue) || this.goToStartField.value) {
-          this.deadField.reset(false);
-          this.snackbarService.error(SNACKBAR_MESSAGES.maxOneSpecialValuePerField);
-        }
-      });
+    .pipe(filter((value => value !== null)))
+    .pipe(distinctUntilChanged())
+    .subscribe(() => {
+      if ((this.goToField.value && this.goToField.value !== this.deleteGoToValue) || this.goToStartField.value) {
+        this.deadField.reset(false);
+        this.snackbarService.error(SNACKBAR_MESSAGES.maxOneSpecialValuePerField);
+      }
+    });
   }
 }

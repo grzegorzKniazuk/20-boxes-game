@@ -14,7 +14,8 @@ export class NotFoundComponent implements OnInit {
 
   constructor(private router: Router,
               private snackbarService: SnackbarService,
-              private changeDetectorRef: ChangeDetectorRef) { }
+              private changeDetectorRef: ChangeDetectorRef) {
+  }
 
   ngOnInit() {
     this.countingDown();
@@ -27,7 +28,7 @@ export class NotFoundComponent implements OnInit {
     }, 1000);
     setTimeout(() => {
       clearInterval(counting);
-      this.router.navigate(['../', 'home']).then(() => {
+      this.router.navigate([ '../', 'home' ]).then(() => {
         this.snackbarService.success(SNACKBAR_MESSAGES.redirectSuccessful);
       }).catch(() => {
         this.snackbarService.error(SNACKBAR_MESSAGES.redirectFailure);

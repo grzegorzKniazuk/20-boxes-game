@@ -29,6 +29,18 @@ export class GameStateService extends ConsoleService {
     };
   }
 
+  public get deadState(): Observable<boolean> {
+    return this.localStorage.getItem(STORE_URL.gameState).pipe(map((gameState: GameState) => {
+      return gameState.deadState;
+    }));
+  }
+
+  public get gameStateAvailable(): Observable<boolean> {
+    return this.localStorage.getItem(STORE_URL.gameState).pipe(map((gameState: GameState) => {
+      return gameState.gameStateAvailable;
+    }));
+  }
+
   public loadGameState(): void {
     this.localStorage.getItem(STORE_URL.gameState).subscribe((state: GameState) => {
       if (state) {
@@ -67,6 +79,18 @@ export class GameStateService extends ConsoleService {
     this.setGameState(false, false);
   }
 
+  public setGameState(gameStateAvailable: boolean, deadState: boolean): void {
+    this.localStorage.setItem(STORE_URL.gameState, {
+      pawnPosition: this.storeService.pawnPosition,
+      totalThrows: this.totalThrows,
+      totalAmountDrawnNumbers: this.totalAmountDrawnNumbers,
+      averangeAmountDrawnNumbers: this.averangeAmountDrawnNumbers,
+      consoleMessages: this.storeService.consoleMessages,
+      deadState: deadState,
+      gameStateAvailable: gameStateAvailable,
+    }).subscribe();
+  }
+
   private sendMessagesOnResetGameState(): void {
     this.gameStateAvailable.subscribe((isGameStateAvailable) => {
       if (isGameStateAvailable) {
@@ -76,29 +100,5 @@ export class GameStateService extends ConsoleService {
         this.storeService.sendConsoleMessage(this.newGameMessage);
       }
     });
-  }
-
-  public setGameState(gameStateAvailable: boolean, deadState: boolean): void {
-    this.localStorage.setItem(STORE_URL.gameState, {
-      pawnPosition: this.storeService.pawnPosition,
-      totalThrows: this.totalThrows,
-      totalAmountDrawnNumbers: this.totalAmountDrawnNumbers,
-      averangeAmountDrawnNumbers: this.averangeAmountDrawnNumbers,
-      consoleMessages: this.storeService.consoleMessages,
-      deadState: deadState,
-      gameStateAvailable: gameStateAvailable
-    }).subscribe();
-  }
-
-  public get deadState(): Observable<boolean> {
-    return this.localStorage.getItem(STORE_URL.gameState).pipe(map((gameState: GameState) => {
-      return gameState.deadState;
-    }));
-  }
-
-  public get gameStateAvailable(): Observable<boolean> {
-    return this.localStorage.getItem(STORE_URL.gameState).pipe(map((gameState: GameState) => {
-      return gameState.gameStateAvailable;
-    }));
   }
 }

@@ -40,6 +40,21 @@ export class PawnService {
     this.updatePawnPosition(null, 1);
   }
 
+  public openEndGameSummaryBox(isWinner: boolean): void {
+    this.matDialog.open(EndGameSummaryComponent, {
+      data: isWinner,
+    }).afterClosed().subscribe((startNewGame: boolean) => {
+      if (startNewGame) {
+        this.gameStateService.resetGameState();
+      } else {
+        this.router.navigate([ '../', 'home' ]).then(() => {
+          this.snackbarService.success(SNACKBAR_MESSAGES.gameEnd);
+          this.gameStateService.resetGameState();
+        });
+      }
+    });
+  }
+
   private updatePawnPosition(drawnNumber: number, fieldNumber?: number): void {
     if (drawnNumber) {
       this.storeService.pawnPosition += drawnNumber;
@@ -96,20 +111,5 @@ export class PawnService {
         this.movePawnToStartField();
       }
     }
-  }
-
-  public openEndGameSummaryBox(isWinner: boolean): void {
-    this.matDialog.open(EndGameSummaryComponent, {
-      data: isWinner,
-    }).afterClosed().subscribe((startNewGame: boolean) => {
-      if (startNewGame) {
-        this.gameStateService.resetGameState();
-      } else {
-        this.router.navigate([ '../', 'home' ]).then(() => {
-          this.snackbarService.success(SNACKBAR_MESSAGES.gameEnd);
-          this.gameStateService.resetGameState();
-        });
-      }
-    });
   }
 }

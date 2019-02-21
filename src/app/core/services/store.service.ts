@@ -14,21 +14,6 @@ export class StoreService {
 
   private readonly _finishPosition = 20;
   private _boxesSettings: BoxSettings[] = [];
-  private _pawnPosition: number;
-  private _consoleMessages: ConsoleMessage[] = [];
-
-  public get finishPosition(): number {
-    return this._finishPosition;
-  }
-
-  public get pawnPosition(): number {
-    return this._pawnPosition;
-  }
-
-  public set pawnPosition(position: number) {
-    this._pawnPosition = position;
-    this.pawnPosition$.next(this._pawnPosition);
-  }
 
   public get boxesSettings(): BoxSettings[] {
     return this._boxesSettings;
@@ -39,6 +24,19 @@ export class StoreService {
     this.boxesSettings$.next(this._boxesSettings);
   }
 
+  private _pawnPosition: number;
+
+  public get pawnPosition(): number {
+    return this._pawnPosition;
+  }
+
+  public set pawnPosition(position: number) {
+    this._pawnPosition = position;
+    this.pawnPosition$.next(this._pawnPosition);
+  }
+
+  private _consoleMessages: ConsoleMessage[] = [];
+
   public get consoleMessages(): ConsoleMessage[] {
     return this._consoleMessages;
   }
@@ -46,6 +44,10 @@ export class StoreService {
   public set consoleMessages(msgs: ConsoleMessage[]) {
     this._consoleMessages = msgs;
     this.consoleMessages$.next(this._consoleMessages);
+  }
+
+  public get finishPosition(): number {
+    return this._finishPosition;
   }
 
   public sendConsoleMessage(msg: ConsoleMessage): void {

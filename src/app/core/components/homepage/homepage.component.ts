@@ -18,7 +18,8 @@ export class HomepageComponent implements OnInit, OnDestroy {
     this.checkIsGameStateAvailable();
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {
+  }
 
   public initNewGame(): void {
     this.gameStateService.resetGameState();

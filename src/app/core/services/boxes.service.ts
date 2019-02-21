@@ -25,16 +25,16 @@ export class BoxesService {
 
   public loadBoxesSettings(): void {
     this.localStorage.getItem(STORE_URL.boxesSettings)
-      .subscribe((boxes: BoxSettings[]) => {
-        if (boxes) {
-          this.sendBoxesSettingsLoadMessage(false);
-          this.storeService.boxesSettings = boxes;
-          this.gameStateService.loadSavedGameSettingsMessage();
-        } else {
-          this.gameStateService.loadDefaultGameSettingsMessage();
-          this.setBoxesDefaultSettings();
-        }
-      });
+    .subscribe((boxes: BoxSettings[]) => {
+      if (boxes) {
+        this.sendBoxesSettingsLoadMessage(false);
+        this.storeService.boxesSettings = boxes;
+        this.gameStateService.loadSavedGameSettingsMessage();
+      } else {
+        this.gameStateService.loadDefaultGameSettingsMessage();
+        this.setBoxesDefaultSettings();
+      }
+    });
   }
 
   public getBoxSettings(id: number): BoxSettings {
@@ -104,12 +104,12 @@ export class BoxesService {
 
   private saveBoxesSettings(boxesSettings: BoxSettings[]): Observable<boolean> {
     return this.localStorage.setItem(STORE_URL.boxesSettings, boxesSettings)
-      .pipe(catchError((error) => {
-        this.snackbarService.error(error);
-        return of(false);
-      }))
-      .pipe(map((isSaved) => {
-        return isSaved;
-      }));
+    .pipe(catchError((error) => {
+      this.snackbarService.error(error);
+      return of(false);
+    }))
+    .pipe(map((isSaved) => {
+      return isSaved;
+    }));
   }
 }

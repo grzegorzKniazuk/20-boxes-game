@@ -11,6 +11,7 @@ import { ConsoleComponent } from 'src/app/core/components/game-panel/console.com
 import { StoreService } from 'src/app/core/services/store.service';
 import { AutoUnsubscribe } from 'ngx-auto-unsubscribe';
 import { SNACKBAR_MESSAGES } from 'src/app/core/constants/snackbar-messages';
+import { debounceTime } from 'rxjs/operators';
 
 @AutoUnsubscribe()
 @Component({
@@ -73,7 +74,7 @@ export class GamePanelComponent extends ConsoleComponent implements OnInit, OnDe
   }
 
   private checkWinState(): void {
-    this.storeService.pawnPosition$.subscribe((pawnPosition) => {
+    this.storeService.pawnPosition$.pipe(debounceTime(500)).subscribe((pawnPosition) => {
       if (pawnPosition === this.storeService.finishPosition) {
         this.pawnService.openEndGameSummaryBox(true);
       }
