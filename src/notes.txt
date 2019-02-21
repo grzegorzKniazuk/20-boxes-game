@@ -1,0 +1,4 @@
+ng build --prod --base-href="https://grzegorzKniazuk.github.io/20-boxes-game/"
+
+npm install -g angular-cli-ghpages
+ngh --dir dist/boxes-game --no-silent
