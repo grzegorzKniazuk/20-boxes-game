@@ -44,7 +44,7 @@ export class BoxComponent implements OnInit, AfterContentChecked {
   }
 
   private initBoxBackground(): void {
-    this.src = `../../../../assets/images/boxes/${this.boxSettings.id}.jpg`;
+    this.src = `assets/images/boxes/${this.boxSettings.id}.jpg`;
   }
 
   private initTooltip(): void {
