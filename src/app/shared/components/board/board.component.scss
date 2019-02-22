@@ -37,5 +37,73 @@
     left: 0;
     top: 625px;
   }
-;
+}
+
+@media screen and (max-height: 900px) {
+  .board {
+    @include size(600px, 600px);
+
+    .left-side {
+      top: 200px;
+
+      .finish {
+        left: 100px;
+      }
+    }
+
+    .right-side {
+      top: 100px;
+      left: 500px;
+    }
+
+    .bottom-side {
+      top: 500px;
+    }
+  }
+}
+
+@media screen and (max-height: 800px) {
+  .board {
+    @include size(540px, 540px);
+
+    .left-side {
+      top: 180px;
+
+      .finish {
+        left: 90px;
+      }
+    }
+
+    .right-side {
+      top: 90px;
+      left: 450px;
+    }
+
+    .bottom-side {
+      top: 450px;
+    }
+  }
+}
+
+@media screen and (max-height: 720px) {
+  .board {
+    @include size(480px, 480px);
+
+    .left-side {
+      top: 160px;
+
+      .finish {
+        left: 80px;
+      }
+    }
+
+    .right-side {
+      top: 80px;
+      left: 400px;
+    }
+
+    .bottom-side {
+      top: 400px;
+    }
+  }
 }

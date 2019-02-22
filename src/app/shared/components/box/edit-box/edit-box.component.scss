@@ -84,3 +84,23 @@
     @include mat-icon-size(5.250rem);
   }
 }
+
+@media screen and (max-height: 800px) {
+  .form-container {
+    .box-form {
+
+      .box-title {
+        @include font('medium');
+      }
+
+      .box-id {
+        @include font('big-x2');
+      }
+
+      form {
+        margin-top: 0;
+        padding: 20px;
+      }
+    }
+  }
+}

@@ -97,3 +97,13 @@
     }
   }
 }
+
+@media screen and (max-height: 800px) {
+  .game-panel-container {
+    .panel-container {
+      .console-panel {
+        @include font('small');
+      }
+    }
+  }
+}
